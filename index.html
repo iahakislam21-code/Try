@@ -309,7 +309,7 @@
         }
         .search-input {
             width: 100%;
-            padding: 10px 12px;
+            padding: 10px 85px 10px 12px; /* ক্যামেরা বাটন এবং টেক্সটের জন্য ডানে জায়গা বড় করা হয়েছে */
             border-radius: 8px;
             border: 1px solid #334155;
             background-color: #0f172a;
@@ -321,30 +321,57 @@
             text-align: left;
         }
 
-        /* Compact & Always Open Small QR Scanner Box */
-        .qr-modal-inline {
+        /* Eye-Catching Modern QR Scanner Camera Button */
+        .cam-btn {
+            position: absolute;
+            right: 5px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+            animation: pulse-glow 2s infinite;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cam-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 5px rgba(56, 189, 248, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(56, 189, 248, 0.4);
+            }
+        }
+
+        .qr-modal {
             position: relative;
             background: #0f172a;
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            border-radius: 8px;
-            padding: 4px;
+            border: 1px solid #38bdf8;
+            border-radius: 10px;
+            padding: 8px;
             margin-bottom: 10px;
             overflow: hidden;
-            max-height: 110px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         #reader {
             width: 100%;
-            max-height: 100px;
             border-radius: 6px;
             overflow: hidden;
-        }
-        #reader video {
-            object-fit: cover !important;
-            height: 100px !important;
-            border-radius: 6px;
         }
 
         .lesson-dropdown {
@@ -443,22 +470,24 @@
             box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
         }
 
+        /* Updated Audio/Video Responsive Wrapper */
         .audio-wrapper {
             position: relative;
             width: 100%;
-            height: 60px;
-            border-radius: 10px;
+            height: 200px; /* ভিডিও স্বাভাবিকভাবে দেখা যাওয়ার জন্য সাইজ বাড়ানো হয়েছে */
+            border-radius: 12px;
             overflow: hidden;
             background-color: #000;
             border: 1px solid rgba(56, 189, 248, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
+
         iframe {
             width: 100%;
-            height: 180px;
+            height: 100%;
             border: none;
-            margin-top: -60px;
-            transform: scale(1.05);
         }
+
         .overlay-top-block {
             position: absolute;
             top: 0;
@@ -638,12 +667,20 @@
                 
                 <div class="search-box-container">
                     <input type="text" id="lessonSearch" class="search-input" placeholder="Type or Select Practice..." onfocus="handleSearchFocus()" oninput="filterLessons()">
+                    
+                    <!-- Eye-Catching Scan Camera Button -->
+                    <button class="cam-btn" onclick="toggleQRScanner()" title="Scan QR Code">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <span>SCAN</span>
+                    </button>
+                    
                     <div id="lessonDropdown" class="lesson-dropdown"></div>
                 </div>
 
-                <!-- Always Open Micro QR Scanner -->
-                <div id="qrScannerWrapper" class="qr-modal-inline">
+                <!-- QR Scanner Container -->
+                <div id="qrScannerWrapper" class="qr-modal hidden">
                     <div id="reader"></div>
+                    <button onclick="stopQRScanner()" style="margin-top: 6px; padding: 4px; font-size: 11px; background: #dc2626;">Close Camera</button>
                 </div>
 
                 <!-- Context Clips Buttons Grid -->
@@ -785,7 +822,7 @@
                 const p = practicesData[i];
                 if (p.title.toLowerCase().includes(query) || p.id.toString() === query) {
                     filtered.push(p);
-                    if (filtered.length >= 50) break;
+                    if (filtered.length >= 50) break; // ম্যাচ হওয়া ৫০টি পেয়ে গেলেই লুপ স্টপ করবে
                 }
             }
             
@@ -798,7 +835,7 @@
         }
 
         function handleSearchFocus() {
-            renderLessons(practicesData.slice(0, 50));
+            renderLessons(practicesData.slice(0, 50)); // এক সাথে পুরো লাখ ডেটা না দেখিয়ে প্রথম ৫০টি দেখাবে
             showDropdown();
         }
 
@@ -843,8 +880,16 @@
         }
 
         let html5QrCode = null;
-        let lastScannedCode = null;
-        let lastScanTime = 0;
+
+        function toggleQRScanner() {
+            const qrWrapper = document.getElementById('qrScannerWrapper');
+            if (qrWrapper.classList.contains('hidden')) {
+                qrWrapper.classList.remove('hidden');
+                startQRScanner();
+            } else {
+                stopQRScanner();
+            }
+        }
 
         async function startQRScanner() {
             try {
@@ -852,8 +897,6 @@
                     html5QrCode = new Html5Qrcode("reader");
                 }
                 
-                if (html5QrCode.isScanning) return;
-
                 const cameras = await Html5Qrcode.getCameras();
                 
                 if (cameras && cameras.length > 0) {
@@ -864,38 +907,41 @@
                     );
                     let cameraId = backCamera ? backCamera.id : cameras[cameras.length - 1].id;
 
-                    const config = { fps: 10, qrbox: { width: 100, height: 100 } };
+                    const config = { fps: 10, qrbox: { width: 180, height: 180 } };
                     
                     await html5QrCode.start(cameraId, config, onScanSuccess);
                 } else {
-                    const config = { fps: 10, qrbox: { width: 100, height: 100 } };
-                    await html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+                    showCustomPopup("ডিভাইসে কোনো ক্যামেরা পাওয়া যায়নি।");
+                    stopQRScanner();
                 }
             } catch (err) {
-                console.error("Camera access error: ", err);
+                console.error("Camera error: ", err);
+                try {
+                    const config = { fps: 10, qrbox: { width: 180, height: 180 } };
+                    await html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+                } catch (fallbackErr) {
+                    showCustomPopup("Camera access denied. Please enable camera permissions in your browser or app settings.");
+                    stopQRScanner();
+                }
             }
         }
 
         function stopQRScanner() {
             if (html5QrCode && html5QrCode.isScanning) {
-                html5QrCode.stop().catch(err => console.error(err));
+                html5QrCode.stop().then(() => {
+                    document.getElementById('qrScannerWrapper').classList.add('hidden');
+                }).catch(err => console.error(err));
+            } else {
+                document.getElementById('qrScannerWrapper').classList.add('hidden');
             }
         }
 
         function onScanSuccess(decodedText) {
-            const now = Date.now();
-            // একই QR কোড বারবার প্রসেস হওয়া রোধ করতে ২ সেকেন্ডের কুলডাউন টাইম দেওয়া হয়েছে
-            if (decodedText === lastScannedCode && (now - lastScanTime) < 2000) {
-                return;
-            }
-
-            lastScannedCode = decodedText;
-            lastScanTime = now;
-
             const numberMatch = decodedText.match(/\d+/);
             if (numberMatch) {
                 const clipNum = parseInt(numberMatch[0]);
                 if (clipNum >= 1 && clipNum <= totalClips) {
+                    stopQRScanner();
                     selectPractice(currentPractice || practicesData[0]);
                     selectClip(clipNum);
                 } else {
@@ -1003,13 +1049,9 @@
             
             document.getElementById('userPhoneDisplay').innerText = phone;
             selectPractice(practicesData[0]);
-
-            // অ্যাপ স্ক্রিন খোলার সাথে সাথে ক্যামেরা ব্যাকগ্রাউন্ডে চালু হয়ে যাবে
-            startQRScanner();
         }
 
         function showLockScreen(phone, title = "Access Denied!", subStatus = "No active plan found. Renew to continue.", reason = "payment_required") {
-            stopQRScanner();
             document.getElementById('authScreen').classList.add('hidden');
             document.getElementById('appScreen').classList.add('hidden');
             document.getElementById('lockScreen').classList.remove('hidden');

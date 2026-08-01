@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kothalogy - iiel</title>
+    
+    <!-- Font Awesome for clean modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- HTML5 QR Code Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .container {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 20px 18px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            margin: auto;
+        }
+
+        /* Notice Badge for American Accent */
+        .accent-notice-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            text-transform: uppercase;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        .logo-icon {
+            font-size: 32px;
+            color: #38bdf8;
+            margin-bottom: 6px;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+        }
+
+        h1 {
+            color: #f8fafc;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 {
+            color: #38bdf8;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+        p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 42px;
+            border: 1.5px solid #334155;
+            background-color: #0f172a;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            letter-spacing: 1px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+        }
+        input:focus + i {
+            color: #38bdf8;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .feature-item {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 10px 6px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .feature-item i {
+            color: #38bdf8;
+            font-size: 16px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .feature-item span {
+            font-size: 10px;
+            color: #cbd5e1;
+            font-weight: 500;
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        .status-msg {
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .lock-screen {
+            background: linear-gradient(180deg, rgba(30, 27, 75, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            padding: 20px 15px;
+            border-radius: 16px;
+        }
+        .lock-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin: 0 auto 12px auto;
+        }
+        .lock-screen h3 {
+            color: #f87171;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .sub-status {
+            color: #fda4af;
+            font-size: 12px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .payment-info-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .payment-info-card p {
+            color: #cbd5e1;
+            font-size: 12px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .contact-box {
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contact-box i {
+            color: #25d366;
+            font-size: 16px;
+        }
+        .contact-text {
+            line-height: 1.2;
+        }
+        .contact-text strong {
+            color: #38bdf8;
+        }
+        .warning-text {
+            display: block;
+            font-size: 10px;
+            color: #fca5a5;
+            margin-top: 3px;
+        }
+        .btn-try-again {
+            background: #334155;
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-info {
+            color: #38bdf8;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            background: rgba(56, 189, 248, 0.08);
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .practice-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .search-box-container {
+            position: relative;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 38px 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: #38bdf8;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            margin-bottom: 0;
+            text-align: left;
+        }
+        .cam-btn {
+            position: absolute;
+            right: 6px;
+            background: rgba(56, 189, 248, 0.1);
+            border: none;
+            color: #38bdf8;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 6px;
+            width: auto;
+            box-shadow: none;
+        }
+
+        .qr-modal {
+            position: relative;
+            background: #0f172a;
+            border: 1px solid #38bdf8;
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        #reader {
+            width: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .lesson-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 160px;
+            overflow-y: auto;
+            background-color: #0f172a;
+            border: 1px solid #38bdf8;
+            border-radius: 8px;
+            z-index: 50;
+            margin-top: 4px;
+            display: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+        .lesson-item {
+            padding: 8px 12px;
+            text-align: left;
+            color: #f8fafc;
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 1px solid #1e293b;
+        }
+        .lesson-item:hover {
+            background-color: #0284c7;
+            color: #fff;
+        }
+
+        .clips-section {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .clips-section-title {
+            color: #38bdf8;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .clips-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            max-height: 140px;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+
+        .clips-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+        .clips-grid::-webkit-scrollbar-track {
+            background: #0f172a;
+            border-radius: 4px;
+        }
+        .clips-grid::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        .clip-btn {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 6px 2px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: none;
+            width: 100%;
+        }
+
+        .clip-btn:hover {
+            background-color: #334155;
+            color: #fff;
+        }
+
+        .clip-btn.active {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        .audio-wrapper {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #000;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+        iframe {
+            width: 100%;
+            height: 180px;
+            border: none;
+            margin-top: -60px;
+            transform: scale(1.05);
+        }
+        .overlay-top-block {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: transparent;
+            z-index: 10;
+        }
+        .help-notice {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            color: #94a3b8;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .btn-logout {
+            background: #dc2626;
+            padding: 8px;
+            font-size: 13px;
+        }
+        .btn-logout:hover {
+            background: #b91c1c;
+        }
+
+        .custom-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 15px;
+        }
+
+        .custom-popup-card {
+            background: #1e293b;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border-radius: 14px;
+            padding: 20px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+        }
+
+        .custom-popup-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            color: #f87171;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 12px auto;
+        }
+
+        .custom-popup-msg {
+            color: #f8fafc;
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .custom-popup-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ১. মোবাইল নম্বর ইনপুট স্ক্রিন -->
+        <div id="authScreen">
+            <div class="logo-icon">
+                <i class="fa-solid fa-headphones-simple"></i>
+            </div>
+            
+            <div>
+                <div class="accent-notice-badge">
+                    <i class="fa-solid fa-star"></i> Applicable for mastering American accent only.
+                </div>
+            </div>
+
+            <div class="brand-badge"><i class="fa-solid fa-graduation-cap"></i> LISTENING & SPEAKING</div>
+            
+            <h1>INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</h1>
+            <p>Enter your phone number to access lessons</p>
+            
+            <div class="input-group">
+                <input type="tel" id="phoneNumber" placeholder="01XXXXXXXXX" maxlength="11">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            
+            <button onclick="handleLogin()">
+                <span>Confirm & Continue</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            
+            <div id="statusMessage" class="status-msg"></div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fa-solid fa-play"></i>
+                    <span>60 Lessons</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span>Native Audio</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Instant Access</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ২. ব্লকড / পেমেন্ট স্ক্রিন -->
+        <div id="lockScreen" class="lock-screen hidden">
+            <div class="lock-icon-wrapper">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 id="lockTitle">Access Denied!</h3>
+            <div class="sub-status" id="lockSubStatus">No active plan found. Renew to continue.</div>
+            
+            <div class="user-info" style="margin-top: -2px; margin-bottom: 12px;">
+                Phone: <span id="lockUserPhoneDisplay" style="color: #38bdf8;"></span>
+            </div>
+            
+            <div class="payment-info-card" id="lockInfoCard">
+                <p id="lockInfoText">Complete payment via <strong>bKash</strong> or <strong>Nagad</strong>. Your subscription will be activated in up to 24 hours.</p>
+                <div class="contact-box">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <div class="contact-text">
+                        <strong>01938240811</strong> - WhatsApp
+                        <span class="warning-text" id="lockWarningText">Do not send payment to this number. It is for contact purposes only.</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-try-again" onclick="logout()">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>Try Another Number / Retry</span>
+            </button>
+        </div>
+
+        <!-- ৩. মূল অ্যাপ স্ক্রিন -->
+        <div id="appScreen" class="hidden">
+            <div class="accent-notice-badge">
+                <i class="fa-solid fa-star"></i> Applicable for mastering American accent only.
+            </div>
+
+            <h1>INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</h1>
+            <div class="user-info">Number: <span id="userPhoneDisplay"></span></div>
+            
+            <div class="practice-box">
+                <label for="lessonSearch"><i class="fa-solid fa-magnifying-glass"></i> Search or Scan QR to Practice:</label>
+                
+                <div class="search-box-container">
+                    <input type="text" id="lessonSearch" class="search-input" placeholder="Type or Select Practice..." onfocus="handleSearchFocus()" oninput="filterLessons()">
+                    <button class="cam-btn" onclick="toggleQRScanner()" title="Scan QR Code">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+                    <div id="lessonDropdown" class="lesson-dropdown"></div>
+                </div>
+
+                <!-- QR Scanner Container -->
+                <div id="qrScannerWrapper" class="qr-modal hidden">
+                    <div id="reader"></div>
+                    <button onclick="stopQRScanner()" style="margin-top: 6px; padding: 4px; font-size: 11px; background: #dc2626;">Close Camera</button>
+                </div>
+
+                <!-- Context Clips Buttons Grid -->
+                <div id="clipsSection" class="clips-section hidden">
+                    <div class="clips-section-title"><i class="fa-solid fa-circle-play"></i> Select Context Clip:</div>
+                    <div id="clipsGrid" class="clips-grid">
+                        <!-- Clip buttons will be generated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="audio-wrapper">
+                    <div class="overlay-top-block"></div>
+                    <iframe id="securePlayer" src="" allow="autoplay; encrypted-media"></iframe>
+                </div>
+            </div>
+
+            <div class="help-notice">
+                Need help? Message WhatsApp: <strong>01938240811</strong>
+            </div>
+
+            <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+    </div>
+
+    <!-- 4. CUSTOM STYLED POPUP MODAL CONTAINER -->
+    <div id="customPopup" class="custom-popup-overlay hidden">
+        <div class="custom-popup-card">
+            <div class="custom-popup-icon" id="customPopupIcon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="custom-popup-msg" id="customPopupMsg">Message text here...</div>
+            <button class="custom-popup-btn" onclick="closeCustomPopup()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://wsxubdciorngyfpfpbsr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_sn7weXqkPXe04JdCN4972Q_BaJ6b21Y';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('device_token');
+            if (!deviceId) {
+                deviceId = 'dev_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+                localStorage.setItem('device_token', deviceId);
+            }
+            return deviceId;
+        }
+
+        const totalClips = 60;
+
+        const practicesData = Array.from({ length: 100000 }, (_, index) => ({
+            id: index + 1,
+            title: `Practice ${index + 1}`
+        }));
+
+        let currentPractice = practicesData[0];
+        let currentActiveClip = 1;
+
+        // Supabase 'practice_clips' টেবিল থেকে ভিডিও লোড করার ডায়নামিক ফাংশন
+        async function loadSecureLesson(clipNumber) {
+            const player = document.getElementById("securePlayer");
+            
+            const { data, error } = await _supabase
+                .from('practice_clips')
+                .select('video_id, start_time')
+                .eq('practice_id', currentPractice.id)
+                .eq('clip_number', clipNumber)
+                .single();
+
+            if (error || !data || !data.video_id) {
+                console.error("Video load error or clip not found:", error);
+                player.src = "";
+                return;
+            }
+
+            const videoId = data.video_id;
+            const startTime = data.start_time || 0;
+            const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?start=${startTime}&autoplay=1&enablejsapi=1&rel=0&modestbranding=1`;
+            
+            player.src = embedUrl;
+        }
+
+        function showCustomPopup(message, isError = true) {
+            const popup = document.getElementById('customPopup');
+            const msgEl = document.getElementById('customPopupMsg');
+            const iconEl = document.getElementById('customPopupIcon');
+
+            msgEl.innerText = message;
+            if (isError) {
+                iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                iconEl.style.color = '#f87171';
+                iconEl.style.background = 'rgba(248, 113, 113, 0.15)';
+                iconEl.style.borderColor = 'rgba(248, 113, 113, 0.3)';
+            } else {
+                iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                iconEl.style.color = '#38bdf8';
+                iconEl.style.background = 'rgba(56, 189, 248, 0.15)';
+                iconEl.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+            }
+            popup.classList.remove('hidden');
+        }
+
+        function closeCustomPopup() {
+            document.getElementById('customPopup').classList.add('hidden');
+        }
+
+        function renderLessons(filteredList) {
+            const dropdown = document.getElementById('lessonDropdown');
+            dropdown.innerHTML = '';
+            
+            if (filteredList.length === 0) {
+                dropdown.innerHTML = '<div class="lesson-item" style="color: #94a3b8;">No Practice found</div>';
+                return;
+            }
+
+            filteredList.forEach(itemData => {
+                const item = document.createElement('div');
+                item.className = 'lesson-item';
+                item.innerText = itemData.title;
+                item.onclick = function() {
+                    selectPractice(itemData);
+                };
+                dropdown.appendChild(item);
+            });
+        }
+
+        function filterLessons() {
+            const query = document.getElementById('lessonSearch').value.toLowerCase().trim();
+            
+            if (!query) {
+                renderLessons(practicesData.slice(0, 50));
+                showDropdown();
+                return;
+            }
+
+            const filtered = [];
+            for (let i = 0; i < practicesData.length; i++) {
+                const p = practicesData[i];
+                if (p.title.toLowerCase().includes(query) || p.id.toString() === query) {
+                    filtered.push(p);
+                    if (filtered.length >= 50) break; // ম্যাচ হওয়া ৫০টি পেয়ে গেলেই লুপ স্টপ করবে
+                }
+            }
+            
+            renderLessons(filtered);
+            showDropdown();
+        }
+
+        function showDropdown() {
+            document.getElementById('lessonDropdown').style.display = 'block';
+        }
+
+        function handleSearchFocus() {
+            renderLessons(practicesData.slice(0, 50)); // এক সাথে পুরো লাখ ডেটা না দেখিয়ে প্রথম ৫০টি দেখাবে
+            showDropdown();
+        }
+
+        function selectPractice(practice) {
+            currentPractice = practice;
+            document.getElementById('lessonSearch').value = practice.title;
+            document.getElementById('lessonDropdown').style.display = 'none';
+            
+            renderClipsGrid();
+            selectClip(1);
+        }
+
+        function renderClipsGrid() {
+            const grid = document.getElementById('clipsGrid');
+            const section = document.getElementById('clipsSection');
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= totalClips; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'clip-btn';
+                btn.id = `clip-btn-${i}`;
+                btn.innerText = `#${i}`;
+                btn.onclick = function() {
+                    selectClip(i);
+                };
+                grid.appendChild(btn);
+            }
+
+            section.classList.remove('hidden');
+        }
+
+        function selectClip(clipNumber) {
+            currentActiveClip = clipNumber;
+
+            document.querySelectorAll('.clip-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`clip-btn-${clipNumber}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            loadSecureLesson(clipNumber);
+        }
+
+        let html5QrCode = null;
+
+        function toggleQRScanner() {
+            const qrWrapper = document.getElementById('qrScannerWrapper');
+            if (qrWrapper.classList.contains('hidden')) {
+                qrWrapper.classList.remove('hidden');
+                startQRScanner();
+            } else {
+                stopQRScanner();
+            }
+        }
+
+        async function startQRScanner() {
+            try {
+                if (!html5QrCode) {
+                    html5QrCode = new Html5Qrcode("reader");
+                }
+                
+                const cameras = await Html5Qrcode.getCameras();
+                
+                if (cameras && cameras.length > 0) {
+                    let backCamera = cameras.find(cam => 
+                        cam.label.toLowerCase().includes('back') || 
+                        cam.label.toLowerCase().includes('rear') || 
+                        cam.label.toLowerCase().includes('environment')
+                    );
+                    let cameraId = backCamera ? backCamera.id : cameras[cameras.length - 1].id;
+
+                    const config = { fps: 10, qrbox: { width: 180, height: 180 } };
+                    
+                    await html5QrCode.start(cameraId, config, onScanSuccess);
+                } else {
+                    showCustomPopup("ডিভাইসে কোনো ক্যামেরা পাওয়া যায়নি।");
+                    stopQRScanner();
+                }
+            } catch (err) {
+                console.error("Camera error: ", err);
+                try {
+                    const config = { fps: 10, qrbox: { width: 180, height: 180 } };
+                    await html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+                } catch (fallbackErr) {
+                    showCustomPopup("Camera access denied. Please enable camera permissions in your browser or app settings.");
+                    stopQRScanner();
+                }
+            }
+        }
+
+        function stopQRScanner() {
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => {
+                    document.getElementById('qrScannerWrapper').classList.add('hidden');
+                }).catch(err => console.error(err));
+            } else {
+                document.getElementById('qrScannerWrapper').classList.add('hidden');
+            }
+        }
+
+        function onScanSuccess(decodedText) {
+            const numberMatch = decodedText.match(/\d+/);
+            if (numberMatch) {
+                const clipNum = parseInt(numberMatch[0]);
+                if (clipNum >= 1 && clipNum <= totalClips) {
+                    stopQRScanner();
+                    selectPractice(currentPractice || practicesData[0]);
+                    selectClip(clipNum);
+                } else {
+                    showCustomPopup("Invalid Clip Number in QR Code.");
+                }
+            } else {
+                showCustomPopup("QR Code format not recognized.");
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            const container = document.querySelector('.search-box-container');
+            if (container && !container.contains(e.target)) {
+                document.getElementById('lessonDropdown').style.display = 'none';
+            }
+        });
+
+        window.onload = function() {
+            const savedPhone = localStorage.getItem('user_phone');
+            if (savedPhone) {
+                checkAccess(savedPhone);
+            }
+        };
+
+        async function handleLogin() {
+            const phoneInput = document.getElementById('phoneNumber').value.trim();
+            const statusMsg = document.getElementById('statusMessage');
+
+            if (phoneInput.length < 11) {
+                statusMsg.style.color = '#f87171';
+                statusMsg.innerText = 'Enter your 11-digit mobile number';
+                return;
+            }
+
+            statusMsg.style.color = '#38bdf8';
+            statusMsg.innerText = 'Verifying...';
+            await checkAccess(phoneInput);
+        }
+
+        async function checkAccess(phone) {
+            const statusMsg = document.getElementById('statusMessage');
+            const currentDeviceId = getDeviceId();
+
+            try {
+                let { data, error } = await _supabase
+                    .from('users')
+                    .select('*')
+                    .eq('phone_number', phone)
+                    .maybeSingle();
+
+                if (error) throw error;
+
+                if (!data) {
+                    const { data: newUser, error: createError } = await _supabase
+                        .from('users')
+                        .insert([{ phone_number: phone, is_active: false, device_token: currentDeviceId }])
+                        .select()
+                        .single();
+
+                    if (createError) throw createError;
+                    data = newUser;
+                }
+
+                localStorage.setItem('user_phone', phone);
+
+                if (data.is_active === true) {
+                    if (!data.device_token || data.device_token === currentDeviceId) {
+                        if (!data.device_token) {
+                            await _supabase
+                                .from('users')
+                                .update({ device_token: currentDeviceId })
+                                .eq('phone_number', phone);
+                        }
+                        showAppScreen(phone);
+                    } else {
+                        showLockScreen(
+                            phone, 
+                            "Device Limit Reached!", 
+                            "This account is active on another device. Multi-device access is restricted.",
+                            "device_limit"
+                        );
+                    }
+                } else {
+                    showLockScreen(
+                        phone, 
+                        "Access Denied!", 
+                        "No active plan found. Renew to continue.",
+                        "payment_required"
+                    );
+                }
+
+            } catch (err) {
+                console.error(err);
+                if (statusMsg) {
+                    statusMsg.style.color = '#f87171';
+                    statusMsg.innerText = 'Connection error. Please try again later.';
+                }
+            }
+        }
+
+        function showAppScreen(phone) {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('lockScreen').classList.add('hidden');
+            document.getElementById('appScreen').classList.remove('hidden');
+            
+            document.getElementById('userPhoneDisplay').innerText = phone;
+            selectPractice(practicesData[0]);
+        }
+
+        function showLockScreen(phone, title = "Access Denied!", subStatus = "No active plan found. Renew to continue.", reason = "payment_required") {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('appScreen').classList.add('hidden');
+            document.getElementById('lockScreen').classList.remove('hidden');
+            
+            document.getElementById('lockTitle').innerText = title;
+            document.getElementById('lockSubStatus').innerText = subStatus;
+            document.getElementById('lockUserPhoneDisplay').innerText = phone || localStorage.getItem('user_phone') || '';
+            
+            const infoText = document.getElementById('lockInfoText');
+            const warningText = document.getElementById('lockWarningText');
+
+            if (reason === "device_limit") {
+                infoText.innerHTML = "Once an account is created with a phone number, it cannot be used on another device. However, if urgent help is needed, support will be provided.";
+                warningText.innerText = "Need device reset? Contact via WhatsApp.";
+            } else {
+                infoText.innerHTML = "Complete payment via <strong>bKash</strong> or <strong>Nagad</strong>. Your subscription will be activated in up to 24 hours.";
+                warningText.innerText = "Do not send payment to this number. It is for contact purposes only.";
+            }
+        }
+
+        function logout() {
+            stopQRScanner();
+            localStorage.removeItem('user_phone');
+            location.reload();
+        }
+    </script>
+</body>
+</html>

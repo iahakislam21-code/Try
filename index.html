@@ -11,9 +11,6 @@
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- HTML5 QR Code Scanner Library -->
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    
     <style>
         * {
             box-sizing: border-box;
@@ -34,7 +31,7 @@
             background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: 20px 18px;
+            padding: 16px 14px;
             border-radius: 20px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -51,12 +48,12 @@
             gap: 6px;
             background: rgba(245, 158, 11, 0.15);
             color: #fbbf24;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             letter-spacing: 0.3px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             border: 1px solid rgba(245, 158, 11, 0.3);
             text-transform: uppercase;
         }
@@ -85,25 +82,20 @@
 
         h1 {
             color: #f8fafc;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1.3;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+            letter-spacing: 0.5px;
             background: linear-gradient(to right, #ffffff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        h2 {
-            color: #38bdf8;
-            font-size: 18px;
-            margin-bottom: 6px;
-        }
         p {
             color: #94a3b8;
-            font-size: 13px;
-            margin-bottom: 16px;
+            font-size: 12px;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
 
@@ -142,12 +134,12 @@
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
             color: white;
             border: none;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s ease;
@@ -166,20 +158,20 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-top: 18px;
-            padding-top: 15px;
+            margin-top: 14px;
+            padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
         .feature-item {
             background: rgba(15, 23, 42, 0.5);
-            padding: 10px 6px;
+            padding: 8px 4px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .feature-item i {
             color: #38bdf8;
-            font-size: 16px;
-            margin-bottom: 4px;
+            font-size: 14px;
+            margin-bottom: 2px;
             display: block;
         }
         .feature-item span {
@@ -193,19 +185,19 @@
             display: none !important;
         }
         .status-msg {
-            margin-top: 10px;
-            font-size: 13px;
+            margin-top: 8px;
+            font-size: 12px;
         }
 
         .lock-screen {
             background: linear-gradient(180deg, rgba(30, 27, 75, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
             border: 1px solid rgba(248, 113, 113, 0.3);
-            padding: 20px 15px;
+            padding: 16px 12px;
             border-radius: 16px;
         }
         .lock-icon-wrapper {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #f87171;
@@ -213,39 +205,39 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            margin: 0 auto 12px auto;
+            font-size: 20px;
+            margin: 0 auto 10px auto;
         }
         .lock-screen h3 {
             color: #f87171;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 4px;
         }
         .sub-status {
             color: #fda4af;
-            font-size: 12px;
-            margin-bottom: 12px;
+            font-size: 11px;
+            margin-bottom: 10px;
             font-weight: 500;
         }
         .payment-info-card {
             background: rgba(15, 23, 42, 0.7);
             border: 1px dashed rgba(255, 255, 255, 0.15);
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             text-align: left;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .payment-info-card p {
             color: #cbd5e1;
-            font-size: 12px;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            font-size: 11px;
+            margin-bottom: 6px;
+            line-height: 1.3;
         }
         .contact-box {
             background: rgba(56, 189, 248, 0.08);
             border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-radius: 8px;
             font-size: 11px;
             color: #e2e8f0;
@@ -255,7 +247,7 @@
         }
         .contact-box i {
             color: #25d366;
-            font-size: 16px;
+            font-size: 15px;
         }
         .contact-text {
             line-height: 1.2;
@@ -265,9 +257,9 @@
         }
         .warning-text {
             display: block;
-            font-size: 10px;
+            font-size: 9px;
             color: #fca5a5;
-            margin-top: 3px;
+            margin-top: 2px;
         }
         .btn-try-again {
             background: #334155;
@@ -277,11 +269,11 @@
         
         .user-info {
             color: #38bdf8;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: rgba(56, 189, 248, 0.08);
-            padding: 4px 10px;
+            padding: 3px 10px;
             border-radius: 12px;
             display: inline-block;
         }
@@ -289,111 +281,58 @@
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
         }
         label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             color: #94a3b8;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-align: left;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .search-box-container {
             position: relative;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+            margin-bottom: 6px;
         }
         .search-input {
             width: 100%;
-            padding: 10px 85px 10px 12px; /* ক্যামেরা বাটন এবং টেক্সটের জন্য ডানে জায়গা বড় করা হয়েছে */
+            padding: 8px 10px;
             border-radius: 8px;
             border: 1px solid #334155;
             background-color: #0f172a;
             color: #38bdf8;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             outline: none;
             margin-bottom: 0;
             text-align: left;
         }
 
-        /* Eye-Catching Modern QR Scanner Camera Button */
-        .cam-btn {
-            position: absolute;
-            right: 5px;
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 6px;
-            width: auto;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-            animation: pulse-glow 2s infinite;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .cam-btn:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
-        }
-
-        @keyframes pulse-glow {
-            0% {
-                box-shadow: 0 0 5px rgba(56, 189, 248, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
-            }
-            100% {
-                box-shadow: 0 0 5px rgba(56, 189, 248, 0.4);
-            }
-        }
-
-        .qr-modal {
-            position: relative;
-            background: #0f172a;
-            border: 1px solid #38bdf8;
-            border-radius: 10px;
-            padding: 8px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-        #reader {
-            width: 100%;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
+        /* --- COMPACT HIGH-Z-INDEX DROPDOWN MENU --- */
         .lesson-dropdown {
             position: absolute;
             top: 100%;
             left: 0;
             right: 0;
-            max-height: 160px;
+            max-height: 45px; /* Restricted height to avoid overlapping numpad */
             overflow-y: auto;
             background-color: #0f172a;
-            border: 1px solid #38bdf8;
+            border: 1.5px solid #38bdf8;
             border-radius: 8px;
-            z-index: 50;
-            margin-top: 4px;
+            z-index: 9999;
+            margin-top: 2px;
             display: none;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
         }
         .lesson-item {
-            padding: 8px 12px;
+            padding: 7px 10px;
             text-align: left;
             color: #f8fafc;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
             border-bottom: 1px solid #1e293b;
         }
@@ -402,20 +341,70 @@
             color: #fff;
         }
 
+        /* --- STYLISH COMPACT NUMERIC KEYPAD --- */
+        .custom-numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 6px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .num-btn {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 5px 0;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            user-select: none;
+            -webkit-user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 34px;
+        }
+        .num-btn:active {
+            transform: scale(0.95);
+            background: #0284c7;
+            color: #fff;
+            border-color: #38bdf8;
+        }
+        .num-btn.btn-action {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .num-btn.btn-action:active {
+            background: #dc2626;
+            color: #fff;
+        }
+
         .clips-section {
             background: rgba(15, 23, 42, 0.9);
             border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
             text-align: left;
         }
 
         .clips-section-title {
             color: #38bdf8;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             display: flex;
@@ -426,14 +415,14 @@
         .clips-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            max-height: 140px;
+            gap: 4px;
+            max-height: 110px;
             overflow-y: auto;
             padding-right: 2px;
         }
 
         .clips-grid::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
         .clips-grid::-webkit-scrollbar-track {
             background: #0f172a;
@@ -448,9 +437,9 @@
             background-color: #1e293b;
             color: #cbd5e1;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 6px 2px;
-            border-radius: 6px;
-            font-size: 11px;
+            padding: 5px 2px;
+            border-radius: 5px;
+            font-size: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s ease;
@@ -470,12 +459,11 @@
             box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
         }
 
-        /* Updated Audio/Video Responsive Wrapper */
         .audio-wrapper {
             position: relative;
             width: 100%;
-            height: 200px; /* ভিডিও স্বাভাবিকভাবে দেখা যাওয়ার জন্য সাইজ বাড়ানো হয়েছে */
-            border-radius: 12px;
+            height: 190px;
+            border-radius: 10px;
             overflow: hidden;
             background-color: #000;
             border: 1px solid rgba(56, 189, 248, 0.4);
@@ -501,16 +489,16 @@
             background-color: rgba(15, 23, 42, 0.6);
             border: 1px dashed rgba(56, 189, 248, 0.3);
             color: #94a3b8;
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-radius: 8px;
-            font-size: 11px;
-            line-height: 1.4;
+            font-size: 10px;
+            line-height: 1.3;
             margin-bottom: 8px;
         }
         .btn-logout {
             background: #dc2626;
-            padding: 8px;
-            font-size: 13px;
+            padding: 7px;
+            font-size: 12px;
         }
         .btn-logout:hover {
             background: #b91c1c;
@@ -527,7 +515,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            z-index: 99999;
             padding: 15px;
         }
 
@@ -536,15 +524,15 @@
             border: 1px solid rgba(56, 189, 248, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
             border-radius: 14px;
-            padding: 20px;
+            padding: 18px;
             width: 100%;
-            max-width: 340px;
+            max-width: 320px;
             text-align: center;
         }
 
         .custom-popup-icon {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: rgba(248, 113, 113, 0.15);
             border: 1px solid rgba(248, 113, 113, 0.3);
             color: #f87171;
@@ -552,23 +540,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            margin: 0 auto 12px auto;
+            font-size: 18px;
+            margin: 0 auto 10px auto;
         }
 
         .custom-popup-msg {
             color: #f8fafc;
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.4;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .custom-popup-btn {
             background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
             color: #fff;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             border: none;
             cursor: pointer;
@@ -663,31 +651,34 @@
             <div class="user-info">Number: <span id="userPhoneDisplay"></span></div>
             
             <div class="practice-box">
-                <label for="lessonSearch"><i class="fa-solid fa-magnifying-glass"></i> Search or Scan QR to Practice:</label>
+                <label for="lessonSearch"><i class="fa-solid fa-magnifying-glass"></i> Select Practice Number:</label>
                 
                 <div class="search-box-container">
-                    <input type="text" id="lessonSearch" class="search-input" placeholder="Type or Select Practice..." onfocus="handleSearchFocus()" oninput="filterLessons()">
-                    
-                    <!-- Eye-Catching Scan Camera Button -->
-                    <button class="cam-btn" onclick="toggleQRScanner()" title="Scan QR Code">
-                        <i class="fa-solid fa-qrcode"></i>
-                        <span>SCAN</span>
-                    </button>
-                    
+                    <input type="text" id="lessonSearch" class="search-input" placeholder="Type or Select Practice..." readonly onfocus="handleSearchFocus()" oninput="filterLessons()">
                     <div id="lessonDropdown" class="lesson-dropdown"></div>
                 </div>
 
-                <!-- QR Scanner Container -->
-                <div id="qrScannerWrapper" class="qr-modal hidden">
-                    <div id="reader"></div>
-                    <button onclick="stopQRScanner()" style="margin-top: 6px; padding: 4px; font-size: 11px; background: #dc2626;">Close Camera</button>
+                <!-- STYLISH COMPACT FIXED NUMERIC KEYPAD -->
+                <div class="custom-numpad">
+                    <button class="num-btn" onclick="pressKey('1')">1</button>
+                    <button class="num-btn" onclick="pressKey('2')">2</button>
+                    <button class="num-btn" onclick="pressKey('3')">3</button>
+                    <button class="num-btn" onclick="pressKey('4')">4</button>
+                    <button class="num-btn" onclick="pressKey('5')">5</button>
+                    <button class="num-btn" onclick="pressKey('6')">6</button>
+                    <button class="num-btn" onclick="pressKey('7')">7</button>
+                    <button class="num-btn" onclick="pressKey('8')">8</button>
+                    <button class="num-btn" onclick="pressKey('9')">9</button>
+                    <button class="num-btn btn-action" onclick="pressKey('clear')">CLEAR</button>
+                    <button class="num-btn" onclick="pressKey('0')">0</button>
+                    <button class="num-btn btn-action" onclick="pressKey('back')"><i class="fa-solid fa-backspace"></i></button>
                 </div>
 
                 <!-- Context Clips Buttons Grid -->
                 <div id="clipsSection" class="clips-section hidden">
                     <div class="clips-section-title"><i class="fa-solid fa-circle-play"></i> Select Context Clip:</div>
                     <div id="clipsGrid" class="clips-grid">
-                        <!-- Clip buttons will be generated dynamically -->
+                        <!-- Clip buttons dynamically generated -->
                     </div>
                 </div>
                 
@@ -705,7 +696,7 @@
         </div>
     </div>
 
-    <!-- 4. CUSTOM STYLED POPUP MODAL CONTAINER -->
+    <!-- 4. CUSTOM POPUP MODAL -->
     <div id="customPopup" class="custom-popup-overlay hidden">
         <div class="custom-popup-card">
             <div class="custom-popup-icon" id="customPopupIcon">
@@ -740,7 +731,28 @@
         let currentPractice = practicesData[0];
         let currentActiveClip = 1;
 
-        // Supabase 'practice_clips' টেবিল থেকে ভিডিও লোড করার ডায়নামিক ফাংশন
+        /* CUSTOM KEYPAD LOGIC */
+        function pressKey(key) {
+            const searchInput = document.getElementById('lessonSearch');
+            let currentVal = searchInput.value.replace(/[^0-9]/g, '');
+
+            if (key === 'clear') {
+                currentVal = '';
+            } else if (key === 'back') {
+                currentVal = currentVal.slice(0, -1);
+            } else {
+                currentVal += key;
+            }
+
+            if (currentVal !== '') {
+                searchInput.value = 'Practice ' + currentVal;
+            } else {
+                searchInput.value = '';
+            }
+
+            filterLessons();
+        }
+
         async function loadSecureLesson(clipNumber) {
             const player = document.getElementById("securePlayer");
             
@@ -793,7 +805,7 @@
             dropdown.innerHTML = '';
             
             if (filteredList.length === 0) {
-                dropdown.innerHTML = '<div class="lesson-item" style="color: #94a3b8;">No Practice found</div>';
+                dropdown.style.display = 'none';
                 return;
             }
 
@@ -806,28 +818,27 @@
                 };
                 dropdown.appendChild(item);
             });
+            showDropdown();
         }
 
         function filterLessons() {
-            const query = document.getElementById('lessonSearch').value.toLowerCase().trim();
+            const searchInputVal = document.getElementById('lessonSearch').value.trim();
+            const numOnly = searchInputVal.replace(/[^0-9]/g, '');
             
-            if (!query) {
-                renderLessons(practicesData.slice(0, 50));
-                showDropdown();
+            if (!numOnly) {
+                document.getElementById('lessonDropdown').style.display = 'none';
                 return;
             }
 
-            const filtered = [];
-            for (let i = 0; i < practicesData.length; i++) {
-                const p = practicesData[i];
-                if (p.title.toLowerCase().includes(query) || p.id.toString() === query) {
-                    filtered.push(p);
-                    if (filtered.length >= 50) break; // ম্যাচ হওয়া ৫০টি পেয়ে গেলেই লুপ স্টপ করবে
-                }
-            }
+            // Exact match filtering so only the searched practice is shown
+            const matchedPractice = practicesData.find(p => p.id.toString() === numOnly);
             
-            renderLessons(filtered);
-            showDropdown();
+            if (matchedPractice) {
+                renderLessons([matchedPractice]);
+                selectPractice(matchedPractice); // Automatically select exact match
+            } else {
+                renderLessons([]);
+            }
         }
 
         function showDropdown() {
@@ -835,8 +846,7 @@
         }
 
         function handleSearchFocus() {
-            renderLessons(practicesData.slice(0, 50)); // এক সাথে পুরো লাখ ডেটা না দেখিয়ে প্রথম ৫০টি দেখাবে
-            showDropdown();
+            filterLessons();
         }
 
         function selectPractice(practice) {
@@ -879,82 +889,10 @@
             loadSecureLesson(clipNumber);
         }
 
-        let html5QrCode = null;
-
-        function toggleQRScanner() {
-            const qrWrapper = document.getElementById('qrScannerWrapper');
-            if (qrWrapper.classList.contains('hidden')) {
-                qrWrapper.classList.remove('hidden');
-                startQRScanner();
-            } else {
-                stopQRScanner();
-            }
-        }
-
-        async function startQRScanner() {
-            try {
-                if (!html5QrCode) {
-                    html5QrCode = new Html5Qrcode("reader");
-                }
-                
-                const cameras = await Html5Qrcode.getCameras();
-                
-                if (cameras && cameras.length > 0) {
-                    let backCamera = cameras.find(cam => 
-                        cam.label.toLowerCase().includes('back') || 
-                        cam.label.toLowerCase().includes('rear') || 
-                        cam.label.toLowerCase().includes('environment')
-                    );
-                    let cameraId = backCamera ? backCamera.id : cameras[cameras.length - 1].id;
-
-                    const config = { fps: 10, qrbox: { width: 180, height: 180 } };
-                    
-                    await html5QrCode.start(cameraId, config, onScanSuccess);
-                } else {
-                    showCustomPopup("ডিভাইসে কোনো ক্যামেরা পাওয়া যায়নি।");
-                    stopQRScanner();
-                }
-            } catch (err) {
-                console.error("Camera error: ", err);
-                try {
-                    const config = { fps: 10, qrbox: { width: 180, height: 180 } };
-                    await html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
-                } catch (fallbackErr) {
-                    showCustomPopup("Camera access denied. Please enable camera permissions in your browser or app settings.");
-                    stopQRScanner();
-                }
-            }
-        }
-
-        function stopQRScanner() {
-            if (html5QrCode && html5QrCode.isScanning) {
-                html5QrCode.stop().then(() => {
-                    document.getElementById('qrScannerWrapper').classList.add('hidden');
-                }).catch(err => console.error(err));
-            } else {
-                document.getElementById('qrScannerWrapper').classList.add('hidden');
-            }
-        }
-
-        function onScanSuccess(decodedText) {
-            const numberMatch = decodedText.match(/\d+/);
-            if (numberMatch) {
-                const clipNum = parseInt(numberMatch[0]);
-                if (clipNum >= 1 && clipNum <= totalClips) {
-                    stopQRScanner();
-                    selectPractice(currentPractice || practicesData[0]);
-                    selectClip(clipNum);
-                } else {
-                    showCustomPopup("Invalid Clip Number in QR Code.");
-                }
-            } else {
-                showCustomPopup("QR Code format not recognized.");
-            }
-        }
-
         document.addEventListener('click', function(e) {
             const container = document.querySelector('.search-box-container');
-            if (container && !container.contains(e.target)) {
+            const numpad = document.querySelector('.custom-numpad');
+            if (container && !container.contains(e.target) && numpad && !numpad.contains(e.target)) {
                 document.getElementById('lessonDropdown').style.display = 'none';
             }
         });
@@ -1073,7 +1011,6 @@
         }
 
         function logout() {
-            stopQRScanner();
             localStorage.removeItem('user_phone');
             location.reload();
         }

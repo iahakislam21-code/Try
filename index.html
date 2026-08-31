@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kothalogy - iiel</title>
     
-    <!-- Font Awesome for clean modern icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -41,7 +39,6 @@
             margin: auto;
         }
 
-        /* Notice Badge for American Accent */
         .accent-notice-badge {
             display: inline-flex;
             align-items: center;
@@ -311,13 +308,43 @@
             text-align: left;
         }
 
-        /* --- COMPACT HIGH-Z-INDEX DROPDOWN MENU --- */
+        /* --- BLINKING BUTTON STYLES --- */
+        .btn-lesson-details {
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+            color: #000;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+            animation: pulse-glow 1.2s infinite alternate;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                transform: scale(0.98);
+                box-shadow: 0 0 5px rgba(234, 179, 8, 0.4);
+            }
+            100% {
+                transform: scale(1.02);
+                box-shadow: 0 0 18px rgba(234, 179, 8, 0.9);
+            }
+        }
+
         .lesson-dropdown {
             position: absolute;
             top: 100%;
             left: 0;
             right: 0;
-            max-height: 45px; /* Restricted height to avoid overlapping numpad */
+            max-height: 45px;
             overflow-y: auto;
             background-color: #0f172a;
             border: 1.5px solid #38bdf8;
@@ -341,7 +368,6 @@
             color: #fff;
         }
 
-        /* --- STYLISH COMPACT NUMERIC KEYPAD --- */
         .custom-numpad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -530,44 +556,152 @@
             text-align: center;
         }
 
-        .custom-popup-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(248, 113, 113, 0.15);
-            border: 1px solid rgba(248, 113, 113, 0.3);
-            color: #f87171;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin: 0 auto 10px auto;
+        /* --- VOCABULARY DETAILS MODAL --- */
+        .vocab-modal-card {
+            background: #0f172a;
+            border: 1.5px solid #38bdf8;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            padding: 18px;
+            width: 100%;
+            max-width: 440px;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: left;
+            position: relative;
+        }
+        
+        .vocab-modal-card::-webkit-scrollbar {
+            width: 4px;
+        }
+        .vocab-modal-card::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 4px;
         }
 
-        .custom-popup-msg {
-            color: #f8fafc;
-            font-size: 12px;
-            line-height: 1.4;
+        .vocab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
             margin-bottom: 12px;
         }
 
-        .custom-popup-btn {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #fff;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+        .vocab-header h2 {
+            font-size: 15px;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .close-modal-btn {
+            background: transparent;
             border: none;
+            color: #94a3b8;
+            font-size: 18px;
             cursor: pointer;
-            width: 100%;
+            width: auto;
+            padding: 2px 6px;
+            box-shadow: none;
+        }
+        .close-modal-btn:hover {
+            color: #f87171;
+            transform: none;
+        }
+
+        .vocab-section {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .vocab-section h3 {
+            font-size: 12px;
+            color: #fbbf24;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .vocab-section p, .vocab-section ul {
+            font-size: 12px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .vocab-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .vocab-section ul li {
+            margin-bottom: 4px;
+        }
+
+        .vocab-section ul li strong {
+            color: #38bdf8;
+        }
+
+        .verb-forms-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
+        }
+
+        .verb-forms-list li {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 6px 8px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 11px;
+            color: #e2e8f0;
+            line-height: 1.4;
+        }
+
+        .practice-drill {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .practice-drill ol {
+            padding-left: 18px;
+            font-size: 12px;
+            color: #e2e8f0;
+        }
+
+        .practice-drill ol li {
+            margin-bottom: 4px;
+        }
+
+        .glowing-word {
+            color: #00ff66 !important;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.8), 0 0 15px rgba(0, 255, 102, 0.5);
+        }
+
+        .ipa-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- ১. মোবাইল নম্বর ইনপুট স্ক্রিন -->
         <div id="authScreen">
             <div class="logo-icon">
                 <i class="fa-solid fa-headphones-simple"></i>
@@ -612,7 +746,6 @@
             </div>
         </div>
 
-        <!-- ২. ব্লকড / পেমেন্ট স্ক্রিন -->
         <div id="lockScreen" class="lock-screen hidden">
             <div class="lock-icon-wrapper">
                 <i class="fa-solid fa-lock"></i>
@@ -641,7 +774,6 @@
             </button>
         </div>
 
-        <!-- ৩. মূল অ্যাপ স্ক্রিন -->
         <div id="appScreen" class="hidden">
             <div class="accent-notice-badge">
                 <i class="fa-solid fa-star"></i> Applicable for mastering American accent only.
@@ -658,7 +790,10 @@
                     <div id="lessonDropdown" class="lesson-dropdown"></div>
                 </div>
 
-                <!-- STYLISH COMPACT FIXED NUMERIC KEYPAD -->
+                <button id="btnLessonDetails" class="btn-lesson-details hidden" onclick="openVocabModal()">
+                    <i class="fa-solid fa-book-open"></i> View Lesson Study Material
+                </button>
+
                 <div class="custom-numpad">
                     <button class="num-btn" onclick="pressKey('1')">1</button>
                     <button class="num-btn" onclick="pressKey('2')">2</button>
@@ -674,11 +809,9 @@
                     <button class="num-btn btn-action" onclick="pressKey('back')"><i class="fa-solid fa-backspace"></i></button>
                 </div>
 
-                <!-- Context Clips Buttons Grid -->
                 <div id="clipsSection" class="clips-section hidden">
                     <div class="clips-section-title"><i class="fa-solid fa-circle-play"></i> Select Context Clip:</div>
                     <div id="clipsGrid" class="clips-grid">
-                        <!-- Clip buttons dynamically generated -->
                     </div>
                 </div>
                 
@@ -696,7 +829,6 @@
         </div>
     </div>
 
-    <!-- 4. CUSTOM POPUP MODAL -->
     <div id="customPopup" class="custom-popup-overlay hidden">
         <div class="custom-popup-card">
             <div class="custom-popup-icon" id="customPopupIcon">
@@ -704,6 +836,17 @@
             </div>
             <div class="custom-popup-msg" id="customPopupMsg">Message text here...</div>
             <button class="custom-popup-btn" onclick="closeCustomPopup()">OK</button>
+        </div>
+    </div>
+
+    <div id="vocabModal" class="custom-popup-overlay hidden">
+        <div class="vocab-modal-card">
+            <div class="vocab-header">
+                <h2><i class="fa-solid fa-graduation-cap"></i> Lesson Notes & Breakdown</h2>
+                <button class="close-modal-btn" onclick="closeVocabModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="vocabModalContent">
+            </div>
         </div>
     </div>
 
@@ -722,16 +865,14 @@
         }
 
         const totalClips = 60;
-
-        const practicesData = Array.from({ length: 100000 }, (_, index) => ({
+        const practicesData = Array.from({ length: 500000 }, (_, index) => ({
             id: index + 1,
             title: `Practice ${index + 1}`
         }));
-
         let currentPractice = practicesData[0];
         let currentActiveClip = 1;
+        let activeVocabData = null;
 
-        /* CUSTOM KEYPAD LOGIC */
         function pressKey(key) {
             const searchInput = document.getElementById('lessonSearch');
             let currentVal = searchInput.value.replace(/[^0-9]/g, '');
@@ -753,15 +894,36 @@
             filterLessons();
         }
 
+        async function fetchPracticeVocabData() {
+            const detailsBtn = document.getElementById('btnLessonDetails');
+            
+            // Practice ID-এর যেকোন ক্লিপ থেকে vocab_data সংগ্রহ করা
+            const { data, error } = await _supabase
+                .from('practice_clips')
+                .select('vocab_data')
+                .eq('practice_id', currentPractice.id)
+                .not('vocab_data', 'is', null)
+                .limit(1)
+                .maybeSingle();
+
+            if (!error && data && data.vocab_data) {
+                activeVocabData = data.vocab_data;
+                detailsBtn.classList.remove('hidden');
+            } else {
+                activeVocabData = null;
+                detailsBtn.classList.add('hidden');
+            }
+        }
+
         async function loadSecureLesson(clipNumber) {
             const player = document.getElementById("securePlayer");
-            
+
             const { data, error } = await _supabase
                 .from('practice_clips')
                 .select('video_id, start_time')
                 .eq('practice_id', currentPractice.id)
                 .eq('clip_number', clipNumber)
-                .single();
+                .maybeSingle();
 
             if (error || !data || !data.video_id) {
                 console.error("Video load error or clip not found:", error);
@@ -800,6 +962,91 @@
             document.getElementById('customPopup').classList.add('hidden');
         }
 
+        /* RENDER DYNAMIC VOCAB MODAL */
+        function openVocabModal() {
+            if (!activeVocabData) return;
+            const container = document.getElementById('vocabModalContent');
+            let html = '';
+
+            const mainWord = activeVocabData.word || 'N/A';
+            
+            // Build Pronunciation badges
+            let ipaHtml = '';
+            if (activeVocabData.ipa_us) ipaHtml += `<span class="ipa-badge">US: ${activeVocabData.ipa_us}</span>`;
+            if (activeVocabData.ipa_uk) ipaHtml += `<span class="ipa-badge">UK: ${activeVocabData.ipa_uk}</span>`;
+            if (activeVocabData.ipa) ipaHtml += `<span class="ipa-badge">${activeVocabData.ipa}</span>`;
+
+            // 1. Meaning & Pronunciation
+            html += `
+                <div class="vocab-section">
+                    <h3>১. CORE MEANING</h3>
+                    <p><strong class="glowing-word">${mainWord}</strong> ${ipaHtml}</p>
+                    <p style="margin-top:6px;"><strong>মূল অর্থ:</strong> ${activeVocabData.meaning || 'N/A'}</p>
+                </div>
+            `;
+
+            // 2. Word Family
+            if (activeVocabData.family) {
+                html += `
+                    <div class="vocab-section">
+                        <h3>২. COMPLETE WORD FAMILY</h3>
+                        <ul>
+                            <li><strong>Noun:</strong> ${activeVocabData.family.noun || 'N/A'}</li>
+                            <li><strong>Verb:</strong> ${activeVocabData.family.verb || 'N/A'}</li>
+                            <li><strong>Adjective:</strong> ${activeVocabData.family.adjective || 'N/A'}</li>
+                            <li><strong>Adverb:</strong> ${activeVocabData.family.adverb || 'N/A'}</li>
+                        </ul>
+                    </div>
+                `;
+
+                // Render Verb Form in clean list
+                const verbForm = activeVocabData.family.verb_form || activeVocabData.family["Verb Form"] || activeVocabData.verb_form;
+                if (verbForm) {
+                    const lines = verbForm.split('\n').filter(line => line.trim().length > 0);
+                    let listItemsHtml = lines.map(line => `<li>${line.trim()}</li>`).join('');
+                    html += `
+                        <div class="vocab-section">
+                            <h3>VERB FORMS</h3>
+                            <ul class="verb-forms-list">
+                                ${listItemsHtml}
+                            </ul>
+                        </div>
+                    `;
+                }
+            }
+
+            // 3. Spoken Usages
+            if (activeVocabData.usages && activeVocabData.usages.length > 0) {
+                html += `<div class="vocab-section"><h3>৩. SPOKEN ENGLISH USAGES</h3>`;
+                activeVocabData.usages.forEach(usage => {
+                    const formattedUsage = usage.replace(/\n/g, '<br>');
+                    html += `<p style="margin-bottom:8px; line-height:1.5;">${formattedUsage}</p>`;
+                });
+                html += `</div>`;
+            }
+
+            // 4. Exercises
+            if (activeVocabData.exercises && activeVocabData.exercises.length > 0) {
+                html += `
+                    <div class="vocab-section practice-drill">
+                        <h3 style="color: #38bdf8;">৪. INTERACTIVE PRACTICE EXERCISES</h3>
+                        <p style="margin-bottom: 6px;">নিচের তিনটি বাক্য ইংরেজিতে অনুবাদ করার চেষ্টা করুন:</p>
+                        <ol>
+                `;
+                activeVocabData.exercises.forEach(ex => {
+                    html += `<li style="margin-bottom: 6px;">${ex}</li>`;
+                });
+                html += `</ol></div>`;
+            }
+
+            container.innerHTML = html;
+            document.getElementById('vocabModal').classList.remove('hidden');
+        }
+
+        function closeVocabModal() {
+            document.getElementById('vocabModal').classList.add('hidden');
+        }
+
         function renderLessons(filteredList) {
             const dropdown = document.getElementById('lessonDropdown');
             dropdown.innerHTML = '';
@@ -830,12 +1077,10 @@
                 return;
             }
 
-            // Exact match filtering so only the searched practice is shown
             const matchedPractice = practicesData.find(p => p.id.toString() === numOnly);
-            
             if (matchedPractice) {
                 renderLessons([matchedPractice]);
-                selectPractice(matchedPractice); // Automatically select exact match
+                selectPractice(matchedPractice);
             } else {
                 renderLessons([]);
             }
@@ -854,6 +1099,7 @@
             document.getElementById('lessonSearch').value = practice.title;
             document.getElementById('lessonDropdown').style.display = 'none';
             
+            fetchPracticeVocabData();
             renderClipsGrid();
             selectClip(1);
         }
@@ -879,7 +1125,6 @@
 
         function selectClip(clipNumber) {
             currentActiveClip = clipNumber;
-
             document.querySelectorAll('.clip-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById(`clip-btn-${clipNumber}`);
             if (activeBtn) {
@@ -931,20 +1176,17 @@
                     .maybeSingle();
 
                 if (error) throw error;
-
                 if (!data) {
                     const { data: newUser, error: createError } = await _supabase
                         .from('users')
                         .insert([{ phone_number: phone, is_active: false, device_token: currentDeviceId }])
                         .select()
                         .single();
-
                     if (createError) throw createError;
                     data = newUser;
                 }
 
                 localStorage.setItem('user_phone', phone);
-
                 if (data.is_active === true) {
                     if (!data.device_token || data.device_token === currentDeviceId) {
                         if (!data.device_token) {

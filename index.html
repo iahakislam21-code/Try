@@ -308,24 +308,9 @@
             text-align: left;
         }
 
-        /* --- BLINKING BUTTON STYLES --- */
+        /* --- BLINKING BUTTON STYLES (HIDDEN) --- */
         .btn-lesson-details {
-            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-            color: #000;
-            font-weight: 800;
-            font-size: 11px;
-            padding: 8px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
-            animation: pulse-glow 1.2s infinite alternate;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
+            display: none !important;
         }
 
         @keyframes pulse-glow {
@@ -851,8 +836,8 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://wsxubdciorngyfpfpbsr.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_sn7weXqkPXe04JdCN4972Q_BaJ6b21Y';
+        const SUPABASE_URL = 'https://irolnazvjsgetevyurae.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlyb2xuYXp2anNnZXRldnl1cmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzM2ODcsImV4cCI6MjEwNDAwOTY4N30.t6XL8gt3vKVqfwoANXEMV9tXduZK9_L0eDQT0gnKW3c';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         function getDeviceId() {
@@ -896,43 +881,43 @@
 
         async function fetchPracticeVocabData() {
             const detailsBtn = document.getElementById('btnLessonDetails');
-            
-            // Practice ID-এর যেকোন ক্লিপ থেকে vocab_data সংগ্রহ করা
-            const { data, error } = await _supabase
-                .from('practice_clips')
-                .select('vocab_data')
-                .eq('practice_id', currentPractice.id)
-                .not('vocab_data', 'is', null)
-                .limit(1)
-                .maybeSingle();
 
-            if (!error && data && data.vocab_data) {
-                activeVocabData = data.vocab_data;
-                detailsBtn.classList.remove('hidden');
+            // Practice ID-এর যেকোন ক্লিপ থেকে vocab_data সংগ্রহ করা
+            const { data, error } = await _supabase.rpc('get_vocab', {
+                p_phone: localStorage.getItem('user_phone'),
+                p_device: getDeviceId(),
+                p_practice_id: currentPractice.id
+            });
+            const vocabRow = data && data[0];
+
+            if (!error && vocabRow && vocabRow.vocab_data) {
+                activeVocabData = vocabRow.vocab_data;
             } else {
                 activeVocabData = null;
-                detailsBtn.classList.add('hidden');
             }
+            // নিশ্চিত করা হলো বাটনটি যেন সবসময় হাইড থাকে
+            detailsBtn.classList.add('hidden');
         }
 
         async function loadSecureLesson(clipNumber) {
             const player = document.getElementById("securePlayer");
 
-            const { data, error } = await _supabase
-                .from('practice_clips')
-                .select('video_id, start_time')
-                .eq('practice_id', currentPractice.id)
-                .eq('clip_number', clipNumber)
-                .maybeSingle();
+            const { data, error } = await _supabase.rpc('get_clip', {
+                p_phone: localStorage.getItem('user_phone'),
+                p_device: getDeviceId(),
+                p_practice_id: currentPractice.id,
+                p_clip_number: clipNumber
+            });
+            const clip = data && data[0];
 
-            if (error || !data || !data.video_id) {
+            if (error || !clip || !clip.video_id) {
                 console.error("Video load error or clip not found:", error);
                 player.src = "";
                 return;
             }
 
-            const videoId = data.video_id;
-            const startTime = data.start_time || 0;
+            const videoId = clip.video_id;
+            const startTime = clip.start_time || 0;
             const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?start=${startTime}&autoplay=1&enablejsapi=1&rel=0&modestbranding=1`;
             
             player.src = embedUrl;
@@ -964,83 +949,8 @@
 
         /* RENDER DYNAMIC VOCAB MODAL */
         function openVocabModal() {
-            if (!activeVocabData) return;
-            const container = document.getElementById('vocabModalContent');
-            let html = '';
-
-            const mainWord = activeVocabData.word || 'N/A';
-            
-            // Build Pronunciation badges
-            let ipaHtml = '';
-            if (activeVocabData.ipa_us) ipaHtml += `<span class="ipa-badge">US: ${activeVocabData.ipa_us}</span>`;
-            if (activeVocabData.ipa_uk) ipaHtml += `<span class="ipa-badge">UK: ${activeVocabData.ipa_uk}</span>`;
-            if (activeVocabData.ipa) ipaHtml += `<span class="ipa-badge">${activeVocabData.ipa}</span>`;
-
-            // 1. Meaning & Pronunciation
-            html += `
-                <div class="vocab-section">
-                    <h3>১. CORE MEANING</h3>
-                    <p><strong class="glowing-word">${mainWord}</strong> ${ipaHtml}</p>
-                    <p style="margin-top:6px;"><strong>মূল অর্থ:</strong> ${activeVocabData.meaning || 'N/A'}</p>
-                </div>
-            `;
-
-            // 2. Word Family
-            if (activeVocabData.family) {
-                html += `
-                    <div class="vocab-section">
-                        <h3>২. COMPLETE WORD FAMILY</h3>
-                        <ul>
-                            <li><strong>Noun:</strong> ${activeVocabData.family.noun || 'N/A'}</li>
-                            <li><strong>Verb:</strong> ${activeVocabData.family.verb || 'N/A'}</li>
-                            <li><strong>Adjective:</strong> ${activeVocabData.family.adjective || 'N/A'}</li>
-                            <li><strong>Adverb:</strong> ${activeVocabData.family.adverb || 'N/A'}</li>
-                        </ul>
-                    </div>
-                `;
-
-                // Render Verb Form in clean list
-                const verbForm = activeVocabData.family.verb_form || activeVocabData.family["Verb Form"] || activeVocabData.verb_form;
-                if (verbForm) {
-                    const lines = verbForm.split('\n').filter(line => line.trim().length > 0);
-                    let listItemsHtml = lines.map(line => `<li>${line.trim()}</li>`).join('');
-                    html += `
-                        <div class="vocab-section">
-                            <h3>VERB FORMS</h3>
-                            <ul class="verb-forms-list">
-                                ${listItemsHtml}
-                            </ul>
-                        </div>
-                    `;
-                }
-            }
-
-            // 3. Spoken Usages
-            if (activeVocabData.usages && activeVocabData.usages.length > 0) {
-                html += `<div class="vocab-section"><h3>৩. SPOKEN ENGLISH USAGES</h3>`;
-                activeVocabData.usages.forEach(usage => {
-                    const formattedUsage = usage.replace(/\n/g, '<br>');
-                    html += `<p style="margin-bottom:8px; line-height:1.5;">${formattedUsage}</p>`;
-                });
-                html += `</div>`;
-            }
-
-            // 4. Exercises
-            if (activeVocabData.exercises && activeVocabData.exercises.length > 0) {
-                html += `
-                    <div class="vocab-section practice-drill">
-                        <h3 style="color: #38bdf8;">৪. INTERACTIVE PRACTICE EXERCISES</h3>
-                        <p style="margin-bottom: 6px;">নিচের তিনটি বাক্য ইংরেজিতে অনুবাদ করার চেষ্টা করুন:</p>
-                        <ol>
-                `;
-                activeVocabData.exercises.forEach(ex => {
-                    html += `<li style="margin-bottom: 6px;">${ex}</li>`;
-                });
-                html += `</ol></div>`;
-            }
-
-            container.innerHTML = html;
-            document.getElementById('vocabModal').classList.remove('hidden');
+            // Study material access disabled
+            return;
         }
 
         function closeVocabModal() {
@@ -1169,32 +1079,16 @@
             const currentDeviceId = getDeviceId();
 
             try {
-                let { data, error } = await _supabase
-                    .from('users')
-                    .select('*')
-                    .eq('phone_number', phone)
-                    .maybeSingle();
-
+                const { data, error } = await _supabase.rpc('check_access', {
+                    p_phone: phone,
+                    p_device: currentDeviceId
+                });
                 if (error) throw error;
-                if (!data) {
-                    const { data: newUser, error: createError } = await _supabase
-                        .from('users')
-                        .insert([{ phone_number: phone, is_active: false, device_token: currentDeviceId }])
-                        .select()
-                        .single();
-                    if (createError) throw createError;
-                    data = newUser;
-                }
+                const result = data[0];
 
                 localStorage.setItem('user_phone', phone);
-                if (data.is_active === true) {
-                    if (!data.device_token || data.device_token === currentDeviceId) {
-                        if (!data.device_token) {
-                            await _supabase
-                                .from('users')
-                                .update({ device_token: currentDeviceId })
-                                .eq('phone_number', phone);
-                        }
+                if (result.is_active === true) {
+                    if (!result.device_locked) {
                         showAppScreen(phone);
                     } else {
                         showLockScreen(

@@ -1,1155 +1,889 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kothalogy - iiel</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iiel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-        body {
-            background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 60%, #020617 100%);
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 10px;
-        }
-        .container {
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 16px 14px;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            margin: auto;
-        }
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #131a2b;
+    --surface-raised: #1a2338;
+    --border: #232d45;
+    --text: #e8ecf5;
+    --text-muted: #8792ab;
+    --accent: #2dd4bf;
+    --accent-dim: #1a8c7f;
+    --danger: #f4685c;
+    --danger-dim: #3a1c1c;
+  }
 
-        .accent-notice-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(245, 158, 11, 0.15);
-            color: #fbbf24;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            text-transform: uppercase;
-        }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(56, 189, 248, 0.1);
-            color: #38bdf8;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
-        .logo-icon {
-            font-size: 32px;
-            color: #38bdf8;
-            margin-bottom: 6px;
-            display: inline-block;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
-        }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hind Siliguri', 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    line-height: 1.5;
+  }
 
-        h1 {
-            color: #f8fafc;
-            font-size: 13px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            line-height: 1.3;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p {
-            color: #94a3b8;
-            font-size: 12px;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
+  .screen { width: 100%; max-width: 400px; }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 12px;
-        }
-        .input-group i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-        input {
-            width: 100%;
-            padding: 12px 12px 12px 42px;
-            border: 1.5px solid #334155;
-            background-color: #0f172a;
-            color: #fff;
-            border-radius: 10px;
-            font-size: 15px;
-            letter-spacing: 1px;
-            outline: none;
-            transition: 0.3s;
-        }
-        input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
-        }
-        input:focus + i {
-            color: #38bdf8;
-        }
+  .brand {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .brand-mark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .brand-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s ease;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
-        }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+  }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .feature-item {
-            background: rgba(15, 23, 42, 0.5);
-            padding: 8px 4px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .feature-item i {
-            color: #38bdf8;
-            font-size: 14px;
-            margin-bottom: 2px;
-            display: block;
-        }
-        .feature-item span {
-            font-size: 10px;
-            color: #cbd5e1;
-            font-weight: 500;
-            display: block;
-        }
+  .card h1 {
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .card p.hint {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
 
-        .hidden {
-            display: none !important;
-        }
-        .status-msg {
-            margin-top: 8px;
-            font-size: 12px;
-        }
+  label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+  label:first-of-type { margin-top: 0; }
 
-        .lock-screen {
-            background: linear-gradient(180deg, rgba(30, 27, 75, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
-            border: 1px solid rgba(248, 113, 113, 0.3);
-            padding: 16px 12px;
-            border-radius: 16px;
-        }
-        .lock-icon-wrapper {
-            width: 44px;
-            height: 44px;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #f87171;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin: 0 auto 10px auto;
-        }
-        .lock-screen h3 {
-            color: #f87171;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .sub-status {
-            color: #fda4af;
-            font-size: 11px;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        .payment-info-card {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            padding: 10px;
-            border-radius: 10px;
-            text-align: left;
-            margin-bottom: 12px;
-        }
-        .payment-info-card p {
-            color: #cbd5e1;
-            font-size: 11px;
-            margin-bottom: 6px;
-            line-height: 1.3;
-        }
-        .contact-box {
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 6px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .contact-box i {
-            color: #25d366;
-            font-size: 15px;
-        }
-        .contact-text {
-            line-height: 1.2;
-        }
-        .contact-text strong {
-            color: #38bdf8;
-        }
-        .warning-text {
-            display: block;
-            font-size: 9px;
-            color: #fca5a5;
-            margin-top: 2px;
-        }
-        .btn-try-again {
-            background: #334155;
-            color: #f8fafc;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .user-info {
-            color: #38bdf8;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            background: rgba(56, 189, 248, 0.08);
-            padding: 3px 10px;
-            border-radius: 12px;
-            display: inline-block;
-        }
-        .practice-box {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 10px;
-            margin-bottom: 8px;
-        }
-        label {
-            display: block;
-            font-size: 11px;
-            color: #94a3b8;
-            margin-bottom: 4px;
-            text-align: left;
-            font-weight: 600;
-        }
+  input {
+    width: 100%;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 15px;
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  input:focus { border-color: var(--accent); }
+  input::placeholder { color: #4a5470; }
 
-        .search-box-container {
-            position: relative;
-            margin-bottom: 6px;
-        }
-        .search-input {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            background-color: #0f172a;
-            color: #38bdf8;
-            font-size: 13px;
-            font-weight: 700;
-            outline: none;
-            margin-bottom: 0;
-            text-align: left;
-        }
+  .field-error {
+    font-size: 13px;
+    color: var(--danger);
+    margin-top: 6px;
+    display: none;
+  }
 
-        /* --- BLINKING BUTTON STYLES (HIDDEN) --- */
-        .btn-lesson-details {
-            display: none !important;
-        }
+  button.primary {
+    width: 100%;
+    margin-top: 20px;
+    background: var(--accent);
+    color: #06251f;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  button.primary:active { background: var(--accent-dim); }
+  button.primary:disabled { opacity: 0.5; pointer-events: none; }
 
-        @keyframes pulse-glow {
-            0% {
-                transform: scale(0.98);
-                box-shadow: 0 0 5px rgba(234, 179, 8, 0.4);
-            }
-            100% {
-                transform: scale(1.02);
-                box-shadow: 0 0 18px rgba(234, 179, 8, 0.9);
-            }
-        }
+  .spinner {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #06251f;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: -3px;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-        .lesson-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 45px;
-            overflow-y: auto;
-            background-color: #0f172a;
-            border: 1.5px solid #38bdf8;
-            border-radius: 8px;
-            z-index: 9999;
-            margin-top: 2px;
-            display: none;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
-        }
-        .lesson-item {
-            padding: 7px 10px;
-            text-align: left;
-            color: #f8fafc;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 1px solid #1e293b;
-        }
-        .lesson-item:hover {
-            background-color: #0284c7;
-            color: #fff;
-        }
+  /* ---- Access denied popup ---- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 8, 15, 0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 10;
+  }
+  .overlay.show { display: flex; }
 
-        .custom-numpad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            padding: 6px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1;
-        }
-        .num-btn {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            color: #f8fafc;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            padding: 5px 0;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            user-select: none;
-            -webkit-user-select: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 34px;
-        }
-        .num-btn:active {
-            transform: scale(0.95);
-            background: #0284c7;
-            color: #fff;
-            border-color: #38bdf8;
-        }
-        .num-btn.btn-action {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border-color: rgba(239, 68, 68, 0.3);
-            font-size: 11px;
-            font-weight: 800;
-        }
-        .num-btn.btn-action:active {
-            background: #dc2626;
-            color: #fff;
-        }
+  .denied-card {
+    background: var(--surface);
+    border: 1px solid #3a1f1f;
+    border-radius: 18px;
+    padding: 32px 24px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+  }
+  .denied-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--danger-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .denied-card h2 {
+    color: var(--danger);
+    font-size: 19px;
+    margin-bottom: 6px;
+  }
+  .denied-card .sub {
+    color: var(--danger);
+    opacity: 0.85;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .phone-pill {
+    display: inline-block;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .payment-box {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .payment-box b { color: var(--text); }
+  .contact-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    margin-bottom: 22px;
+  }
+  .contact-box .num { color: var(--accent); font-weight: 600; font-size: 15px; }
+  .contact-box .warn { color: var(--danger); font-size: 12.5px; margin-top: 4px; }
 
-        .clips-section {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
-            text-align: left;
-        }
+  button.secondary {
+    width: 100%;
+    background: var(--surface-raised);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 14.5px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+  }
 
-        .clips-section-title {
-            color: #38bdf8;
-            font-size: 10px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+  /* ---- OTP screen ---- */
+  .screen2 { display: none; }
+  .otp-instruction {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+  }
+  .otp-instruction b { color: var(--accent); }
+  input.otp-input {
+    text-align: center;
+    letter-spacing: 0.4em;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .link-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-family: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+    margin: 16px auto 0;
+  }
 
-        .clips-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
-            max-height: 110px;
-            overflow-y: auto;
-            padding-right: 2px;
-        }
+  /* ---- Welcome popup ---- */
+  .welcome-popup {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--surface-raised);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 20;
+  }
+  .welcome-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 
-        .clips-grid::-webkit-scrollbar {
-            width: 3px;
-        }
-        .clips-grid::-webkit-scrollbar-track {
-            background: #0f172a;
-            border-radius: 4px;
-        }
-        .clips-grid::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
+  /* ---- Main page ---- */
+  .screen3 { display: none; max-width: 420px; position: relative; margin: auto; }
+  
+  .main-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+  }
+  .three-dots-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  .three-dots-btn:hover {
+    color: var(--text);
+    background: var(--surface-raised);
+  }
 
-        .clip-btn {
-            background-color: #1e293b;
-            color: #cbd5e1;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 5px 2px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            box-shadow: none;
-            width: 100%;
-        }
+  .top-note {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .top-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .section-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  
+  .search-container {
+    margin-bottom: 8px;
+  }
+  .search-container input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background-color: var(--surface-raised);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+  }
 
-        .clip-btn:hover {
-            background-color: #334155;
-            color: #fff;
-        }
+  /* কাস্টম নিউমেরিক কিবোর্ড (একসারিতে মার্জিত লুকের জন্য সংশোধন) */
+  .custom-numpad {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    justify-content: space-between;
+  }
+  .num-btn {
+    flex: 1 1 auto;
+    min-width: 24px;
+    height: 32px;
+    background: var(--surface-raised);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .num-btn:active {
+    background: var(--accent);
+    color: #06251f;
+    border-color: var(--accent);
+  }
+  .num-btn.btn-action {
+    background: rgba(244, 104, 92, 0.15);
+    color: var(--danger);
+    border-color: rgba(244, 104, 92, 0.3);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 0 2px;
+  }
+  .num-btn.btn-action:active {
+    background: var(--danger);
+    color: #fff;
+  }
 
-        .clip-btn.active {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            border-color: #38bdf8;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
-        }
+  /* Clip Container Alignment & Circle Style Adjustments */
+  .clip-container {
+    max-height: 120px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+  }
+  .clip-container::-webkit-scrollbar {
+    width: 3px;
+  }
+  .clip-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
 
-        .audio-wrapper {
-            position: relative;
-            width: 100%;
-            height: 190px;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: #000;
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
+  /* বৃত্তাকার (Circle) বাটন তৈরির জন্য পরিবর্তন */
+  .clip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
+    gap: 6px;
+    justify-items: center;
+  }
+  .clip-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%; /* সার্কেল বা গোল শেপ */
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .clip-btn.active { 
+    background: var(--accent); 
+    color: #06251f; 
+    border-color: var(--accent); 
+    box-shadow: 0 0 8px rgba(45, 212, 191, 0.4);
+  }
+  .clip-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+  /* Iframe Position Adjustable Container */
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    display: none;
+  }
+  .video-wrap.show { display: block; }
+  .video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 
-        .overlay-top-block {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 15px;
-            background: transparent;
-            z-index: 10;
-        }
-        .help-notice {
-            background-color: rgba(15, 23, 42, 0.6);
-            border: 1px dashed rgba(56, 189, 248, 0.3);
-            color: #94a3b8;
-            padding: 6px 8px;
-            border-radius: 8px;
-            font-size: 10px;
-            line-height: 1.3;
-            margin-bottom: 8px;
-        }
-        .btn-logout {
-            background: #dc2626;
-            padding: 7px;
-            font-size: 12px;
-        }
-        .btn-logout:hover {
-            background: #b91c1c;
-        }
+  /* Modal Menu / Option Page */
+  .menu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 20px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+  }
+  .menu-card h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .menu-help-line {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    background: var(--surface-raised);
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .menu-help-line b { color: var(--accent); font-size: 16px; display: block; margin-top: 4px; }
 
-        .custom-popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            padding: 15px;
-        }
-
-        .custom-popup-card {
-            background: #1e293b;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-            border-radius: 14px;
-            padding: 18px;
-            width: 100%;
-            max-width: 320px;
-            text-align: center;
-        }
-
-        /* --- VOCABULARY DETAILS MODAL --- */
-        .vocab-modal-card {
-            background: #0f172a;
-            border: 1.5px solid #38bdf8;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.2);
-            border-radius: 16px;
-            padding: 18px;
-            width: 100%;
-            max-width: 440px;
-            max-height: 85vh;
-            overflow-y: auto;
-            text-align: left;
-            position: relative;
-        }
-        
-        .vocab-modal-card::-webkit-scrollbar {
-            width: 4px;
-        }
-        .vocab-modal-card::-webkit-scrollbar-thumb {
-            background: #38bdf8;
-            border-radius: 4px;
-        }
-
-        .vocab-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-
-        .vocab-header h2 {
-            font-size: 15px;
-            color: #38bdf8;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .close-modal-btn {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 18px;
-            cursor: pointer;
-            width: auto;
-            padding: 2px 6px;
-            box-shadow: none;
-        }
-        .close-modal-btn:hover {
-            color: #f87171;
-            transform: none;
-        }
-
-        .vocab-section {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .vocab-section h3 {
-            font-size: 12px;
-            color: #fbbf24;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .vocab-section p, .vocab-section ul {
-            font-size: 12px;
-            color: #cbd5e1;
-            line-height: 1.5;
-        }
-
-        .vocab-section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .vocab-section ul li {
-            margin-bottom: 4px;
-        }
-
-        .vocab-section ul li strong {
-            color: #38bdf8;
-        }
-
-        .verb-forms-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 4px;
-        }
-
-        .verb-forms-list li {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 6px 8px;
-            border-radius: 6px;
-            margin-bottom: 4px;
-            font-size: 11px;
-            color: #e2e8f0;
-            line-height: 1.4;
-        }
-
-        .practice-drill {
-            background: rgba(56, 189, 248, 0.05);
-            border: 1px dashed rgba(56, 189, 248, 0.3);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
-        }
-
-        .practice-drill ol {
-            padding-left: 18px;
-            font-size: 12px;
-            color: #e2e8f0;
-        }
-
-        .practice-drill ol li {
-            margin-bottom: 4px;
-        }
-
-        .glowing-word {
-            color: #00ff66 !important;
-            font-weight: 800;
-            text-shadow: 0 0 8px rgba(0, 255, 102, 0.8), 0 0 15px rgba(0, 255, 102, 0.5);
-        }
-
-        .ipa-badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.15);
-            color: #38bdf8;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 6px;
-            font-family: monospace;
-        }
-    </style>
+  .logout-btn {
+    width: 100%;
+    background: none;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="authScreen">
-            <div class="logo-icon">
-                <i class="fa-solid fa-headphones-simple"></i>
-            </div>
-            
-            <div>
-                <div class="accent-notice-badge">
-                    <i class="fa-solid fa-star"></i> Applicable for mastering American accent only.
-                </div>
-            </div>
+<div class="screen">
+  <div class="brand">
+    <div class="brand-mark">iiel</div>
+    <div class="brand-sub">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
+  </div>
 
-            <div class="brand-badge"><i class="fa-solid fa-graduation-cap"></i> LISTENING & SPEAKING</div>
-            
-            <h1>INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</h1>
-            <p>Enter your phone number to access lessons</p>
-            
-            <div class="input-group">
-                <input type="tel" id="phoneNumber" placeholder="01XXXXXXXXX" maxlength="11">
-                <i class="fa-solid fa-phone"></i>
-            </div>
-            
-            <button onclick="handleLogin()">
-                <span>Confirm & Continue</span>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-            
-            <div id="statusMessage" class="status-msg"></div>
+  <div class="card">
+    <h1>শুরু করার আগে</h1>
+    <p class="hint">আপনার নাম ও মোবাইল নাম্বার দিন</p>
 
-            <div class="features-grid">
-                <div class="feature-item">
-                    <i class="fa-solid fa-play"></i>
-                    <span>60 Lessons</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-volume-high"></i>
-                    <span>Native Audio</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>Instant Access</span>
-                </div>
-            </div>
-        </div>
+    <label for="nameInput">Name</label>
+    <input id="nameInput" type="text" placeholder="আপনার নাম">
+    <div class="field-error" id="nameError">নাম লিখুন</div>
 
-        <div id="lockScreen" class="lock-screen hidden">
-            <div class="lock-icon-wrapper">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <h3 id="lockTitle">Access Denied!</h3>
-            <div class="sub-status" id="lockSubStatus">No active plan found. Renew to continue.</div>
-            
-            <div class="user-info" style="margin-top: -2px; margin-bottom: 12px;">
-                Phone: <span id="lockUserPhoneDisplay" style="color: #38bdf8;"></span>
-            </div>
-            
-            <div class="payment-info-card" id="lockInfoCard">
-                <p id="lockInfoText">Complete payment via <strong>bKash</strong> or <strong>Nagad</strong>. Your subscription will be activated in up to 24 hours.</p>
-                <div class="contact-box">
-                    <i class="fa-brands fa-whatsapp"></i>
-                    <div class="contact-text">
-                        <strong>01938240811</strong> - WhatsApp
-                        <span class="warning-text" id="lockWarningText">Do not send payment to this number. It is for contact purposes only.</span>
-                    </div>
-                </div>
-            </div>
+    <label for="phoneInput">Mobile Number</label>
+    <input id="phoneInput" type="tel" placeholder="01XXXXXXXXX" maxlength="11">
+    <div class="field-error" id="phoneError">সঠিক ১১-সংখ্যার নাম্বার দিন</div>
 
-            <button class="btn-try-again" onclick="logout()">
-                <i class="fa-solid fa-rotate-right"></i>
-                <span>Try Another Number / Retry</span>
-            </button>
-        </div>
+    <button class="primary" id="submitBtn" onclick="checkAccess()">Confirm & Continue</button>
+  </div>
+</div>
 
-        <div id="appScreen" class="hidden">
-            <div class="accent-notice-badge">
-                <i class="fa-solid fa-star"></i> Applicable for mastering American accent only.
-            </div>
+<div class="screen screen2" id="otpScreen">
+  <div class="brand">
+    <div class="brand-mark">iiel</div>
+    <div class="brand-sub">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
+  </div>
 
-            <h1>INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</h1>
-            <div class="user-info">Number: <span id="userPhoneDisplay"></span></div>
-            
-            <div class="practice-box">
-                <label for="lessonSearch"><i class="fa-solid fa-magnifying-glass"></i> Select Practice Number:</label>
-                
-                <div class="search-box-container">
-                    <input type="text" id="lessonSearch" class="search-input" placeholder="Type or Select Practice..." readonly onfocus="handleSearchFocus()" oninput="filterLessons()">
-                    <div id="lessonDropdown" class="lesson-dropdown"></div>
-                </div>
+  <div class="card">
+    <h1>OTP Verification</h1>
+    <p class="hint">নিচের নাম্বারে মেসেজ দিয়ে OTP সংগ্রহ করুন</p>
 
-                <button id="btnLessonDetails" class="btn-lesson-details hidden" onclick="openVocabModal()">
-                    <i class="fa-solid fa-book-open"></i> View Lesson Study Material
-                </button>
-
-                <div class="custom-numpad">
-                    <button class="num-btn" onclick="pressKey('1')">1</button>
-                    <button class="num-btn" onclick="pressKey('2')">2</button>
-                    <button class="num-btn" onclick="pressKey('3')">3</button>
-                    <button class="num-btn" onclick="pressKey('4')">4</button>
-                    <button class="num-btn" onclick="pressKey('5')">5</button>
-                    <button class="num-btn" onclick="pressKey('6')">6</button>
-                    <button class="num-btn" onclick="pressKey('7')">7</button>
-                    <button class="num-btn" onclick="pressKey('8')">8</button>
-                    <button class="num-btn" onclick="pressKey('9')">9</button>
-                    <button class="num-btn btn-action" onclick="pressKey('clear')">CLEAR</button>
-                    <button class="num-btn" onclick="pressKey('0')">0</button>
-                    <button class="num-btn btn-action" onclick="pressKey('back')"><i class="fa-solid fa-backspace"></i></button>
-                </div>
-
-                <div id="clipsSection" class="clips-section hidden">
-                    <div class="clips-section-title"><i class="fa-solid fa-circle-play"></i> Select Context Clip:</div>
-                    <div id="clipsGrid" class="clips-grid">
-                    </div>
-                </div>
-                
-                <div class="audio-wrapper">
-                    <div class="overlay-top-block"></div>
-                    <iframe id="securePlayer" src="" allow="autoplay; encrypted-media"></iframe>
-                </div>
-            </div>
-
-            <div class="help-notice">
-                Need help? Message WhatsApp: <strong>01938240811</strong>
-            </div>
-
-            <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-        </div>
+    <div class="otp-instruction">
+      message <b>iiel</b> to collect your OTP<br>
+      <b>01938240811 — WhatsApp</b>
     </div>
 
-    <div id="customPopup" class="custom-popup-overlay hidden">
-        <div class="custom-popup-card">
-            <div class="custom-popup-icon" id="customPopupIcon">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <div class="custom-popup-msg" id="customPopupMsg">Message text here...</div>
-            <button class="custom-popup-btn" onclick="closeCustomPopup()">OK</button>
-        </div>
+    <label for="otpInput">OTP Code</label>
+    <input id="otpInput" class="otp-input" type="tel" placeholder="----" maxlength="6">
+    <div class="field-error" id="otpError">ভুল OTP, আবার চেষ্টা করুন</div>
+
+    <button class="primary" id="otpBtn" onclick="verifyOtp()">Verify</button>
+    <button class="link-btn" onclick="backToStart()">অন্য নাম্বার দিয়ে শুরু করুন</button>
+  </div>
+</div>
+
+<div class="welcome-popup" id="welcomePopup">Hey there, welcome back</div>
+
+<div class="screen screen3" id="mainScreen">
+  <div class="main-header">
+    <button class="three-dots-btn" onclick="toggleMenu()" title="Options">&#8381;</button>
+  </div>
+
+  <div class="top-note">Applicable for mastering American accent only.</div>
+  <div class="top-title">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
+
+  <div class="section-label">Select Practice Number:</div>
+  <div class="search-container">
+    <input id="practiceInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="যেমন: 1, 2, 3..." readonly>
+  </div>
+
+  <!-- কাস্টম নিউমেরিক কিবোর্ড (একসারিতে সুবিন্যস্ত) -->
+  <div class="custom-numpad">
+    <button class="num-btn" onclick="pressKey('1')">1</button>
+    <button class="num-btn" onclick="pressKey('2')">2</button>
+    <button class="num-btn" onclick="pressKey('3')">3</button>
+    <button class="num-btn" onclick="pressKey('4')">4</button>
+    <button class="num-btn" onclick="pressKey('5')">5</button>
+    <button class="num-btn" onclick="pressKey('6')">6</button>
+    <button class="num-btn" onclick="pressKey('7')">7</button>
+    <button class="num-btn" onclick="pressKey('8')">8</button>
+    <button class="num-btn" onclick="pressKey('9')">9</button>
+    <button class="num-btn" onclick="pressKey('0')">0</button>
+    <button class="num-btn btn-action" onclick="pressKey('clear')">CLR</button>
+    <button class="num-btn btn-action" onclick="pressKey('back')"><i class="fa-solid fa-backspace"></i></button>
+  </div>
+
+  <div id="clipSection" style="display:none;">
+    <div class="section-label">Select Context Clip:</div>
+    <!-- Scrollable container for Clips -->
+    <div class="clip-container">
+      <div class="clip-grid" id="clipGrid"></div>
     </div>
 
-    <div id="vocabModal" class="custom-popup-overlay hidden">
-        <div class="vocab-modal-card">
-            <div class="vocab-header">
-                <h2><i class="fa-solid fa-graduation-cap"></i> Lesson Notes & Breakdown</h2>
-                <button class="close-modal-btn" onclick="closeVocabModal()"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="vocabModalContent">
-            </div>
-        </div>
+    <!-- Iframe Position Center Align Box -->
+    <div class="video-wrap" id="videoWrap">
+      <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
+  </div>
+</div>
 
-    <script>
-        const SUPABASE_URL = 'https://irolnazvjsgetevyurae.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlyb2xuYXp2anNnZXRldnl1cmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzM2ODcsImV4cCI6MjEwNDAwOTY4N30.t6XL8gt3vKVqfwoANXEMV9tXduZK9_L0eDQT0gnKW3c';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<!-- Three Dots Menu Page / Overlay -->
+<div class="overlay" id="menuOverlay">
+  <div class="menu-card">
+    <button class="close-btn" onclick="toggleMenu()">&times;</button>
+    <h3>Settings & Support</h3>
+    <div class="menu-help-line">
+      Need help? Message WhatsApp:
+      <b>01938240811</b>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
 
-        function getDeviceId() {
-            let deviceId = localStorage.getItem('device_token');
-            if (!deviceId) {
-                deviceId = 'dev_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-                localStorage.setItem('device_token', deviceId);
-            }
-            return deviceId;
-        }
+<!-- Access Denied popup -->
+<div class="overlay" id="deniedOverlay">
+  <div class="denied-card">
+    <div class="denied-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M6 10V8a6 6 0 1112 0v2M5 10h14a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1v-9a1 1 0 011-1z" stroke="#f4685c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Access Denied!</h2>
+    <p class="sub">No active plan found. Renew to continue.</p>
+    <div class="phone-pill" id="deniedPhone">Phone: 01XXXXXXXXX</div>
+    <div class="payment-box">
+      Complete payment via <b>bKash</b> or <b>Nagad</b>. Your subscription will be activated in up to 24 hours.
+    </div>
+    <div class="contact-box">
+      <div class="num">01938240811 — WhatsApp</div>
+      <div class="warn">Do not send payment to this number. It is for contact purposes only.</div>
+    </div>
+    <button class="secondary" onclick="closeDenied()">Try Another Number</button>
+  </div>
+</div>
 
-        const totalClips = 60;
-        const practicesData = Array.from({ length: 500000 }, (_, index) => ({
-            id: index + 1,
-            title: `Practice ${index + 1}`
-        }));
-        let currentPractice = practicesData[0];
-        let currentActiveClip = 1;
-        let activeVocabData = null;
+<script>
+  // ==== এই একটা জায়গায় শুধু আপনার Supabase Project URL বসবে ====
+  const SUPABASE_URL = "https://wsxubdciorngyfpfpbsr.supabase.co";
+  // ================================================================
 
-        function pressKey(key) {
-            const searchInput = document.getElementById('lessonSearch');
-            let currentVal = searchInput.value.replace(/[^0-9]/g, '');
+  function getDeviceId() {
+    let id = localStorage.getItem('iiel_device_id');
+    if (!id) {
+      id = 'dev-' + crypto.randomUUID();
+      localStorage.setItem('iiel_device_id', id);
+    }
+    return id;
+  }
 
-            if (key === 'clear') {
-                currentVal = '';
-            } else if (key === 'back') {
-                currentVal = currentVal.slice(0, -1);
-            } else {
-                currentVal += key;
-            }
+  /* কাস্টম নিউমেরিক কিবোর্ড ইনপুট হ্যান্ডলার এবং অটোলিক সার্চ লজিক */
+  function pressKey(key) {
+    const input = document.getElementById('practiceInput');
+    let currentVal = input.value.replace(/[^0-9]/g, '');
 
-            if (currentVal !== '') {
-                searchInput.value = 'Practice ' + currentVal;
-            } else {
-                searchInput.value = '';
-            }
+    if (key === 'clear') {
+      currentVal = '';
+    } else if (key === 'back') {
+      currentVal = currentVal.slice(0, -1);
+    } else {
+      currentVal += key;
+    }
 
-            filterLessons();
-        }
+    input.value = currentVal;
 
-        async function fetchPracticeVocabData() {
-            const detailsBtn = document.getElementById('btnLessonDetails');
+    if (currentVal !== '') {
+      loadPractice();
+    } else {
+      document.getElementById('clipSection').style.display = 'none';
+    }
+  }
 
-            // Practice ID-এর যেকোন ক্লিপ থেকে vocab_data সংগ্রহ করা
-            const { data, error } = await _supabase.rpc('get_vocab', {
-                p_phone: localStorage.getItem('user_phone'),
-                p_device: getDeviceId(),
-                p_practice_id: currentPractice.id
-            });
-            const vocabRow = data && data[0];
+  function toggleMenu() {
+    const menu = document.getElementById('menuOverlay');
+    menu.classList.toggle('show');
+  }
 
-            if (!error && vocabRow && vocabRow.vocab_data) {
-                activeVocabData = vocabRow.vocab_data;
-            } else {
-                activeVocabData = null;
-            }
-            // নিশ্চিত করা হলো বাটনটি যেন সবসময় হাইড থাকে
-            detailsBtn.classList.add('hidden');
-        }
+  async function checkAccess() {
+    const name = document.getElementById('nameInput').value.trim();
+    const phone = document.getElementById('phoneInput').value.trim();
+    const nameErr = document.getElementById('nameError');
+    const phoneErr = document.getElementById('phoneError');
+    const btn = document.getElementById('submitBtn');
 
-        async function loadSecureLesson(clipNumber) {
-            const player = document.getElementById("securePlayer");
+    nameErr.style.display = 'none';
+    phoneErr.style.display = 'none';
 
-            const { data, error } = await _supabase.rpc('get_clip', {
-                p_phone: localStorage.getItem('user_phone'),
-                p_device: getDeviceId(),
-                p_practice_id: currentPractice.id,
-                p_clip_number: clipNumber
-            });
-            const clip = data && data[0];
+    let hasError = false;
+    if (!name) { nameErr.style.display = 'block'; hasError = true; }
+    if (!/^01[0-9]{9}$/.test(phone)) { phoneErr.style.display = 'block'; hasError = true; }
+    if (hasError) return;
 
-            if (error || !clip || !clip.video_id) {
-                console.error("Video load error or clip not found:", error);
-                player.src = "";
-                return;
-            }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Checking...';
 
-            const videoId = clip.video_id;
-            const startTime = clip.start_time || 0;
-            const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?start=${startTime}&autoplay=1&enablejsapi=1&rel=0&modestbranding=1`;
-            
-            player.src = embedUrl;
-        }
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/check-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone })
+      });
+      const data = await res.json();
 
-        function showCustomPopup(message, isError = true) {
-            const popup = document.getElementById('customPopup');
-            const msgEl = document.getElementById('customPopupMsg');
-            const iconEl = document.getElementById('customPopupIcon');
+      localStorage.setItem('iiel_name', name);
+      localStorage.setItem('iiel_phone', phone);
 
-            msgEl.innerText = message;
-            if (isError) {
-                iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                iconEl.style.color = '#f87171';
-                iconEl.style.background = 'rgba(248, 113, 113, 0.15)';
-                iconEl.style.borderColor = 'rgba(248, 113, 113, 0.3)';
-            } else {
-                iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-                iconEl.style.color = '#38bdf8';
-                iconEl.style.background = 'rgba(56, 189, 248, 0.15)';
-                iconEl.style.borderColor = 'rgba(56, 189, 248, 0.3)';
-            }
-            popup.classList.remove('hidden');
-        }
+      if (data.status === 'otp_required') {
+        document.querySelector('.screen:not(.screen2)').style.display = 'none';
+        document.getElementById('otpScreen').style.display = 'block';
+        document.getElementById('otpInput').focus();
+      } else {
+        document.getElementById('deniedPhone').textContent = 'Phone: ' + phone;
+        document.getElementById('deniedOverlay').classList.add('show');
+      }
+    } catch (e) {
+      alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Confirm & Continue';
+    }
+  }
 
-        function closeCustomPopup() {
-            document.getElementById('customPopup').classList.add('hidden');
-        }
+  function closeDenied() {
+    document.getElementById('deniedOverlay').classList.remove('show');
+    document.getElementById('phoneInput').value = '';
+    document.getElementById('phoneInput').focus();
+  }
 
-        /* RENDER DYNAMIC VOCAB MODAL */
-        function openVocabModal() {
-            // Study material access disabled
-            return;
-        }
+  function backToStart() {
+    document.getElementById('otpScreen').style.display = 'none';
+    document.querySelector('.screen:not(.screen2)').style.display = 'block';
+    document.getElementById('otpInput').value = '';
+    document.getElementById('otpError').style.display = 'none';
+  }
 
-        function closeVocabModal() {
-            document.getElementById('vocabModal').classList.add('hidden');
-        }
+  async function verifyOtp() {
+    const phone = localStorage.getItem('iiel_phone');
+    const otp = document.getElementById('otpInput').value.trim();
+    const otpErr = document.getElementById('otpError');
+    const btn = document.getElementById('otpBtn');
 
-        function renderLessons(filteredList) {
-            const dropdown = document.getElementById('lessonDropdown');
-            dropdown.innerHTML = '';
-            
-            if (filteredList.length === 0) {
-                dropdown.style.display = 'none';
-                return;
-            }
+    otpErr.style.display = 'none';
+    if (!otp) return;
 
-            filteredList.forEach(itemData => {
-                const item = document.createElement('div');
-                item.className = 'lesson-item';
-                item.innerText = itemData.title;
-                item.onclick = function() {
-                    selectPractice(itemData);
-                };
-                dropdown.appendChild(item);
-            });
-            showDropdown();
-        }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Verifying...';
 
-        function filterLessons() {
-            const searchInputVal = document.getElementById('lessonSearch').value.trim();
-            const numOnly = searchInputVal.replace(/[^0-9]/g, '');
-            
-            if (!numOnly) {
-                document.getElementById('lessonDropdown').style.display = 'none';
-                return;
-            }
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, otp, device_id: getDeviceId() })
+      });
+      const data = await res.json();
 
-            const matchedPractice = practicesData.find(p => p.id.toString() === numOnly);
-            if (matchedPractice) {
-                renderLessons([matchedPractice]);
-                selectPractice(matchedPractice);
-            } else {
-                renderLessons([]);
-            }
-        }
+      if (data.status === 'success') {
+        localStorage.setItem('iiel_session_token', data.token);
+        showWelcomeAndProceed();
+      } else {
+        otpErr.textContent = data.message || 'ভুল OTP, আবার চেষ্টা করুন';
+        otpErr.style.display = 'block';
+      }
+    } catch (e) {
+      alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Verify';
+    }
+  }
 
-        function showDropdown() {
-            document.getElementById('lessonDropdown').style.display = 'block';
-        }
+  function showWelcomeAndProceed() {
+    const popup = document.getElementById('welcomePopup');
+    popup.classList.add('show');
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        document.getElementById('otpScreen').style.display = 'none';
+        document.getElementById('mainScreen').style.display = 'block';
+      }, 300);
+    }, 3000);
+  }
 
-        function handleSearchFocus() {
-            filterLessons();
-        }
+  async function loadPractice() {
+    const num = document.getElementById('practiceInput').value.trim();
+    if (!num) return;
 
-        function selectPractice(practice) {
-            currentPractice = practice;
-            document.getElementById('lessonSearch').value = practice.title;
-            document.getElementById('lessonDropdown').style.display = 'none';
-            
-            fetchPracticeVocabData();
-            renderClipsGrid();
-            selectClip(1);
-        }
+    const phone = localStorage.getItem('iiel_phone');
+    const token = localStorage.getItem('iiel_session_token');
+    const device_id = getDeviceId();
 
-        function renderClipsGrid() {
-            const grid = document.getElementById('clipsGrid');
-            const section = document.getElementById('clipsSection');
-            grid.innerHTML = '';
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/list-practices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, token, device_id, query: 'Practice ' + num })
+      });
+      const data = await res.json();
 
-            for (let i = 1; i <= totalClips; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'clip-btn';
-                btn.id = `clip-btn-${i}`;
-                btn.innerText = `#${i}`;
-                btn.onclick = function() {
-                    selectClip(i);
-                };
-                grid.appendChild(btn);
-            }
+      if (data.status !== 'success' || !data.practices || data.practices.length === 0) {
+        document.getElementById('clipSection').style.display = 'none';
+        return;
+      }
 
-            section.classList.remove('hidden');
-        }
+      currentPracticeId = data.practices[0].id;
+      await loadAvailableClips();
+      document.getElementById('clipSection').style.display = 'block';
+      document.getElementById('videoWrap').classList.remove('show');
+    } catch (e) {
+      console.error('নেটওয়ার্ক সমস্যা হয়েছে');
+    }
+  }
 
-        function selectClip(clipNumber) {
-            currentActiveClip = clipNumber;
-            document.querySelectorAll('.clip-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`clip-btn-${clipNumber}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
+  let currentPracticeId = null;
 
-            loadSecureLesson(clipNumber);
-        }
+  async function loadAvailableClips() {
+    const phone = localStorage.getItem('iiel_phone');
+    const token = localStorage.getItem('iiel_session_token');
+    const device_id = getDeviceId();
 
-        document.addEventListener('click', function(e) {
-            const container = document.querySelector('.search-box-container');
-            const numpad = document.querySelector('.custom-numpad');
-            if (container && !container.contains(e.target) && numpad && !numpad.contains(e.target)) {
-                document.getElementById('lessonDropdown').style.display = 'none';
-            }
-        });
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/list-clips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, token, device_id, practice_id: currentPracticeId })
+      });
+      const data = await res.json();
+      renderClipGrid(data.status === 'success' ? data.available : []);
+    } catch (e) {
+      renderClipGrid([]);
+    }
+  }
 
-        window.onload = function() {
-            const savedPhone = localStorage.getItem('user_phone');
-            if (savedPhone) {
-                checkAccess(savedPhone);
-            }
-        };
+  function renderClipGrid(availableList) {
+    const available = new Set(availableList || []);
+    const grid = document.getElementById('clipGrid');
+    grid.innerHTML = '';
+    for (let i = 1; i <= 60; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'clip-btn';
+      btn.textContent = i; /* '#' মুছে দেওয়া হলো */
+      if (available.has(i)) {
+        btn.onclick = () => playClip(i, btn);
+      } else {
+        btn.disabled = true;
+        btn.title = 'শীঘ্রই আসছে';
+      }
+      grid.appendChild(btn);
+    }
+  }
 
-        async function handleLogin() {
-            const phoneInput = document.getElementById('phoneNumber').value.trim();
-            const statusMsg = document.getElementById('statusMessage');
+  async function playClip(clipOrder, btnEl) {
+    document.querySelectorAll('.clip-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
 
-            if (phoneInput.length < 11) {
-                statusMsg.style.color = '#f87171';
-                statusMsg.innerText = 'Enter your 11-digit mobile number';
-                return;
-            }
+    const phone = localStorage.getItem('iiel_phone');
+    const token = localStorage.getItem('iiel_session_token');
+    const device_id = getDeviceId();
 
-            statusMsg.style.color = '#38bdf8';
-            statusMsg.innerText = 'Verifying...';
-            await checkAccess(phoneInput);
-        }
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/get-clip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, token, device_id, practice_id: currentPracticeId, clip_order: clipOrder })
+      });
+      const data = await res.json();
 
-        async function checkAccess(phone) {
-            const statusMsg = document.getElementById('statusMessage');
-            const currentDeviceId = getDeviceId();
+      if (data.status === 'success') {
+        const iframe = document.getElementById('videoFrame');
+        iframe.src = `https://www.youtube.com/embed/${data.video_id}?start=${data.start_seconds || 0}&autoplay=1`;
+        document.getElementById('videoWrap').classList.add('show');
+      } else {
+        alert(data.message || 'ভিডিও লোড করা যায়নি।');
+      }
+    } catch (e) {
+      alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
+    }
+  }
 
-            try {
-                const { data, error } = await _supabase.rpc('check_access', {
-                    p_phone: phone,
-                    p_device: currentDeviceId
-                });
-                if (error) throw error;
-                const result = data[0];
+  function logout() {
+    toggleMenu();
+    localStorage.removeItem('iiel_session_token');
+    document.getElementById('videoFrame').src = '';
+    document.getElementById('mainScreen').style.display = 'none';
+    document.querySelector('.screen:not(.screen2):not(.screen3)').style.display = 'block';
+    document.getElementById('nameInput').value = '';
+    document.getElementById('phoneInput').value = '';
+  }
+</script>
 
-                localStorage.setItem('user_phone', phone);
-                if (result.is_active === true) {
-                    if (!result.device_locked) {
-                        showAppScreen(phone);
-                    } else {
-                        showLockScreen(
-                            phone, 
-                            "Device Limit Reached!", 
-                            "This account is active on another device. Multi-device access is restricted.",
-                            "device_limit"
-                        );
-                    }
-                } else {
-                    showLockScreen(
-                        phone, 
-                        "Access Denied!", 
-                        "No active plan found. Renew to continue.",
-                        "payment_required"
-                    );
-                }
-
-            } catch (err) {
-                console.error(err);
-                if (statusMsg) {
-                    statusMsg.style.color = '#f87171';
-                    statusMsg.innerText = 'Connection error. Please try again later.';
-                }
-            }
-        }
-
-        function showAppScreen(phone) {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('lockScreen').classList.add('hidden');
-            document.getElementById('appScreen').classList.remove('hidden');
-            
-            document.getElementById('userPhoneDisplay').innerText = phone;
-            selectPractice(practicesData[0]);
-        }
-
-        function showLockScreen(phone, title = "Access Denied!", subStatus = "No active plan found. Renew to continue.", reason = "payment_required") {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('appScreen').classList.add('hidden');
-            document.getElementById('lockScreen').classList.remove('hidden');
-            
-            document.getElementById('lockTitle').innerText = title;
-            document.getElementById('lockSubStatus').innerText = subStatus;
-            document.getElementById('lockUserPhoneDisplay').innerText = phone || localStorage.getItem('user_phone') || '';
-            
-            const infoText = document.getElementById('lockInfoText');
-            const warningText = document.getElementById('lockWarningText');
-
-            if (reason === "device_limit") {
-                infoText.innerHTML = "Once an account is created with a phone number, it cannot be used on another device. However, if urgent help is needed, support will be provided.";
-                warningText.innerText = "Need device reset? Contact via WhatsApp.";
-            } else {
-                infoText.innerHTML = "Complete payment via <strong>bKash</strong> or <strong>Nagad</strong>. Your subscription will be activated in up to 24 hours.";
-                warningText.innerText = "Do not send payment to this number. It is for contact purposes only.";
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('user_phone');
-            location.reload();
-        }
-    </script>
 </body>
 </html>

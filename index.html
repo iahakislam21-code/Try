@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iiel</title>
+<title>iiel - Information of International English Language</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,6 +20,9 @@
     --accent-dim: #1a8c7f;
     --danger: #f4685c;
     --danger-dim: #3a1c1c;
+    --sky: #38bdf8;
+    --amber: #fbbf24;
+    --emerald: #34d399;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -125,7 +128,7 @@
     display: inline-block;
     width: 15px;
     height: 15px;
-    border: 2px solid #06251f;
+    border: 2px solid currentColor;
     border-top-color: transparent;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
@@ -134,16 +137,16 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ---- Access denied popup ---- */
+  /* Access denied popup */
   .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(6, 8, 15, 0.72);
+    background: rgba(6, 8, 15, 0.78);
     display: none;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    z-index: 10;
+    z-index: 1000;
   }
   .overlay.show { display: flex; }
 
@@ -222,7 +225,7 @@
     cursor: pointer;
   }
 
-  /* ---- OTP screen ---- */
+  /* OTP screen */
   .screen2 { display: none; }
   .otp-instruction {
     background: var(--surface-raised);
@@ -252,7 +255,7 @@
     margin: 16px auto 0;
   }
 
-  /* ---- Welcome popup ---- */
+  /* Welcome popup */
   .welcome-popup {
     position: fixed;
     top: 24px;
@@ -275,7 +278,7 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  /* ---- Main page ---- */
+  /* Main page */
   .screen3 { display: none; max-width: 420px; position: relative; margin: auto; }
   
   .main-header {
@@ -300,9 +303,10 @@
 
   .top-note {
     text-align: center;
-    color: var(--text-muted);
+    color: #fbbf24;
     font-size: 12px;
     margin-bottom: 4px;
+    font-weight: 500;
   }
   .top-title {
     text-align: center;
@@ -333,7 +337,41 @@
     outline: none;
   }
 
-  /* কাস্টম নিউমেরিক কিবোর্ড (একসারিতে মার্জিত লুকের জন্য সংশোধন) */
+  /* GO / LESSON DETAILS BUTTON */
+  .btn-lesson-details {
+    width: 100%;
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+    color: #000;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 9px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
+    animation: pulse-glow 1.2s infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+  }
+  .btn-lesson-details.hidden { display: none !important; }
+
+  @keyframes pulse-glow {
+    0% {
+      transform: scale(0.98);
+      box-shadow: 0 0 5px rgba(234, 179, 8, 0.35);
+    }
+    100% {
+      transform: scale(1.02);
+      box-shadow: 0 0 16px rgba(234, 179, 8, 0.85);
+    }
+  }
+
+  /* কাস্টম নিউমেরিক কিবোর্ড */
   .custom-numpad {
     display: flex;
     flex-wrap: nowrap;
@@ -382,7 +420,7 @@
     color: #fff;
   }
 
-  /* Clip Container Alignment & Circle Style Adjustments */
+  /* Clip Container */
   .clip-container {
     max-height: 120px;
     overflow-y: auto;
@@ -400,7 +438,6 @@
     border-radius: 4px;
   }
 
-  /* বৃত্তাকার (Circle) বাটন তৈরির জন্য পরিবর্তন */
   .clip-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
@@ -410,7 +447,7 @@
   .clip-btn {
     width: 34px;
     height: 34px;
-    border-radius: 50%; /* সার্কেল বা গোল শেপ */
+    border-radius: 50%;
     background: var(--surface-raised);
     border: 1px solid var(--border);
     color: var(--text);
@@ -431,7 +468,7 @@
   }
   .clip-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
-  /* Iframe Position Adjustable Container */
+  /* Iframe Container */
   .video-wrap {
     position: relative;
     width: 100%;
@@ -453,7 +490,7 @@
     border: none;
   }
 
-  /* Modal Menu / Option Page */
+  /* Modal Menu */
   .menu-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -501,6 +538,297 @@
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
+  }
+
+  /* ============================================================
+     VOCABULARY DETAILS MODAL STYLES (FINALIZED FOR ALL 16 FIELDS)
+     ============================================================ */
+  .vocab-modal-card {
+    background: #0b1120;
+    border: 1.5px solid #38bdf8;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(56, 189, 248, 0.25);
+    border-radius: 18px;
+    padding: 18px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 88vh;
+    overflow-y: auto;
+    text-align: left;
+    position: relative;
+  }
+  
+  .vocab-modal-card::-webkit-scrollbar {
+    width: 5px;
+  }
+  .vocab-modal-card::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    border-radius: 4px;
+  }
+
+  .vocab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+
+  .vocab-header h2 {
+    font-size: 15px;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+  }
+
+  .vocab-section {
+    background: rgba(19, 26, 43, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 11px;
+  }
+
+  .vocab-section h3 {
+    font-size: 12px;
+    color: #fbbf24;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+  }
+
+  .vocab-section p, .vocab-section ul {
+    font-size: 12.5px;
+    color: #cbd5e1;
+    line-height: 1.55;
+  }
+
+  .vocab-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .vocab-section ul li {
+    margin-bottom: 5px;
+  }
+
+  .vocab-section ul li strong {
+    color: #38bdf8;
+  }
+
+  .glowing-word {
+    color: #00ff66 !important;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 8px rgba(0, 255, 102, 0.8), 0 0 16px rgba(0, 255, 102, 0.4);
+  }
+
+  .ipa-badge {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+    font-family: monospace;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  /* Badges for CEFR, Tone, Part of Speech */
+  .badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .vocab-pill {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.2;
+  }
+  .pill-pos {
+    background: rgba(45, 212, 191, 0.15);
+    color: #2dd4bf;
+    border: 1px solid rgba(45, 212, 191, 0.3);
+  }
+  .pill-cefr {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.35);
+  }
+  .pill-tone {
+    background: rgba(192, 132, 252, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(192, 132, 252, 0.35);
+  }
+
+  /* Form and Grammar Attributes Grid */
+  .grammar-attr-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .grammar-attr-card {
+    background: rgba(10, 14, 26, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .grammar-attr-card .attr-label {
+    color: #8792ab;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .grammar-attr-card .attr-value {
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  /* Verb Forms */
+  .verb-forms-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 4px;
+  }
+  .verb-forms-list li {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 6px 9px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    font-size: 11.5px;
+    color: #e2e8f0;
+    line-height: 1.45;
+  }
+
+  /* Common Spoken Mistakes Highlight Box */
+  .mistake-box {
+    background: rgba(244, 104, 92, 0.05);
+    border: 1px solid rgba(244, 104, 92, 0.25);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+  .mistake-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 11.5px;
+    margin-bottom: 4px;
+  }
+  .tag-wrong {
+    background: rgba(244, 104, 92, 0.2);
+    color: #f4685c;
+    font-weight: 700;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .tag-right {
+    background: rgba(52, 211, 153, 0.2);
+    color: #34d399;
+    font-weight: 700;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .line-wrong {
+    text-decoration: line-through;
+    color: #94a3b8;
+    font-family: monospace;
+  }
+  .line-right {
+    color: #34d399;
+    font-weight: 600;
+    font-family: monospace;
+  }
+  .mistake-explain {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 11px;
+    color: #cbd5e1;
+    margin-top: 5px;
+    border-left: 2px solid #fbbf24;
+  }
+
+  /* Spoken Chunks & Formula */
+  .chunk-tag {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.1);
+    color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    margin: 3px 3px 3px 0;
+    line-height: 1.4;
+  }
+  .formula-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 11.5px;
+    color: #fef08a;
+    margin-bottom: 5px;
+  }
+
+  /* Synonyms & Antonyms Grid */
+  .syn-ant-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .syn-col, .ant-col {
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 11px;
+  }
+  .syn-col { border-left: 3px solid #34d399; }
+  .ant-col { border-left: 3px solid #f4685c; }
+  .syn-col h4 { color: #34d399; font-size: 11px; margin-bottom: 4px; font-weight: 700; }
+  .ant-col h4 { color: #f4685c; font-size: 11px; margin-bottom: 4px; font-weight: 700; }
+
+  /* Practice Drill */
+  .practice-drill {
+    background: rgba(56, 189, 248, 0.06);
+    border: 1px dashed rgba(56, 189, 248, 0.35);
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+  }
+  .practice-drill ol {
+    padding-left: 18px;
+    font-size: 12px;
+    color: #e2e8f0;
+  }
+  .practice-drill ol li {
+    margin-bottom: 6px;
+    line-height: 1.5;
   }
 </style>
 </head>
@@ -567,7 +895,12 @@
     <input id="practiceInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="যেমন: 1, 2, 3..." readonly>
   </div>
 
-  <!-- কাস্টম নিউমেরিক কিবোর্ড (একসারিতে সুবিন্যস্ত) -->
+  <!-- BLINKING GO BUTTON FOR AI VOCABULARY BREAKDOWN -->
+  <button id="btnLessonDetails" class="btn-lesson-details hidden" onclick="openVocabModal()">
+    <i class="fa-solid fa-bolt"></i> GO (Lesson Breakdown)
+  </button>
+
+  <!-- কাস্টম নিউমেরিক কিবোর্ড -->
   <div class="custom-numpad">
     <button class="num-btn" onclick="pressKey('1')">1</button>
     <button class="num-btn" onclick="pressKey('2')">2</button>
@@ -585,12 +918,10 @@
 
   <div id="clipSection" style="display:none;">
     <div class="section-label">Select Context Clip:</div>
-    <!-- Scrollable container for Clips -->
     <div class="clip-container">
       <div class="clip-grid" id="clipGrid"></div>
     </div>
 
-    <!-- Iframe Position Center Align Box -->
     <div class="video-wrap" id="videoWrap">
       <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
@@ -632,10 +963,25 @@
   </div>
 </div>
 
+<!-- VOCABULARY BREAKDOWN MODAL OVERLAY -->
+<div class="overlay" id="vocabModal">
+  <div class="vocab-modal-card">
+    <div class="vocab-header">
+      <h2><i class="fa-solid fa-graduation-cap"></i> Lesson Notes & Breakdown</h2>
+      <button class="close-btn" onclick="closeVocabModal()" style="position:static; padding:0 6px;">&times;</button>
+    </div>
+    <div id="vocabModalContent"></div>
+  </div>
+</div>
+
 <script>
-  // ==== এই একটা জায়গায় শুধু আপনার Supabase Project URL বসবে ====
+  // ============================================================
+  // শুধুমাত্র প্রজেক্ট URL (কোনো Anon Key বা Gemini Key ফ্রন্টএন্ডে নেই)
+  // ============================================================
   const SUPABASE_URL = "https://wsxubdciorngyfpfpbsr.supabase.co";
-  // ================================================================
+
+  let currentPracticeId = null;
+  let activeVocabData = null;
 
   function getDeviceId() {
     let id = localStorage.getItem('iiel_device_id');
@@ -646,7 +992,6 @@
     return id;
   }
 
-  /* কাস্টম নিউমেরিক কিবোর্ড ইনপুট হ্যান্ডলার এবং অটোলিক সার্চ লজিক */
   function pressKey(key) {
     const input = document.getElementById('practiceInput');
     let currentVal = input.value.replace(/[^0-9]/g, '');
@@ -665,6 +1010,9 @@
       loadPractice();
     } else {
       document.getElementById('clipSection').style.display = 'none';
+      document.getElementById('btnLessonDetails').classList.add('hidden');
+      currentPracticeId = null;
+      activeVocabData = null;
     }
   }
 
@@ -796,19 +1144,23 @@
 
       if (data.status !== 'success' || !data.practices || data.practices.length === 0) {
         document.getElementById('clipSection').style.display = 'none';
+        document.getElementById('btnLessonDetails').classList.add('hidden');
         return;
       }
 
       currentPracticeId = data.practices[0].id;
+      activeVocabData = null;
+
+      // GO বাটন দৃশ্যমান করা
+      document.getElementById('btnLessonDetails').classList.remove('hidden');
+
       await loadAvailableClips();
       document.getElementById('clipSection').style.display = 'block';
       document.getElementById('videoWrap').classList.remove('show');
     } catch (e) {
-      console.error('নেটওয়ার্ক সমস্যা হয়েছে');
+      console.error('নেটওয়ার্ক সমস্যা হয়েছে', e);
     }
   }
-
-  let currentPracticeId = null;
 
   async function loadAvailableClips() {
     const phone = localStorage.getItem('iiel_phone');
@@ -835,7 +1187,7 @@
     for (let i = 1; i <= 60; i++) {
       const btn = document.createElement('button');
       btn.className = 'clip-btn';
-      btn.textContent = i; /* '#' মুছে দেওয়া হলো */
+      btn.textContent = i;
       if (available.has(i)) {
         btn.onclick = () => playClip(i, btn);
       } else {
@@ -864,7 +1216,7 @@
 
       if (data.status === 'success') {
         const iframe = document.getElementById('videoFrame');
-        iframe.src = `https://www.youtube.com/embed/${data.video_id}?start=${data.start_seconds || 0}&autoplay=1`;
+        iframe.src = 'https://www.youtube.com/embed/' + data.video_id + '?start=' + (data.start_seconds || 0) + '&autoplay=1';
         document.getElementById('videoWrap').classList.add('show');
       } else {
         alert(data.message || 'ভিডিও লোড করা যায়নি।');
@@ -872,6 +1224,290 @@
     } catch (e) {
       alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
     }
+  }
+
+  // ============================================================
+  // AI VOCABULARY BREAKDOWN (FINALIZED WITH ALL 16 PARAMETERS)
+  // ============================================================
+  async function openVocabModal() {
+    if (!currentPracticeId) return;
+
+    const modal = document.getElementById('vocabModal');
+    const container = document.getElementById('vocabModalContent');
+    modal.classList.add('show');
+
+    if (activeVocabData) {
+      renderVocabContent(activeVocabData);
+      return;
+    }
+
+    container.innerHTML = `
+      <div style="text-align:center; padding: 32px 10px; color:#38bdf8;">
+        <span class="spinner" style="width:26px; height:26px; border-width:3px;"></span>
+        <p style="margin-top:12px; font-size:13.5px; font-weight:600;">Generating AI Breakdown... (এআই নোট প্রস্তুত হচ্ছে...)</p>
+        <p style="font-size:11.5px; color:#8792ab; margin-top:4px;">Groq AI এর মাধ্যমে ব্যাকরণ, কলোকেশন ও স্পোকেন রুলস প্রসেস করা হচ্ছে</p>
+      </div>
+    `;
+
+    const phone = localStorage.getItem('iiel_phone');
+    const token = localStorage.getItem('iiel_session_token');
+    const device_id = getDeviceId();
+
+    try {
+      // ব্যাকএন্ড Edge Function কল
+      const res = await fetch(SUPABASE_URL + '/functions/v1/get-word-vocab', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone,
+          token,
+          device_id,
+          practice_id: currentPracticeId
+        })
+      });
+
+      const data = await res.json();
+      if (data.status === 'success' && data.vocab_data) {
+        activeVocabData = data.vocab_data;
+        renderVocabContent(activeVocabData);
+      } else {
+        container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">${data.message || 'নোট লোড করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।'}</p>`;
+      }
+    } catch (err) {
+      container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">সার্ভার কানেকশন ত্রুটি হয়েছে।</p>`;
+    }
+  }
+
+  // ============================================================
+  // সম্পূর্ণ ১৬টি প্যারামিটার প্রদর্শনকারী রেন্ডারার
+  // ============================================================
+  function renderVocabContent(data) {
+    const container = document.getElementById('vocabModalContent');
+    let html = '';
+    const mainWord = data.word || 'N/A';
+    const ipaVal = data.ipa ? `<span class="ipa-badge">${data.ipa}</span>` : '';
+
+    // ১. CORE MEANING & LINGUISTIC PILLS
+    html += `
+      <div class="vocab-section">
+        <h3><i class="fa-solid fa-font"></i> ১. CORE MEANING & PRONUNCIATION</h3>
+        <p><strong class="glowing-word">${mainWord}</strong> ${ipaVal}</p>
+        <p style="margin-top:7px;"><strong>মূল বাংলা অর্থ:</strong> ${data.meaning || 'N/A'}</p>
+        
+        <div class="badge-container">
+          ${data.part_of_speech ? `<span class="vocab-pill pill-pos"><i class="fa-solid fa-tag"></i> ${data.part_of_speech}</span>` : ''}
+          ${data.cefr_level ? `<span class="vocab-pill pill-cefr"><i class="fa-solid fa-layer-group"></i> ${data.cefr_level}</span>` : ''}
+          ${data.tone_register ? `<span class="vocab-pill pill-tone"><i class="fa-solid fa-bullhorn"></i> ${data.tone_register}</span>` : ''}
+        </div>
+
+        <div class="grammar-attr-grid">
+          ${data.singular_form ? `
+            <div class="grammar-attr-card">
+              <span class="attr-label">Singular Form</span>
+              <span class="attr-value">${data.singular_form}</span>
+            </div>` : ''}
+          ${data.plural_form ? `
+            <div class="grammar-attr-card">
+              <span class="attr-label">Plural Form</span>
+              <span class="attr-value">${data.plural_form}</span>
+            </div>` : ''}
+          ${data.countable_uncountable ? `
+            <div class="grammar-attr-card">
+              <span class="attr-label">Countable / Uncountable</span>
+              <span class="attr-value">${data.countable_uncountable}</span>
+            </div>` : ''}
+          ${data.transitive_intransitive ? `
+            <div class="grammar-attr-card">
+              <span class="attr-label">Transitive / Intransitive</span>
+              <span class="attr-value">${data.transitive_intransitive}</span>
+            </div>` : ''}
+        </div>
+      </div>
+    `;
+
+    // ২. WORD FAMILY
+    if (data.family) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-sitemap"></i> ২. COMPLETE WORD FAMILY</h3>
+          <ul>
+            <li><strong>Noun:</strong> ${data.family.noun || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Verb:</strong> ${data.family.verb || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Adjective:</strong> ${data.family.adjective || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Adverb:</strong> ${data.family.adverb || 'প্রযোজ্য নয়'}</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    // ৩. VERB FORMS BREAKDOWN
+    if (data.verb_forms && data.verb_forms.length > 0) {
+      let listItems = data.verb_forms.map(line => `<li>${line}</li>`).join('');
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-list-check"></i> ৩. VERB FORMS BREAKDOWN (V1 — V5)</h3>
+          <ul class="verb-forms-list">${listItems}</ul>
+        </div>
+      `;
+    }
+
+    // ৪. SENTENCE PATTERN / GRAMMAR FORMULA
+    if (data.sentence_patterns && data.sentence_patterns.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-diagram-project"></i> ৪. SENTENCE PATTERN / GRAMMAR FORMULA</h3>
+      `;
+      data.sentence_patterns.forEach(item => {
+        html += `<div class="formula-card"><i class="fa-solid fa-circle-chevron-right" style="color:#fbbf24; margin-right:4px;"></i> ${item}</div>`;
+      });
+      html += `</div>`;
+    }
+
+    // ৫. COLLOCATIONS
+    if (data.collocations && data.collocations.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-link"></i> ৫. COLLOCATIONS (বহুল প্রচলিত শব্দগুচ্ছ)</h3>
+          <ul>
+      `;
+      data.collocations.forEach(c => {
+        html += `<li><i class="fa-regular fa-square-check" style="color:#2dd4bf; margin-right:4px;"></i> ${c}</li>`;
+      });
+      html += `</ul></div>`;
+    }
+
+    // ৬. APPROPRIATE PREPOSITIONS
+    if (data.appropriate_prepositions && data.appropriate_prepositions.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-angles-right"></i> ৬. APPROPRIATE PREPOSITIONS</h3>
+          <ul>
+      `;
+      data.appropriate_prepositions.forEach(p => {
+        html += `<li><i class="fa-solid fa-arrow-right" style="color:#38bdf8; margin-right:4px;"></i> ${p}</li>`;
+      });
+      html += `</ul></div>`;
+    }
+
+    // ৭. COMMON SPOKEN MISTAKES
+    if (data.common_spoken_mistakes && data.common_spoken_mistakes.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3 style="color:#f4685c;"><i class="fa-solid fa-triangle-exclamation"></i> ৭. COMMON SPOKEN MISTAKES (সতর্কতা)</h3>
+      `;
+      data.common_spoken_mistakes.forEach(m => {
+        html += `
+          <div class="mistake-box">
+            <div class="mistake-row">
+              <span class="tag-wrong">ভুল</span>
+              <span class="line-wrong">${m.wrong}</span>
+            </div>
+            <div class="mistake-row">
+              <span class="tag-right">শুদ্ধ</span>
+              <span class="line-right">${m.right}</span>
+            </div>
+            <div class="mistake-explain">
+              <i class="fa-solid fa-lightbulb" style="color:#fbbf24; margin-right:4px;"></i>
+              <strong>কারণ:</strong> ${m.explanation}
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+    }
+
+    // ৮. SHORT READY-MADE SPOKEN CHUNKS / PHRASES
+    if (data.spoken_chunks_phrases && data.spoken_chunks_phrases.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-comments"></i> ৮. SHORT READY-MADE SPOKEN CHUNKS</h3>
+          <div>
+      `;
+      data.spoken_chunks_phrases.forEach(chunk => {
+        html += `<span class="chunk-tag"><i class="fa-solid fa-bolt" style="font-size:10px; margin-right:4px;"></i>${chunk}</span>`;
+      });
+      html += `</div></div>`;
+    }
+
+    // ৯. DAILY SPOKEN IDIOM / PHRASAL VERB
+    if (data.spoken_idiom_phrasal_verb && data.spoken_idiom_phrasal_verb.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-quote-left"></i> ৯. DAILY SPOKEN IDIOM / PHRASAL VERB</h3>
+          <ul>
+      `;
+      data.spoken_idiom_phrasal_verb.forEach(item => {
+        html += `<li><i class="fa-solid fa-star" style="color:#fbbf24; font-size:10px; margin-right:4px;"></i> ${item}</li>`;
+      });
+      html += `</ul></div>`;
+    }
+
+    // ১০. CONFUSABLE WORDS / FALSE FRIENDS
+    if (data.confusable_words && data.confusable_words.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3 style="color:#f97316;"><i class="fa-solid fa-shuffle"></i> ১০. CONFUSABLE WORDS / FALSE FRIENDS</h3>
+          <ul>
+      `;
+      data.confusable_words.forEach(item => {
+        html += `<li style="background:rgba(249,115,22,0.08); padding:5px 8px; border-radius:6px; margin-bottom:4px; border:1px solid rgba(249,115,22,0.2);"><i class="fa-solid fa-circle-question" style="color:#f97316; margin-right:4px;"></i> ${item}</li>`;
+      });
+      html += `</ul></div>`;
+    }
+
+    // ১১. SYNONYMS & ANTONYMS
+    if ((data.synonyms && data.synonyms.length > 0) || (data.antonyms && data.antonyms.length > 0)) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-arrows-split-up-and-left"></i> ১১. SYNONYMS & ANTONYMS</h3>
+          <div class="syn-ant-container">
+            <div class="syn-col">
+              <h4><i class="fa-solid fa-plus-circle"></i> সমার্থক (Synonyms)</h4>
+              <ul>
+                ${(data.synonyms || []).map(s => `<li>• ${s}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="ant-col">
+              <h4><i class="fa-solid fa-minus-circle"></i> বিপরীতার্থক (Antonyms)</h4>
+              <ul>
+                ${(data.antonyms || []).map(a => `<li>• ${a}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ১২. SPOKEN ENGLISH USAGES
+    if (data.usages && data.usages.length > 0) {
+      html += `
+        <div class="vocab-section">
+          <h3><i class="fa-solid fa-book-open-reader"></i> ১২. SPOKEN ENGLISH USAGES</h3>
+      `;
+      data.usages.forEach(usage => {
+        html += `<p style="margin-bottom:8px; line-height:1.55; background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:6px;">${usage}</p>`;
+      });
+      html += `</div>`;
+    }
+
+    // ১৩. INTERACTIVE SPOKEN PRACTICE DRILL
+    if (data.exercises && data.exercises.length > 0) {
+      html += `
+        <div class="vocab-section practice-drill">
+          <h3 style="color: #38bdf8;"><i class="fa-solid fa-microphone-lines"></i> ১৩. INTERACTIVE SPOKEN PRACTICE</h3>
+          <ol>
+      `;
+      data.exercises.forEach(ex => {
+        html += `<li>${ex}</li>`;
+      });
+      html += `</ol></div>`;
+    }
+
+    container.innerHTML = html;
+  }
+
+  function closeVocabModal() {
+    document.getElementById('vocabModal').classList.remove('show');
   }
 
   function logout() {
@@ -882,6 +1518,10 @@
     document.querySelector('.screen:not(.screen2):not(.screen3)').style.display = 'block';
     document.getElementById('nameInput').value = '';
     document.getElementById('phoneInput').value = '';
+    document.getElementById('practiceInput').value = '';
+    document.getElementById('btnLessonDetails').classList.add('hidden');
+    currentPracticeId = null;
+    activeVocabData = null;
   }
 </script>
 

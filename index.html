@@ -4,18 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>iiel - Information of International English Language</title>
+<meta name="description" content="Learn and master English with bite-sized vocabulary, American accent practice, and video lessons." />
+<meta property="og:title" content="iiel - Information of International English Language" />
+<meta property="og:description" content="Learn and master English with bite-sized vocabulary, American accent practice, and video lessons." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
   :root {
-    --bg: #0a0e1a;
-    --surface: #131a2b;
-    --surface-raised: #1a2338;
-    --border: #232d45;
+    --bg: #070b14;
+    --surface: #0e1628;
+    --surface-card: #0f182c;
+    --surface-raised: #131d33;
+    --surface-input: #080e1a;
+    --border: #1e293b;
+    --border-light: #26334d;
     --text: #e8ecf5;
     --text-muted: #8792ab;
+    --text-dim: #5b6782;
     --accent: #2dd4bf;
     --accent-dim: #1a8c7f;
     --danger: #f4685c;
@@ -33,7 +42,7 @@
     font-family: 'Hind Siliguri', 'Inter', sans-serif;
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 12px;
     line-height: 1.5;
@@ -41,300 +50,175 @@
 
   .screen { width: 100%; max-width: 400px; }
 
-  .brand {
-    text-align: center;
-    margin-bottom: 24px;
+  /* FREE PLAN LANDING PAGE */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .free-screen { max-width: 400px; margin: 0 auto; padding-bottom: 24px; }
+
+  .free-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 10px 2px 14px;
   }
-  .brand-mark {
+  .free-logo {
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.02em;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-  .brand-sub {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px 20px;
-  }
-
-  .card h1 {
-    font-size: 19px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .card p.hint {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-  }
-
-  label {
-    display: block;
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-    margin-top: 14px;
-  }
-  label:first-of-type { margin-top: 0; }
-
-  input {
-    width: 100%;
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 14px;
-    font-size: 15px;
-    color: var(--text);
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.15s ease;
-  }
-  input:focus { border-color: var(--accent); }
-  input::placeholder { color: #4a5470; }
-
-  .field-error {
-    font-size: 13px;
-    color: var(--danger);
-    margin-top: 6px;
-    display: none;
-  }
-
-  button.primary {
-    width: 100%;
-    margin-top: 20px;
-    background: var(--accent);
-    color: #06251f;
-    border: none;
-    border-radius: 10px;
-    padding: 13px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background 0.15s ease, opacity 0.15s ease;
-  }
-  button.primary:active { background: var(--accent-dim); }
-  button.primary:disabled { opacity: 0.5; pointer-events: none; }
-
-  .spinner {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border: 2px solid currentColor;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: -3px;
-    margin-right: 8px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Access denied popup */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(6, 8, 15, 0.78);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 1000;
-  }
-  .overlay.show { display: flex; }
-
-  .denied-card {
-    background: var(--surface);
-    border: 1px solid #3a1f1f;
-    border-radius: 18px;
-    padding: 32px 24px;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
-  }
-  .denied-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--danger-dim);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 18px;
-  }
-  .denied-card h2 {
-    color: var(--danger);
-    font-size: 19px;
-    margin-bottom: 6px;
-  }
-  .denied-card .sub {
-    color: var(--danger);
-    opacity: 0.85;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  .phone-pill {
-    display: inline-block;
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    color: var(--accent);
-    font-size: 14px;
-    padding: 6px 16px;
-    border-radius: 999px;
-    margin-bottom: 20px;
-  }
-  .payment-box {
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    text-align: left;
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-  }
-  .payment-box b { color: var(--text); }
-  .contact-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    text-align: left;
-    margin-bottom: 22px;
-  }
-  .contact-box .num { color: var(--accent); font-weight: 600; font-size: 15px; }
-  .contact-box .warn { color: var(--danger); font-size: 12.5px; margin-top: 4px; }
-
-  button.secondary {
-    width: 100%;
-    background: var(--surface-raised);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 13px;
-    font-size: 14.5px;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-  }
-
-  /* OTP screen */
-  .screen2 { display: none; }
-  .otp-instruction {
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 22px;
-  }
-  .otp-instruction b { color: var(--accent); }
-  input.otp-input {
-    text-align: center;
-    letter-spacing: 0.4em;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  .link-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 13.5px;
-    font-family: inherit;
-    text-decoration: underline;
-    cursor: pointer;
-    display: block;
-    margin: 16px auto 0;
-  }
-
-  /* Welcome popup */
-  .welcome-popup {
-    position: fixed;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    background: var(--surface-raised);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 14px 22px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 20;
-  }
-  .welcome-popup.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* Main page */
-  .screen3 { display: none; max-width: 420px; position: relative; margin: auto; }
-  
-  .main-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 4px;
-  }
-  .three-dots-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 6px;
+    font-weight: 800;
+    font-size: 38px;
     line-height: 1;
-  }
-  .three-dots-btn:hover {
-    color: var(--text);
-    background: var(--surface-raised);
+    letter-spacing: -0.02em;
+    color: var(--accent);
   }
 
-  .top-note {
-    text-align: center;
-    color: #fbbf24;
-    font-size: 12px;
-    margin-bottom: 4px;
-    font-weight: 500;
-  }
-  .top-title {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: var(--text);
+  .hero {
+    background: #0d262d;
+    border-radius: 14px;
+    padding: 20px 18px 18px;
     margin-bottom: 14px;
   }
-  .section-label {
+  .hero h1 {
+    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+    font-size: clamp(23px, 7.2vw, 29px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .hero h1 .free { color: var(--accent); }
+  .hero p { font-size: 13.5px; color: var(--text-muted); }
+
+  .sample-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .sample-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 12px 14px;
+  }
+  .sample-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .level-pill {
+    background: rgba(45, 212, 191, 0.18);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+  }
+  .sample-top i { color: var(--text-muted); font-size: 14px; opacity: 0.7; }
+  .sample-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 11px 0 4px;
+  }
+  .sample-card p {
+    font-family: 'Inter', sans-serif;
     font-size: 12px;
+    line-height: 1.4;
+    color: #c3cbdc;
+  }
+
+  /* FREE PRACTICE PANEL (EXACT MATCH TO Screenshot_20260924-232900.png) */
+  .tool-panel {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 16px;
+    margin-bottom: 20px;
+  }
+
+  .tool-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tool-panel-header h2 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+  }
+  .title-sparkles {
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tool-panel .tool-sub {
+    font-size: 13.5px;
     color: var(--text-muted);
-    margin-bottom: 6px;
+    margin-bottom: 12px;
+  }
+
+  /* Golden American Accent Badge */
+  .accent-notice-pill {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 9999px;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--amber);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 14px;
+    width: 100%;
+  }
+  .accent-notice-pill i {
+    color: var(--amber);
+    font-size: 11.5px;
+    flex-shrink: 0;
+  }
+
+  .section-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 7px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+  }
+  .section-label .hash-symbol {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
   }
   
   .search-container {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .search-container input {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
+    padding: 12px 14px;
+    border-radius: 10px;
     border: 1px solid var(--border);
-    background-color: var(--surface-raised);
-    color: var(--accent);
-    font-size: 14px;
-    font-weight: 700;
+    background-color: var(--surface-input);
+    color: var(--text);
+    font-size: 14.5px;
+    font-weight: 600;
     outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .search-container input:focus {
+    border-color: var(--accent);
+  }
+  .search-container input::placeholder {
+    color: #4b556e;
+    font-weight: 400;
   }
 
   /* GO / LESSON DETAILS BUTTON */
@@ -343,7 +227,7 @@
     background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
     color: #000;
     font-weight: 800;
-    font-size: 13px;
+    font-size: 12.5px;
     padding: 9px;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -371,28 +255,32 @@
     }
   }
 
-  /* কাস্টম নিউমেরিক কিবোর্ড */
+  /* Custom Numeric Numpad */
   .custom-numpad {
     display: flex;
     flex-wrap: nowrap;
-    gap: 3px;
-    background: var(--surface);
+    gap: 4px;
+    background: var(--surface-input);
     border: 1px solid var(--border);
     padding: 5px;
     border-radius: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     overflow-x: auto;
-    justify-content: space-between;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .custom-numpad::-webkit-scrollbar {
+    display: none;
   }
   .num-btn {
-    flex: 1 1 auto;
-    min-width: 24px;
-    height: 32px;
+    flex: 1 0 auto;
+    min-width: 26px;
+    height: 35px;
     background: var(--surface-raised);
-    color: var(--text);
-    border: 1px solid var(--border);
+    color: #ffffff;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.1s ease;
@@ -400,7 +288,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 0 4px;
   }
   .num-btn:active {
     background: var(--accent);
@@ -408,16 +296,79 @@
     border-color: var(--accent);
   }
   .num-btn.btn-action {
-    background: rgba(244, 104, 92, 0.15);
-    color: var(--danger);
-    border-color: rgba(244, 104, 92, 0.3);
-    font-size: 9px;
+    background: rgba(244, 104, 92, 0.14);
+    color: #f87171;
+    border-color: rgba(244, 104, 92, 0.32);
+    font-size: 10px;
     font-weight: 800;
-    padding: 0 2px;
+    min-width: 30px;
   }
   .num-btn.btn-action:active {
     background: var(--danger);
     color: #fff;
+  }
+
+  .locked-note {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,226,140,.9), transparent 60%),
+      radial-gradient(1px 1px at 82% 12%, rgba(255,255,255,.75), transparent 60%),
+      radial-gradient(1.5px 1.5px at 90% 45%, rgba(255,226,140,.7), transparent 60%),
+      radial-gradient(1px 1px at 6% 60%, rgba(255,255,255,.6), transparent 60%),
+      radial-gradient(1px 1px at 70% 30%, rgba(255,226,140,.6), transparent 60%),
+      radial-gradient(1px 1px at 30% 8%, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(120% 70% at 50% 28%, rgba(251,191,36,.14), transparent 65%),
+      linear-gradient(180deg, #0b1024 0%, #070a17 100%);
+    border: 1.5px solid rgba(251, 191, 36, 0.8);
+    border-radius: 18px;
+    padding: 26px 20px 20px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #f4f1ea;
+    text-align: left;
+    box-shadow:
+      0 0 0 1px rgba(251, 191, 36, 0.12),
+      0 0 18px rgba(251, 191, 36, 0.28),
+      inset 0 0 26px rgba(251, 191, 36, 0.10);
+  }
+  .locked-note.show { display: block; }
+  .locked-note .lock-shield {
+    display: block;
+    width: 112px;
+    height: auto;
+    margin: 0 auto 22px;
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.55));
+  }
+  .locked-note .lock-text { margin: 0; }
+  .locked-note button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-top: 26px;
+    background: none;
+    border: none;
+    color: #fbbf24;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 0;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.45);
+  }
+  .locked-note button .lock-btn-label {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
+  }
+  .locked-note button .lock-arrow {
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 400;
   }
 
   /* Clip Container */
@@ -430,13 +381,8 @@
     border-radius: 10px;
     padding: 8px;
   }
-  .clip-container::-webkit-scrollbar {
-    width: 3px;
-  }
-  .clip-container::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px;
-  }
+  .clip-container::-webkit-scrollbar { width: 3px; }
+  .clip-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
   .clip-grid {
     display: grid;
@@ -490,7 +436,437 @@
     border: none;
   }
 
-  /* Modal Menu */
+  /* ACCESS TOKEN & PRO SECTION (EXACT MATCH TO Screenshot_20260924-232900.png) */
+  .token-section {
+    margin-top: 4px;
+  }
+
+  .token-label-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .token-label-row i {
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .token-label-row span {
+    color: #d1fae5;
+  }
+
+  .token-field {
+    position: relative;
+  }
+  .token-field input {
+    width: 100%;
+    padding: 13px 48px 13px 14px;
+    border: 1.5px solid var(--accent);
+    border-radius: 12px;
+    background: var(--surface-input);
+    color: var(--text);
+    font-size: 14.5px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    outline: none;
+    transition: box-shadow 0.15s ease;
+  }
+  .token-field input::placeholder {
+    text-transform: none;
+    letter-spacing: 0;
+    color: #55617a;
+    font-size: 14px;
+  }
+  .token-field input:focus {
+    box-shadow: 0 0 12px rgba(45, 212, 191, 0.35);
+  }
+
+  .paste-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+  }
+  .paste-btn:hover { color: var(--text); }
+
+  .field-error {
+    font-size: 13px;
+    color: var(--danger);
+    margin-top: 6px;
+    display: none;
+  }
+
+  button.pro-btn {
+    width: 100%;
+    margin-top: 14px;
+    background: var(--accent);
+    color: #042621;
+    border: none;
+    border-radius: 14px;
+    padding: 13px 14px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+  }
+  button.pro-btn i {
+    font-size: 15px;
+  }
+  button.pro-btn:active {
+    background: var(--accent-dim);
+    transform: scale(0.99);
+  }
+  button.pro-btn:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* 4 Bottom Features */
+  .features-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 26px;
+    padding: 0 4px;
+  }
+  .feature-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    gap: 7px;
+  }
+  .feature-icon {
+    color: var(--accent);
+    font-size: 19px;
+  }
+  .feature-text {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.35;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: -3px;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* AI BREAKDOWN LOADING UI (atom orb + rotating border glow + dots) */
+  .vocab-modal-glow {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 19.5px;
+    padding: 0;
+    transition: padding 0.15s ease;
+  }
+  .vocab-modal-glow.ai-loading {
+    padding: 2.5px;
+  }
+  .vocab-modal-glow.ai-loading::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 19.5px;
+    background: conic-gradient(from 0deg, transparent 0%, transparent 55%, #38bdf8 72%, #7dd3fc 78%, #2dd4bf 84%, transparent 100%);
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.75));
+    animation: ai-border-spin 2.6s linear infinite;
+    z-index: 0;
+  }
+  .vocab-modal-glow .vocab-modal-card {
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes ai-border-spin { to { transform: rotate(360deg); } }
+
+  .ai-loading-wrap {
+    text-align: center;
+    padding: 30px 10px 26px;
+  }
+  .ai-orb-container {
+    position: relative;
+    width: 86px;
+    height: 86px;
+    margin: 0 auto 20px;
+  }
+  .ai-orb-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #38bdf8;
+    border-right-color: rgba(56, 189, 248, 0.35);
+    animation: ai-orb-spin 1.5s linear infinite;
+  }
+  .ai-orb-ring.ring2 {
+    inset: 9px;
+    border-top-color: transparent;
+    border-bottom-color: #2dd4bf;
+    border-left-color: rgba(45, 212, 191, 0.35);
+    animation: ai-orb-spin 2.1s linear infinite reverse;
+  }
+  @keyframes ai-orb-spin { to { transform: rotate(360deg); } }
+  .ai-orb-core {
+    position: absolute;
+    inset: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #172038, #0a101f 72%);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.55), inset 0 0 10px rgba(56, 189, 248, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ai-orb-pulse 1.7s ease-in-out infinite;
+  }
+  @keyframes ai-orb-pulse {
+    0%, 100% { box-shadow: 0 0 16px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.28); }
+    50% { box-shadow: 0 0 26px rgba(56, 189, 248, 0.85), inset 0 0 16px rgba(56, 189, 248, 0.45); }
+  }
+  .ai-orb-core span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    color: #7dd3fc;
+    text-shadow: 0 0 9px rgba(56, 189, 248, 0.9);
+  }
+  .ai-orb-particle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    margin-top: -50%;
+    margin-left: -50%;
+    border-radius: 50%;
+    animation: ai-orb-orbit 2.3s linear infinite;
+  }
+  .ai-orb-particle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    border-radius: 50%;
+    background: #38bdf8;
+    box-shadow: 0 0 7px 1.5px rgba(56, 189, 248, 0.85);
+  }
+  .ai-orb-particle.p2 { animation-delay: -0.77s; animation-direction: reverse; }
+  .ai-orb-particle.p2::after { background: #2dd4bf; box-shadow: 0 0 7px 1.5px rgba(45, 212, 191, 0.85); }
+  .ai-orb-particle.p3 { animation-delay: -1.53s; }
+  .ai-orb-particle.p3::after { background: #fbbf24; box-shadow: 0 0 7px 1.5px rgba(251, 191, 36, 0.85); }
+  @keyframes ai-orb-orbit { to { transform: rotate(360deg); } }
+
+  .ai-loading-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.45;
+    margin-bottom: 3px;
+    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+  }
+  .ai-loading-title-bn {
+    font-size: 14px;
+    font-weight: 700;
+    color: #38bdf8;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .ai-loading-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+  .ai-loading-dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .ai-loading-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #38bdf8;
+    animation: ai-dot-bounce 1.1s ease-in-out infinite;
+  }
+  .ai-loading-dots span:nth-child(2) { background: #2dd4bf; animation-delay: 0.15s; }
+  .ai-loading-dots span:nth-child(3) { background: #fbbf24; animation-delay: 0.3s; }
+  @keyframes ai-dot-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Dynamic overlay */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 1000;
+  }
+  .overlay.show { display: flex; }
+
+  /* ACCESS DENIED POPUP UI */
+  .denied-card-v2 {
+    background: rgba(13, 22, 35, 0.95);
+    border: 1px solid #1a8a92;
+    box-shadow: 0 0 25px rgba(26, 138, 146, 0.3);
+    border-radius: 16px;
+    padding: 24px 18px 20px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+  }
+
+  .denied-icon-v2 {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    border: 2px solid #ff4d4d;
+    box-shadow: 0 0 18px rgba(255, 77, 77, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    background: rgba(10, 14, 26, 0.8);
+  }
+
+  .denied-card-v2 h2 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .denied-card-v2 h2 span.highlight { color: #ff4d4d; }
+
+  .denied-card-v2 .sub-title {
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .info-list-box {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 12.5px;
+    color: #e2e8f0;
+  }
+  .info-item:last-child { border-bottom: none; }
+  .info-item i {
+    color: #2dd4bf;
+    font-size: 13px;
+    width: 16px;
+    text-align: center;
+  }
+  .info-item b.price { color: #2dd4bf; }
+
+  .whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #02a984;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 8px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .payment-note-text {
+    font-size: 11px;
+    color: #8792ab;
+    margin-bottom: 16px;
+  }
+
+  .popup-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .popup-btn-primary {
+    background: #02c39a;
+    color: #06251f;
+    border: none;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .popup-btn-secondary {
+    background: transparent;
+    color: #2dd4bf;
+    border: 1px solid #1a8a92;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Contact / Settings Overlay */
   .menu-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -501,10 +877,7 @@
     text-align: center;
     position: relative;
   }
-  .menu-card h3 {
-    margin-bottom: 20px;
-    font-size: 18px;
-  }
+  .menu-card h3 { margin-bottom: 20px; font-size: 18px; }
   .close-btn {
     position: absolute;
     top: 15px;
@@ -540,9 +913,118 @@
     cursor: pointer;
   }
 
-  /* ============================================================
-     VOCABULARY DETAILS MODAL STYLES (FINALIZED FOR ALL 16 FIELDS)
-     ============================================================ */
+  /* Welcome popup */
+  .welcome-popup {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    width: min(88vw, 360px);
+    background: rgba(3, 8, 16, 0.94);
+    border: 2px solid #34e8ee;
+    border-radius: 20px;
+    color: #3fe9f2;
+    padding: 38px 30px 38px 40px;
+    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: left;
+    text-shadow: 0 0 10px rgba(52, 232, 238, 0.35);
+    box-shadow:
+      0 0 4px rgba(52, 232, 238, 0.9),
+      0 0 16px rgba(52, 232, 238, 0.55),
+      0 0 38px rgba(52, 232, 238, 0.25),
+      inset 0 0 12px rgba(52, 232, 238, 0.35),
+      inset 0 0 28px rgba(52, 232, 238, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 20;
+  }
+  .welcome-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Welcome popup - golden twinkling stars */
+  .welcome-stars {
+    position: absolute;
+    inset: -26px;
+    pointer-events: none;
+    overflow: visible;
+    filter: drop-shadow(0 0 3px rgba(255, 200, 60, 0.95));
+  }
+  .wstar {
+    position: absolute;
+    background: #ffd54a;
+    opacity: 0.9;
+    will-change: transform, opacity;
+    animation:
+      wstarMove var(--md, 5s) ease-in-out var(--dl, 0s) infinite alternate,
+      wstarTwinkle var(--td, 1.6s) ease-in-out var(--dl, 0s) infinite;
+  }
+  .wstar.dot { border-radius: 50%; }
+  .wstar.spark {
+    clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+    background: #ffe27a;
+  }
+  .wstar.big { background: #fff3c4; }
+  .welcome-popup:not(.show) .wstar { animation-play-state: paused; }
+
+  @keyframes wstarMove {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(var(--dx, 10px), var(--dy, -8px)); }
+    100% { transform: translate(calc(var(--dx, 10px) * -0.7), calc(var(--dy, -8px) * -1.1)); }
+  }
+  @keyframes wstarTwinkle {
+    0%, 100% { opacity: 0.25; scale: 0.55; }
+    50%      { opacity: 1;    scale: 1.25; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wstar { animation: none; }
+  }
+
+  /* Pro screen */
+  .screen3 { display: none; max-width: 400px; position: relative; margin: auto; }
+  
+  .main-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+  }
+  .three-dots-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  .three-dots-btn:hover {
+    color: var(--text);
+    background: var(--surface-raised);
+  }
+
+  .top-note {
+    text-align: center;
+    color: #fbbf24;
+    font-size: 12px;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .top-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  /* VOCABULARY DETAILS MODAL STYLES */
   .vocab-modal-card {
     background: #0b1120;
     border: 1.5px solid #38bdf8;
@@ -556,14 +1038,8 @@
     text-align: left;
     position: relative;
   }
-  
-  .vocab-modal-card::-webkit-scrollbar {
-    width: 5px;
-  }
-  .vocab-modal-card::-webkit-scrollbar-thumb {
-    background: #38bdf8;
-    border-radius: 4px;
-  }
+  .vocab-modal-card::-webkit-scrollbar { width: 5px; }
+  .vocab-modal-card::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; }
 
   .vocab-header {
     display: flex;
@@ -573,7 +1049,6 @@
     padding-bottom: 10px;
     margin-bottom: 12px;
   }
-
   .vocab-header h2 {
     font-size: 15px;
     color: #38bdf8;
@@ -590,7 +1065,6 @@
     padding: 12px 14px;
     margin-bottom: 11px;
   }
-
   .vocab-section h3 {
     font-size: 12px;
     color: #fbbf24;
@@ -602,25 +1076,14 @@
     gap: 6px;
     font-weight: 700;
   }
-
   .vocab-section p, .vocab-section ul {
     font-size: 12.5px;
     color: #cbd5e1;
     line-height: 1.55;
   }
-
-  .vocab-section ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  .vocab-section ul li {
-    margin-bottom: 5px;
-  }
-
-  .vocab-section ul li strong {
-    color: #38bdf8;
-  }
+  .vocab-section ul { list-style: none; padding-left: 0; }
+  .vocab-section ul li { margin-bottom: 5px; }
+  .vocab-section ul li strong { color: #38bdf8; }
 
   .glowing-word {
     color: #00ff66 !important;
@@ -642,7 +1105,6 @@
     border: 1px solid rgba(56, 189, 248, 0.3);
   }
 
-  /* Badges for CEFR, Tone, Part of Speech */
   .badge-container {
     display: flex;
     flex-wrap: wrap;
@@ -676,7 +1138,6 @@
     border: 1px solid rgba(192, 132, 252, 0.35);
   }
 
-  /* Form and Grammar Attributes Grid */
   .grammar-attr-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -703,12 +1164,7 @@
     font-weight: 500;
   }
 
-  /* Verb Forms */
-  .verb-forms-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 4px;
-  }
+  .verb-forms-list { list-style: none; padding: 0; margin-top: 4px; }
   .verb-forms-list li {
     background: rgba(15, 23, 42, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -720,7 +1176,6 @@
     line-height: 1.45;
   }
 
-  /* Common Spoken Mistakes Highlight Box */
   .mistake-box {
     background: rgba(244, 104, 92, 0.05);
     border: 1px solid rgba(244, 104, 92, 0.25);
@@ -754,16 +1209,8 @@
     border-radius: 4px;
     flex-shrink: 0;
   }
-  .line-wrong {
-    text-decoration: line-through;
-    color: #94a3b8;
-    font-family: monospace;
-  }
-  .line-right {
-    color: #34d399;
-    font-weight: 600;
-    font-family: monospace;
-  }
+  .line-wrong { text-decoration: line-through; color: #94a3b8; font-family: monospace; }
+  .line-right { color: #34d399; font-weight: 600; font-family: monospace; }
   .mistake-explain {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 6px;
@@ -774,7 +1221,6 @@
     border-left: 2px solid #fbbf24;
   }
 
-  /* Spoken Chunks & Formula */
   .chunk-tag {
     display: inline-block;
     background: rgba(56, 189, 248, 0.1);
@@ -796,12 +1242,7 @@
     margin-bottom: 5px;
   }
 
-  /* Synonyms & Antonyms Grid */
-  .syn-ant-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+  .syn-ant-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .syn-col, .ant-col {
     background: rgba(15, 23, 42, 0.5);
     border-radius: 8px;
@@ -813,7 +1254,6 @@
   .syn-col h4 { color: #34d399; font-size: 11px; margin-bottom: 4px; font-weight: 700; }
   .ant-col h4 { color: #f4685c; font-size: 11px; margin-bottom: 4px; font-weight: 700; }
 
-  /* Practice Drill */
   .practice-drill {
     background: rgba(56, 189, 248, 0.06);
     border: 1px dashed rgba(56, 189, 248, 0.35);
@@ -821,67 +1261,191 @@
     padding: 12px;
     margin-top: 10px;
   }
-  .practice-drill ol {
-    padding-left: 18px;
-    font-size: 12px;
-    color: #e2e8f0;
-  }
-  .practice-drill ol li {
-    margin-bottom: 6px;
-    line-height: 1.5;
+  .practice-drill ol { padding-left: 18px; font-size: 12px; color: #e2e8f0; }
+  .practice-drill ol li { margin-bottom: 6px; line-height: 1.5; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-lesson-details { animation: none; }
+    .welcome-popup { transition: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="screen">
-  <div class="brand">
-    <div class="brand-mark">iiel</div>
-    <div class="brand-sub">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
+<!-- FREE PLAN PAGE -->
+<div class="screen free-screen" id="freeScreen">
+  <div class="free-head">
+    <span class="free-logo">iiel</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#2dd4bf" aria-hidden="true">
+      <path d="M13 2l1.6 5.4L20 9l-5.4 1.6L13 16l-1.6-5.4L6 9l5.4-1.6z"/>
+      <path d="M19 15l.8 2.7L22.5 18.5l-2.7.8L19 22l-.8-2.7-2.7-.8 2.7-.8z"/>
+    </svg>
   </div>
 
-  <div class="card">
-    <h1>শুরু করার আগে</h1>
-    <p class="hint">আপনার নাম ও মোবাইল নাম্বার দিন</p>
+  <section class="hero">
+    <h1>1000 Vocabulary — 60,000 Videos <span class="free">FREE</span></h1>
+    <p>Learn and master English with bite-sized vocabulary &amp; videos</p>
+  </section>
 
-    <label for="nameInput">Name</label>
-    <input id="nameInput" type="text" placeholder="আপনার নাম">
-    <div class="field-error" id="nameError">নাম লিখুন</div>
-
-    <label for="phoneInput">Mobile Number</label>
-    <input id="phoneInput" type="tel" placeholder="01XXXXXXXXX" maxlength="11">
-    <div class="field-error" id="phoneError">সঠিক ১১-সংখ্যার নাম্বার দিন</div>
-
-    <button class="primary" id="submitBtn" onclick="checkAccess()">Confirm & Continue</button>
+  <div class="sample-grid" aria-label="Sample words">
+    <div class="sample-card">
+      <div class="sample-top"><span class="level-pill">A1 · Common</span><i class="fa-regular fa-bookmark" aria-hidden="true"></i></div>
+      <h3>Ephemeral</h3>
+      <p>adj. — lasting for a very short time</p>
+    </div>
+    <div class="sample-card">
+      <div class="sample-top"><span class="level-pill">B1 · Useful</span><i class="fa-regular fa-bookmark" aria-hidden="true"></i></div>
+      <h3>Resilient</h3>
+      <p>adj. — able to recover quickly from difficulty</p>
+    </div>
+    <div class="sample-card">
+      <div class="sample-top"><span class="level-pill">B2 · Academic</span><i class="fa-regular fa-bookmark" aria-hidden="true"></i></div>
+      <h3>Ambiguous</h3>
+      <p>adj. — open to more than one interpretation</p>
+    </div>
+    <div class="sample-card">
+      <div class="sample-top"><span class="level-pill">A2 · Everyday</span><i class="fa-regular fa-bookmark" aria-hidden="true"></i></div>
+      <h3>Diligent</h3>
+      <p>adj. — careful and persistent work</p>
+    </div>
   </div>
-</div>
 
-<div class="screen screen2" id="otpScreen">
-  <div class="brand">
-    <div class="brand-mark">iiel</div>
-    <div class="brand-sub">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
-  </div>
+  <!-- Free practice panel (Matches Screenshot_20260924-232900.png) -->
+  <section class="tool-panel">
+    <div class="tool-panel-header">
+      <span class="title-sparkles">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#2dd4bf" aria-hidden="true">
+          <path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z"/>
+          <path d="M19 14l.8 2.7L22.5 17.5l-2.7.8L19 21l-.8-2.7-2.7-.8 2.7-.8z"/>
+        </svg>
+      </span>
+      <h2>Free practice</h2>
+    </div>
+    <div class="tool-sub">Practice 1 থেকে 1000 পর্যন্ত — অ্যাকাউন্ট ছাড়াই</div>
 
-  <div class="card">
-    <h1>OTP Verification</h1>
-    <p class="hint">নিচের নাম্বারে মেসেজ দিয়ে OTP সংগ্রহ করুন</p>
-
-    <div class="otp-instruction">
-      message <b>iiel</b> to collect your OTP<br>
-      <b>01938240811 — WhatsApp</b>
+    <div class="accent-notice-pill">
+      <i class="fa-solid fa-star"></i>
+      <span>APPLICABLE FOR MASTERING AMERICAN ACCENT ONLY.</span>
     </div>
 
-    <label for="otpInput">OTP Code</label>
-    <input id="otpInput" class="otp-input" type="tel" placeholder="----" maxlength="6">
-    <div class="field-error" id="otpError">ভুল OTP, আবার চেষ্টা করুন</div>
+    <div id="freeToolSlot">
+      <div id="practiceTool">
+        <div class="section-label">
+          <span class="hash-symbol">#</span>
+          <span>Select Practice Number:</span>
+        </div>
+        <div class="search-container">
+          <input id="practiceInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="যেমন: 1, 2, 3..." readonly>
+        </div>
 
-    <button class="primary" id="otpBtn" onclick="verifyOtp()">Verify</button>
-    <button class="link-btn" onclick="backToStart()">অন্য নাম্বার দিয়ে শুরু করুন</button>
-  </div>
+        <button id="btnLessonDetails" class="btn-lesson-details hidden" onclick="openVocabModal()">
+          <i class="fa-solid fa-bolt"></i> GO (Lesson Breakdown)
+        </button>
+
+        <div class="custom-numpad" id="customNumpad">
+          <button class="num-btn" onclick="pressKey('1')">1</button>
+          <button class="num-btn" onclick="pressKey('2')">2</button>
+          <button class="num-btn" onclick="pressKey('3')">3</button>
+          <button class="num-btn" onclick="pressKey('4')">4</button>
+          <button class="num-btn" onclick="pressKey('5')">5</button>
+          <button class="num-btn" onclick="pressKey('6')">6</button>
+          <button class="num-btn" onclick="pressKey('7')">7</button>
+          <button class="num-btn" onclick="pressKey('8')">8</button>
+          <button class="num-btn" onclick="pressKey('9')">9</button>
+          <button class="num-btn" onclick="pressKey('0')">0</button>
+          <button class="num-btn btn-action" onclick="pressKey('clear')">CLR</button>
+          <button class="num-btn btn-action" onclick="pressKey('back')" aria-label="Backspace">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="locked-note" id="lockedNote" role="status">
+          <svg class="lock-shield" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="lsGold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fff0b3"/>
+                <stop offset="0.45" stop-color="#f5b82e"/>
+                <stop offset="1" stop-color="#a86a0c"/>
+              </linearGradient>
+              <linearGradient id="lsGoldSoft" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffe08a"/>
+                <stop offset="1" stop-color="#c98a14"/>
+              </linearGradient>
+            </defs>
+            <path d="M60 6 L108 24 V66 C108 98 88 122 60 134 C32 122 12 98 12 66 V24 Z" fill="none" stroke="url(#lsGold)" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M60 17 L98 31 V66 C98 92 82 112 60 122 C38 112 22 92 22 66 V31 Z" fill="#0c1226" stroke="url(#lsGold)" stroke-width="1.5" opacity="0.95"/>
+            <path d="M46 62 V52 C46 44 52 38 60 38 C68 38 74 44 74 52 V62" fill="none" stroke="url(#lsGold)" stroke-width="7" stroke-linecap="round"/>
+            <rect x="38" y="60" width="44" height="34" rx="6" fill="url(#lsGoldSoft)"/>
+            <circle cx="60" cy="74" r="5" fill="#0c1226"/>
+            <rect x="57.5" y="76" width="5" height="12" rx="2" fill="#0c1226"/>
+          </svg>
+          <p class="lock-text">এই Practice শুধু Pro প্ল্যানে পাওয়া যাবে।<br>Free-তে Practice 1–1000 খোলা আছে।</p>
+          <button type="button" onclick="focusToken()"><span class="lock-arrow" aria-hidden="true">←</span><span class="lock-btn-label">Token দিয়ে আনলক করুন</span><span class="lock-arrow" aria-hidden="true">→</span></button>
+        </div>
+
+        <div id="clipSection" style="display:none;">
+          <div class="section-label">Select Context Clip:</div>
+          <div class="clip-container">
+            <div class="clip-grid" id="clipGrid"></div>
+          </div>
+
+          <div class="video-wrap" id="videoWrap">
+            <iframe id="videoFrame" src="" title="Practice clip" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Access Token & Pro section (Matches Screenshot_20260924-232900.png) -->
+  <section class="token-section">
+    <div class="token-label-row">
+      <i class="fa-solid fa-lock"></i>
+      <span>Access Token</span>
+    </div>
+    <div class="token-field">
+      <input id="tokenInput" type="text" placeholder="Enter your access token..." autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="64">
+      <button type="button" class="paste-btn" id="pasteBtn" onclick="pasteToken()" aria-label="Paste token">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="field-error" id="tokenError">Access token লিখুন</div>
+
+    <button class="pro-btn" id="proBtn" onclick="goPro()">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Go towards Pro — Unlock Full Library →</span>
+    </button>
+
+    <!-- 4 Bottom Features row -->
+    <div class="features-row">
+      <div class="feature-col">
+        <i class="fa-solid fa-book-open feature-icon"></i>
+        <span class="feature-text">Full library</span>
+      </div>
+      <div class="feature-col">
+        <i class="fa-solid fa-graduation-cap feature-icon"></i>
+        <span class="feature-text">Advanced<br>lessons</span>
+      </div>
+      <div class="feature-col">
+        <i class="fa-solid fa-video feature-icon"></i>
+        <span class="feature-text">60 videos</span>
+      </div>
+      <div class="feature-col">
+        <i class="fa-solid fa-seedling feature-icon"></i>
+        <span class="feature-text">Growing library</span>
+      </div>
+    </div>
+  </section>
 </div>
 
-<div class="welcome-popup" id="welcomePopup">Hey there, welcome back</div>
+<div class="welcome-popup" id="welcomePopup">Hey there,<br>welcome back</div>
 
+<!-- PRO PAGE -->
 <div class="screen screen3" id="mainScreen">
   <div class="main-header">
     <button class="three-dots-btn" onclick="toggleMenu()" title="Options">&#8381;</button>
@@ -890,49 +1454,14 @@
   <div class="top-note">Applicable for mastering American accent only.</div>
   <div class="top-title">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
 
-  <div class="section-label">Select Practice Number:</div>
-  <div class="search-container">
-    <input id="practiceInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="যেমন: 1, 2, 3..." readonly>
-  </div>
-
-  <!-- BLINKING GO BUTTON FOR AI VOCABULARY BREAKDOWN -->
-  <button id="btnLessonDetails" class="btn-lesson-details hidden" onclick="openVocabModal()">
-    <i class="fa-solid fa-bolt"></i> GO (Lesson Breakdown)
-  </button>
-
-  <!-- কাস্টম নিউমেরিক কিবোর্ড -->
-  <div class="custom-numpad">
-    <button class="num-btn" onclick="pressKey('1')">1</button>
-    <button class="num-btn" onclick="pressKey('2')">2</button>
-    <button class="num-btn" onclick="pressKey('3')">3</button>
-    <button class="num-btn" onclick="pressKey('4')">4</button>
-    <button class="num-btn" onclick="pressKey('5')">5</button>
-    <button class="num-btn" onclick="pressKey('6')">6</button>
-    <button class="num-btn" onclick="pressKey('7')">7</button>
-    <button class="num-btn" onclick="pressKey('8')">8</button>
-    <button class="num-btn" onclick="pressKey('9')">9</button>
-    <button class="num-btn" onclick="pressKey('0')">0</button>
-    <button class="num-btn btn-action" onclick="pressKey('clear')">CLR</button>
-    <button class="num-btn btn-action" onclick="pressKey('back')"><i class="fa-solid fa-backspace"></i></button>
-  </div>
-
-  <div id="clipSection" style="display:none;">
-    <div class="section-label">Select Context Clip:</div>
-    <div class="clip-container">
-      <div class="clip-grid" id="clipGrid"></div>
-    </div>
-
-    <div class="video-wrap" id="videoWrap">
-      <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
-  </div>
+  <div id="proToolSlot"></div>
 </div>
 
-<!-- Three Dots Menu Page / Overlay -->
+<!-- Three Dots Menu Overlay -->
 <div class="overlay" id="menuOverlay">
   <div class="menu-card">
-    <button class="close-btn" onclick="toggleMenu()">&times;</button>
-    <h3>Settings & Support</h3>
+    <button class="close-btn" onclick="toggleMenu()" aria-label="Close">&times;</button>
+    <h3>Settings &amp; Support</h3>
     <div class="menu-help-line">
       Need help? Message WhatsApp:
       <b>01938240811</b>
@@ -941,47 +1470,72 @@
   </div>
 </div>
 
-<!-- Access Denied popup -->
+<!-- Access Denied Popup -->
 <div class="overlay" id="deniedOverlay">
-  <div class="denied-card">
-    <div class="denied-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M6 10V8a6 6 0 1112 0v2M5 10h14a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1v-9a1 1 0 011-1z" stroke="#f4685c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <div class="denied-card-v2" role="alertdialog" aria-labelledby="deniedTitle">
+    <div class="denied-icon-v2">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="11" width="14" height="10" rx="2" stroke="#ff4d4d" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
     </div>
-    <h2>Access Denied!</h2>
-    <p class="sub">No active plan found. Renew to continue.</p>
-    <div class="phone-pill" id="deniedPhone">Phone: 01XXXXXXXXX</div>
-    <div class="payment-box">
-      Complete payment via <b>bKash</b> or <b>Nagad</b>. Your subscription will be activated in up to 24 hours.
+    
+    <h2 id="deniedTitle"><span class="highlight">Token</span> টি সঠিক নয়</h2>
+    <p class="sub-title" id="deniedSub">আপনি যে Token টি দিয়েছেন সেটি ভুল।</p>
+    
+    <div class="info-list-box">
+      <div class="info-item">
+        <i class="fa-solid fa-tag"></i>
+        <span>একটি Token এর দাম: <b class="price">105 টাকা মাত্র</b></span>
+      </div>
+      <div class="info-item">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>মেয়াদ: 30 দিন / 1 মাস</span>
+      </div>
+      <div class="info-item">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <span>একটি Token একটি ডিভাইসে ব্যবহারযোগ্য</span>
+      </div>
     </div>
-    <div class="contact-box">
-      <div class="num">01938240811 — WhatsApp</div>
-      <div class="warn">Do not send payment to this number. It is for contact purposes only.</div>
+
+    <a href="https://wa.me/8801938240811" target="_blank" class="whatsapp-btn">
+      <i class="fa-brands fa-whatsapp" style="font-size: 16px;"></i>
+      <span>Pro Token পেতে WhatsApp করুন: 01938240811</span>
+    </a>
+    
+    <div class="payment-note-text">bKash / Nagad এ পেমেন্ট করতে পারবেন</div>
+
+    <div class="popup-actions-grid">
+      <button class="popup-btn-primary" onclick="closeDenied()">আবার চেষ্টা করুন</button>
+      <button class="popup-btn-secondary" onclick="closeDeniedAndReset()">ফ্রি 1000 শব্দে ফিরে যান</button>
     </div>
-    <button class="secondary" onclick="closeDenied()">Try Another Number</button>
   </div>
 </div>
 
 <!-- VOCABULARY BREAKDOWN MODAL OVERLAY -->
 <div class="overlay" id="vocabModal">
-  <div class="vocab-modal-card">
-    <div class="vocab-header">
-      <h2><i class="fa-solid fa-graduation-cap"></i> Lesson Notes & Breakdown</h2>
-      <button class="close-btn" onclick="closeVocabModal()" style="position:static; padding:0 6px;">&times;</button>
+  <div class="vocab-modal-glow" id="vocabModalGlow">
+    <div class="vocab-modal-card">
+      <div class="vocab-header">
+        <h2><i class="fa-solid fa-graduation-cap"></i> Lesson Notes &amp; Breakdown</h2>
+        <button class="close-btn" onclick="closeVocabModal()" aria-label="Close" style="position:static; padding:0 6px;">&times;</button>
+      </div>
+      <div id="vocabModalContent"></div>
     </div>
-    <div id="vocabModalContent"></div>
   </div>
 </div>
 
 <script>
-  // ============================================================
-  // শুধুমাত্র প্রজেক্ট URL (কোনো Anon Key বা Gemini Key ফ্রন্টএন্ডে নেই)
-  // ============================================================
-  const SUPABASE_URL = "https://wsxubdciorngyfpfpbsr.supabase.co";
+  const SUPABASE_URL = "https://irolnazvjsgetevyurae.supabase.co";
 
+  let proToken = null;
   let currentPracticeId = null;
   let activeVocabData = null;
+  let loadSeq = 0;
+
+  const SESSION_END_REASONS = ['invalid', 'inactive', 'expired', 'device'];
+
+  class SessionEnded extends Error {}
 
   function getDeviceId() {
     let id = localStorage.getItem('iiel_device_id');
@@ -990,6 +1544,44 @@
       localStorage.setItem('iiel_device_id', id);
     }
     return id;
+  }
+
+  async function callFn(name, payload) {
+    const body = { ...payload, device_id: getDeviceId() };
+    if (proToken) body.access_token = proToken;
+
+    const res = await fetch(SUPABASE_URL + '/functions/v1/' + name, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    let data;
+    try { data = await res.json(); }
+    catch (e) { data = { status: 'error', message: 'সার্ভার থেকে সঠিক উত্তর আসেনি।' }; }
+
+    if (proToken && res.status === 403 && SESSION_END_REASONS.includes(data.reason)) {
+      exitPro(data.reason);
+      throw new SessionEnded();
+    }
+    return data;
+  }
+
+  function mountTool(slotId) {
+    document.getElementById(slotId).appendChild(document.getElementById('practiceTool'));
+  }
+
+  function resetTool() {
+    loadSeq++;
+    document.getElementById('practiceInput').value = '';
+    document.getElementById('clipSection').style.display = 'none';
+    document.getElementById('videoWrap').classList.remove('show');
+    document.getElementById('videoFrame').src = '';
+    document.getElementById('btnLessonDetails').classList.add('hidden');
+    document.getElementById('lockedNote').classList.remove('show');
+    document.getElementById('clipGrid').innerHTML = '';
+    currentPracticeId = null;
+    activeVocabData = null;
   }
 
   function pressKey(key) {
@@ -1009,138 +1601,205 @@
     if (currentVal !== '') {
       loadPractice();
     } else {
+      loadSeq++;
       document.getElementById('clipSection').style.display = 'none';
       document.getElementById('btnLessonDetails').classList.add('hidden');
+      document.getElementById('lockedNote').classList.remove('show');
       currentPracticeId = null;
       activeVocabData = null;
     }
   }
 
   function toggleMenu() {
-    const menu = document.getElementById('menuOverlay');
-    menu.classList.toggle('show');
+    document.getElementById('menuOverlay').classList.toggle('show');
   }
 
-  async function checkAccess() {
-    const name = document.getElementById('nameInput').value.trim();
-    const phone = document.getElementById('phoneInput').value.trim();
-    const nameErr = document.getElementById('nameError');
-    const phoneErr = document.getElementById('phoneError');
-    const btn = document.getElementById('submitBtn');
+  function showFree() {
+    document.getElementById('mainScreen').style.display = 'none';
+    document.getElementById('freeScreen').style.display = 'block';
+    mountTool('freeToolSlot');
+    resetTool();
+    document.getElementById('practiceInput').placeholder = 'যেমন: 1, 2, 3...';
+  }
 
-    nameErr.style.display = 'none';
-    phoneErr.style.display = 'none';
+  function showPro() {
+    document.getElementById('freeScreen').style.display = 'none';
+    document.getElementById('mainScreen').style.display = 'block';
+    mountTool('proToolSlot');
+    resetTool();
+    document.getElementById('practiceInput').placeholder = 'যেমন: 1, 2, 3...';
+    window.scrollTo(0, 0);
+  }
 
-    let hasError = false;
-    if (!name) { nameErr.style.display = 'block'; hasError = true; }
-    if (!/^01[0-9]{9}$/.test(phone)) { phoneErr.style.display = 'block'; hasError = true; }
-    if (hasError) return;
+  function exitPro(reason) {
+    proToken = null;
+    localStorage.removeItem('iiel_access_token');
+    document.getElementById('menuOverlay').classList.remove('show');
+    document.getElementById('vocabModal').classList.remove('show');
+    showFree();
+    document.getElementById('tokenInput').value = '';
+    showDenied(reason);
+  }
 
+  function logout() {
+    toggleMenu();
+    proToken = null;
+    localStorage.removeItem('iiel_access_token');
+    document.getElementById('tokenInput').value = '';
+    showFree();
+    window.scrollTo(0, 0);
+  }
+
+  function focusToken() {
+    const el = document.getElementById('tokenInput');
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+    el.focus({ preventScroll: true });
+  }
+
+  async function pasteToken() {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        document.getElementById('tokenInput').value = text.trim();
+        document.getElementById('tokenError').style.display = 'none';
+      }
+    } catch (e) {
+      focusToken();
+    }
+  }
+
+  async function goPro() {
+    const input = document.getElementById('tokenInput');
+    const err = document.getElementById('tokenError');
+    const btn = document.getElementById('proBtn');
+    const token = input.value.trim().toUpperCase();
+
+    err.style.display = 'none';
+    if (!token) {
+      err.style.display = 'block';
+      input.focus();
+      return;
+    }
+
+    const originalHtml = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Checking...';
 
     try {
-      const res = await fetch(SUPABASE_URL + '/functions/v1/check-access', {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/verify-token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone })
-      });
-      const data = await res.json();
-
-      localStorage.setItem('iiel_name', name);
-      localStorage.setItem('iiel_phone', phone);
-
-      if (data.status === 'otp_required') {
-        document.querySelector('.screen:not(.screen2)').style.display = 'none';
-        document.getElementById('otpScreen').style.display = 'block';
-        document.getElementById('otpInput').focus();
-      } else {
-        document.getElementById('deniedPhone').textContent = 'Phone: ' + phone;
-        document.getElementById('deniedOverlay').classList.add('show');
-      }
-    } catch (e) {
-      alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Confirm & Continue';
-    }
-  }
-
-  function closeDenied() {
-    document.getElementById('deniedOverlay').classList.remove('show');
-    document.getElementById('phoneInput').value = '';
-    document.getElementById('phoneInput').focus();
-  }
-
-  function backToStart() {
-    document.getElementById('otpScreen').style.display = 'none';
-    document.querySelector('.screen:not(.screen2)').style.display = 'block';
-    document.getElementById('otpInput').value = '';
-    document.getElementById('otpError').style.display = 'none';
-  }
-
-  async function verifyOtp() {
-    const phone = localStorage.getItem('iiel_phone');
-    const otp = document.getElementById('otpInput').value.trim();
-    const otpErr = document.getElementById('otpError');
-    const btn = document.getElementById('otpBtn');
-
-    otpErr.style.display = 'none';
-    if (!otp) return;
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Verifying...';
-
-    try {
-      const res = await fetch(SUPABASE_URL + '/functions/v1/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, otp, device_id: getDeviceId() })
+        body: JSON.stringify({ access_token: token, device_id: getDeviceId() })
       });
       const data = await res.json();
 
       if (data.status === 'success') {
-        localStorage.setItem('iiel_session_token', data.token);
+        proToken = token;
+        localStorage.setItem('iiel_access_token', token);
         showWelcomeAndProceed();
+      } else if (SESSION_END_REASONS.includes(data.reason)) {
+        showDenied(data.reason);
       } else {
-        otpErr.textContent = data.message || 'ভুল OTP, আবার চেষ্টা করুন';
-        otpErr.style.display = 'block';
+        alert(data.message || 'সমস্যা হয়েছে, আবার চেষ্টা করুন।');
       }
     } catch (e) {
       alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Verify';
+      btn.innerHTML = originalHtml;
     }
+  }
+
+  function showDenied(reason) {
+    const title = document.getElementById('deniedTitle');
+    const sub = document.getElementById('deniedSub');
+    if (reason === 'invalid') {
+      title.innerHTML = '<span class="highlight">Token</span> টি সঠিক নয়';
+      sub.textContent = 'আপনি যে Token টি দিয়েছেন সেটি ভুল।';
+    } else if (reason === 'device') {
+      title.innerHTML = '<span class="highlight">Access</span> Denied!';
+      sub.textContent = 'এই Token অন্য একটি ডিভাইসে চালু আছে।';
+    } else if (reason === 'expired') {
+      title.innerHTML = 'মেয়াদ <span class="highlight">শেষ</span>';
+      sub.textContent = 'আপনার টোকেনের মেয়াদ শেষ হয়ে গেছে।';
+    } else {
+      title.innerHTML = '<span class="highlight">Access</span> Denied!';
+      sub.textContent = 'আপনার কোনো সক্রিয় প্ল্যান পাওয়া যায়নি।';
+    }
+    document.getElementById('deniedOverlay').classList.add('show');
+  }
+
+  function closeDenied() {
+    document.getElementById('deniedOverlay').classList.remove('show');
+    focusToken();
+  }
+
+  function closeDeniedAndReset() {
+    document.getElementById('deniedOverlay').classList.remove('show');
+    showFree();
+  }
+
+  function initWelcomeStars(popup) {
+    if (popup.querySelector('.welcome-stars')) return;
+    const layer = document.createElement('div');
+    layer.className = 'welcome-stars';
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const addStar = (type, x, y, size, extra) => {
+      const el = document.createElement('span');
+      el.className = 'wstar ' + type + (extra ? ' ' + extra : '');
+      el.style.left = x + '%';
+      el.style.top = y + '%';
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.setProperty('--dx', rnd(-18, 18).toFixed(1) + 'px');
+      el.style.setProperty('--dy', rnd(-16, 16).toFixed(1) + 'px');
+      el.style.setProperty('--md', rnd(3.5, 7).toFixed(2) + 's');
+      el.style.setProperty('--td', rnd(1.1, 2.4).toFixed(2) + 's');
+      el.style.setProperty('--dl', (-rnd(0, 4)).toFixed(2) + 's');
+      layer.appendChild(el);
+    };
+    addStar('spark', 96, 2, 24, 'big');
+    for (let i = 0; i < 24; i++) {
+      const topRight = i < 12;
+      const x = topRight ? rnd(62, 100) : rnd(0, 100);
+      const y = topRight ? rnd(0, 45) : rnd(0, 100);
+      if (i % 3 === 0) addStar('spark', x, y, rnd(8, 14));
+      else addStar('dot', x, y, rnd(2, 4));
+    }
+    popup.appendChild(layer);
   }
 
   function showWelcomeAndProceed() {
     const popup = document.getElementById('welcomePopup');
+    initWelcomeStars(popup);
     popup.classList.add('show');
     setTimeout(() => {
       popup.classList.remove('show');
-      setTimeout(() => {
-        document.getElementById('otpScreen').style.display = 'none';
-        document.getElementById('mainScreen').style.display = 'block';
-      }, 300);
-    }, 3000);
+      showPro();
+    }, 1800);
   }
 
   async function loadPractice() {
     const num = document.getElementById('practiceInput').value.trim();
     if (!num) return;
 
-    const phone = localStorage.getItem('iiel_phone');
-    const token = localStorage.getItem('iiel_session_token');
-    const device_id = getDeviceId();
+    const seq = ++loadSeq;
+    const locked = document.getElementById('lockedNote');
 
     try {
-      const res = await fetch(SUPABASE_URL + '/functions/v1/list-practices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, token, device_id, query: 'Practice ' + num })
-      });
-      const data = await res.json();
+      const data = await callFn('list-practices', { query: 'Practice ' + num });
+      if (seq !== loadSeq) return;
+
+      if (data.status === 'locked') {
+        locked.classList.add('show');
+        document.getElementById('clipSection').style.display = 'none';
+        document.getElementById('btnLessonDetails').classList.add('hidden');
+        currentPracticeId = null;
+        activeVocabData = null;
+        return;
+      }
+      locked.classList.remove('show');
 
       if (data.status !== 'success' || !data.practices || data.practices.length === 0) {
         document.getElementById('clipSection').style.display = 'none';
@@ -1151,31 +1810,25 @@
       currentPracticeId = data.practices[0].id;
       activeVocabData = null;
 
-      // GO বাটন দৃশ্যমান করা
       document.getElementById('btnLessonDetails').classList.remove('hidden');
 
-      await loadAvailableClips();
+      await loadAvailableClips(seq);
+      if (seq !== loadSeq) return;
       document.getElementById('clipSection').style.display = 'block';
       document.getElementById('videoWrap').classList.remove('show');
     } catch (e) {
+      if (e instanceof SessionEnded) return;
       console.error('নেটওয়ার্ক সমস্যা হয়েছে', e);
     }
   }
 
-  async function loadAvailableClips() {
-    const phone = localStorage.getItem('iiel_phone');
-    const token = localStorage.getItem('iiel_session_token');
-    const device_id = getDeviceId();
-
+  async function loadAvailableClips(seq) {
     try {
-      const res = await fetch(SUPABASE_URL + '/functions/v1/list-clips', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, token, device_id, practice_id: currentPracticeId })
-      });
-      const data = await res.json();
+      const data = await callFn('list-clips', { practice_id: currentPracticeId });
+      if (seq !== loadSeq) return;
       renderClipGrid(data.status === 'success' ? data.available : []);
     } catch (e) {
+      if (e instanceof SessionEnded) throw e;
       renderClipGrid([]);
     }
   }
@@ -1202,17 +1855,8 @@
     document.querySelectorAll('.clip-btn').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
 
-    const phone = localStorage.getItem('iiel_phone');
-    const token = localStorage.getItem('iiel_session_token');
-    const device_id = getDeviceId();
-
     try {
-      const res = await fetch(SUPABASE_URL + '/functions/v1/get-clip', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, token, device_id, practice_id: currentPracticeId, clip_order: clipOrder })
-      });
-      const data = await res.json();
+      const data = await callFn('get-clip', { practice_id: currentPracticeId, clip_order: clipOrder });
 
       if (data.status === 'success') {
         const iframe = document.getElementById('videoFrame');
@@ -1222,75 +1866,71 @@
         alert(data.message || 'ভিডিও লোড করা যায়নি।');
       }
     } catch (e) {
+      if (e instanceof SessionEnded) return;
       alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
     }
   }
 
-  // ============================================================
-  // AI VOCABULARY BREAKDOWN (FINALIZED WITH ALL 16 PARAMETERS)
-  // ============================================================
   async function openVocabModal() {
     if (!currentPracticeId) return;
 
+    const pid = currentPracticeId;
     const modal = document.getElementById('vocabModal');
+    const glow = document.getElementById('vocabModalGlow');
     const container = document.getElementById('vocabModalContent');
     modal.classList.add('show');
+    glow.classList.remove('ai-loading');
 
     if (activeVocabData) {
       renderVocabContent(activeVocabData);
       return;
     }
 
+    glow.classList.add('ai-loading');
     container.innerHTML = `
-      <div style="text-align:center; padding: 32px 10px; color:#38bdf8;">
-        <span class="spinner" style="width:26px; height:26px; border-width:3px;"></span>
-        <p style="margin-top:12px; font-size:13.5px; font-weight:600;">Generating AI Breakdown... (এআই নোট প্রস্তুত হচ্ছে...)</p>
-        <p style="font-size:11.5px; color:#8792ab; margin-top:4px;">Groq AI এর মাধ্যমে ব্যাকরণ, কলোকেশন ও স্পোকেন রুলস প্রসেস করা হচ্ছে</p>
+      <div class="ai-loading-wrap">
+        <div class="ai-orb-container">
+          <div class="ai-orb-ring"></div>
+          <div class="ai-orb-ring ring2"></div>
+          <div class="ai-orb-particle p1"></div>
+          <div class="ai-orb-particle p2"></div>
+          <div class="ai-orb-particle p3"></div>
+          <div class="ai-orb-core"><span>AI</span></div>
+        </div>
+        <p class="ai-loading-title">Crafting your AI Breakdown...</p>
+        <p class="ai-loading-title-bn">(এআই নোট প্রস্তুত হচ্ছে...)</p>
+        <p class="ai-loading-sub">Groq AI এর মাধ্যমে ব্যাকরণ, কলোকেশন ও স্পোকেন রুলস প্রসেস করা হচ্ছে</p>
+        <div class="ai-loading-dots"><span></span><span></span><span></span></div>
       </div>
     `;
 
-    const phone = localStorage.getItem('iiel_phone');
-    const token = localStorage.getItem('iiel_session_token');
-    const device_id = getDeviceId();
-
     try {
-      // ব্যাকএন্ড Edge Function কল
-      const res = await fetch(SUPABASE_URL + '/functions/v1/get-word-vocab', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone,
-          token,
-          device_id,
-          practice_id: currentPracticeId
-        })
-      });
+      const data = await callFn('get-word-vocab', { practice_id: pid });
 
-      const data = await res.json();
       if (data.status === 'success' && data.vocab_data) {
-        activeVocabData = data.vocab_data;
-        renderVocabContent(activeVocabData);
+        if (pid === currentPracticeId) activeVocabData = data.vocab_data;
+        glow.classList.remove('ai-loading');
+        renderVocabContent(data.vocab_data);
       } else {
+        glow.classList.remove('ai-loading');
         container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">${data.message || 'নোট লোড করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।'}</p>`;
       }
     } catch (err) {
+      glow.classList.remove('ai-loading');
+      if (err instanceof SessionEnded) return;
       container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">সার্ভার কানেকশন ত্রুটি হয়েছে।</p>`;
     }
   }
 
-  // ============================================================
-  // সম্পূর্ণ ১৬টি প্যারামিটার প্রদর্শনকারী রেন্ডারার
-  // ============================================================
   function renderVocabContent(data) {
     const container = document.getElementById('vocabModalContent');
     let html = '';
     const mainWord = data.word || 'N/A';
     const ipaVal = data.ipa ? `<span class="ipa-badge">${data.ipa}</span>` : '';
 
-    // ১. CORE MEANING & LINGUISTIC PILLS
     html += `
       <div class="vocab-section">
-        <h3><i class="fa-solid fa-font"></i> ১. CORE MEANING & PRONUNCIATION</h3>
+        <h3><i class="fa-solid fa-font"></i> ১. CORE MEANING &amp; PRONUNCIATION</h3>
         <p><strong class="glowing-word">${mainWord}</strong> ${ipaVal}</p>
         <p style="margin-top:7px;"><strong>মূল বাংলা অর্থ:</strong> ${data.meaning || 'N/A'}</p>
         
@@ -1325,7 +1965,6 @@
       </div>
     `;
 
-    // ২. WORD FAMILY
     if (data.family) {
       html += `
         <div class="vocab-section">
@@ -1340,7 +1979,6 @@
       `;
     }
 
-    // ৩. VERB FORMS BREAKDOWN
     if (data.verb_forms && data.verb_forms.length > 0) {
       let listItems = data.verb_forms.map(line => `<li>${line}</li>`).join('');
       html += `
@@ -1351,7 +1989,6 @@
       `;
     }
 
-    // ৪. SENTENCE PATTERN / GRAMMAR FORMULA
     if (data.sentence_patterns && data.sentence_patterns.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1363,7 +2000,6 @@
       html += `</div>`;
     }
 
-    // ৫. COLLOCATIONS
     if (data.collocations && data.collocations.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1376,7 +2012,6 @@
       html += `</ul></div>`;
     }
 
-    // ৬. APPROPRIATE PREPOSITIONS
     if (data.appropriate_prepositions && data.appropriate_prepositions.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1389,7 +2024,6 @@
       html += `</ul></div>`;
     }
 
-    // ৭. COMMON SPOKEN MISTAKES
     if (data.common_spoken_mistakes && data.common_spoken_mistakes.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1416,7 +2050,6 @@
       html += `</div>`;
     }
 
-    // ৮. SHORT READY-MADE SPOKEN CHUNKS / PHRASES
     if (data.spoken_chunks_phrases && data.spoken_chunks_phrases.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1429,7 +2062,6 @@
       html += `</div></div>`;
     }
 
-    // ৯. DAILY SPOKEN IDIOM / PHRASAL VERB
     if (data.spoken_idiom_phrasal_verb && data.spoken_idiom_phrasal_verb.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1442,7 +2074,6 @@
       html += `</ul></div>`;
     }
 
-    // ১০. CONFUSABLE WORDS / FALSE FRIENDS
     if (data.confusable_words && data.confusable_words.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1455,11 +2086,10 @@
       html += `</ul></div>`;
     }
 
-    // ১১. SYNONYMS & ANTONYMS
     if ((data.synonyms && data.synonyms.length > 0) || (data.antonyms && data.antonyms.length > 0)) {
       html += `
         <div class="vocab-section">
-          <h3><i class="fa-solid fa-arrows-split-up-and-left"></i> ১১. SYNONYMS & ANTONYMS</h3>
+          <h3><i class="fa-solid fa-arrows-split-up-and-left"></i> ১১. SYNONYMS &amp; ANTONYMS</h3>
           <div class="syn-ant-container">
             <div class="syn-col">
               <h4><i class="fa-solid fa-plus-circle"></i> সমার্থক (Synonyms)</h4>
@@ -1478,7 +2108,6 @@
       `;
     }
 
-    // ১২. SPOKEN ENGLISH USAGES
     if (data.usages && data.usages.length > 0) {
       html += `
         <div class="vocab-section">
@@ -1490,7 +2119,6 @@
       html += `</div>`;
     }
 
-    // ১৩. INTERACTIVE SPOKEN PRACTICE DRILL
     if (data.exercises && data.exercises.length > 0) {
       html += `
         <div class="vocab-section practice-drill">
@@ -1510,19 +2138,14 @@
     document.getElementById('vocabModal').classList.remove('show');
   }
 
-  function logout() {
-    toggleMenu();
-    localStorage.removeItem('iiel_session_token');
-    document.getElementById('videoFrame').src = '';
-    document.getElementById('mainScreen').style.display = 'none';
-    document.querySelector('.screen:not(.screen2):not(.screen3)').style.display = 'block';
-    document.getElementById('nameInput').value = '';
-    document.getElementById('phoneInput').value = '';
-    document.getElementById('practiceInput').value = '';
-    document.getElementById('btnLessonDetails').classList.add('hidden');
-    currentPracticeId = null;
-    activeVocabData = null;
-  }
+  (function init() {
+    const saved = localStorage.getItem('iiel_access_token');
+    if (saved) document.getElementById('tokenInput').value = saved;
+    document.getElementById('tokenInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') goPro();
+    });
+    mountTool('freeToolSlot');
+  })();
 </script>
 
 </body>

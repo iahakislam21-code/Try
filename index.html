@@ -2,10 +2,10 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iiel - Information of International English Language</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>The English Directory</title>
 <meta name="description" content="Learn and master English with bite-sized vocabulary, American accent practice, and video lessons." />
-<meta property="og:title" content="iiel - Information of International English Language" />
+<meta property="og:title" content="The English Directory" />
 <meta property="og:description" content="Learn and master English with bite-sized vocabulary, American accent practice, and video lessons." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -36,38 +36,94 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    min-height: 100dvh;
     background: var(--bg);
+  }
+
+  body {
     color: var(--text);
     font-family: 'Hind Siliguri', 'Inter', sans-serif;
-    min-height: 100vh;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 12px;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) calc(12px + env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px));
     line-height: 1.5;
   }
 
-  .screen { width: 100%; max-width: 400px; }
+  /* Full screen responsive container */
+  .screen {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 768px) {
+    .screen {
+      max-width: 460px;
+    }
+  }
 
   /* FREE PLAN LANDING PAGE */
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  .free-screen { max-width: 400px; margin: 0 auto; padding-bottom: 24px; }
+  .free-screen { width: 100%; padding-bottom: 24px; }
 
   .free-head {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     gap: 4px;
     padding: 10px 2px 14px;
   }
+
+  /* The English Directory Shimmer Gradient Animation: rgba(255,255,255,0.7) to rgba(255,255,255,0) */
   .free-logo {
+    position: relative;
+    display: inline-block;
     font-family: 'Inter', sans-serif;
     font-weight: 800;
     font-size: 38px;
-    line-height: 1;
+    line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--accent);
+    background: linear-gradient(
+      115deg,
+      #2dd4bf 0%,
+      #2dd4bf 30%,
+      rgba(255, 255, 255, 0.7) 48%,
+      rgba(255, 255, 255, 0) 58%,
+      #2dd4bf 75%,
+      #2dd4bf 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: continuousShimmer 3.2s linear infinite;
+  }
+
+  @keyframes continuousShimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -150% 0;
+    }
+  }
+
+  .logo-sparkle {
+    flex-shrink: 0;
+    margin-top: 4px;
+    animation: gentlePulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.18); opacity: 1; filter: drop-shadow(0 0 6px rgba(45, 212, 191, 0.6)); }
   }
 
   .hero {
@@ -98,6 +154,11 @@
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 12px 12px 14px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .sample-card:hover {
+    border-color: rgba(45, 212, 191, 0.35);
+    transform: translateY(-2px);
   }
   .sample-top {
     display: flex;
@@ -127,7 +188,7 @@
     color: #c3cbdc;
   }
 
-  /* FREE PRACTICE PANEL (EXACT MATCH TO Screenshot_20260924-232900.png) */
+  /* FREE PRACTICE PANEL */
   .tool-panel {
     background: var(--surface-card);
     border: 1px solid var(--border);
@@ -153,6 +214,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    animation: gentlePulse 2.8s ease-in-out infinite;
   }
 
   .tool-panel .tool-sub {
@@ -211,14 +273,16 @@
     font-size: 14.5px;
     font-weight: 600;
     outline: none;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .search-container input:focus {
     border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(45, 212, 191, 0.25);
   }
   .search-container input::placeholder {
-    color: #4b556e;
+    color: #64748b;
     font-weight: 400;
+    transition: opacity 0.15s ease;
   }
 
   /* GO / LESSON DETAILS BUTTON */
@@ -436,7 +500,7 @@
     border: none;
   }
 
-  /* ACCESS TOKEN & PRO SECTION (EXACT MATCH TO Screenshot_20260924-232900.png) */
+  /* ACCESS TOKEN & PRO SECTION */
   .token-section {
     margin-top: 4px;
   }
@@ -450,10 +514,24 @@
     font-weight: 600;
     color: var(--accent);
   }
-  .token-label-row i {
+
+  /* Dynamic contextual lock icon */
+  .token-lock-icon {
     font-size: 15px;
     color: var(--accent);
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, filter 0.2s ease;
   }
+  .token-lock-icon.acting {
+    transform: scale(1.22) rotate(-8deg);
+    filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.75));
+  }
+  .token-lock-icon.unlocked {
+    color: #34d399;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.8));
+  }
+
   .token-label-row span {
     color: #d1fae5;
   }
@@ -472,16 +550,17 @@
     letter-spacing: 0.03em;
     text-transform: uppercase;
     outline: none;
-    transition: box-shadow 0.15s ease;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
   }
   .token-field input::placeholder {
     text-transform: none;
     letter-spacing: 0;
-    color: #55617a;
+    color: #64748b;
     font-size: 14px;
+    transition: opacity 0.15s ease;
   }
   .token-field input:focus {
-    box-shadow: 0 0 12px rgba(45, 212, 191, 0.35);
+    box-shadow: 0 0 16px rgba(45, 212, 191, 0.45);
   }
 
   .paste-btn {
@@ -500,9 +579,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, transform 0.15s ease;
   }
-  .paste-btn:hover { color: var(--text); }
+  .paste-btn:hover { color: var(--accent); transform: translateY(-50%) scale(1.1); }
+  .paste-btn:active { transform: translateY(-50%) scale(0.95); }
 
   .field-error {
     font-size: 13px;
@@ -511,6 +591,7 @@
     display: none;
   }
 
+  /* Go Pro Button and Contextual Icon */
   button.pro-btn {
     width: 100%;
     margin-top: 14px;
@@ -527,27 +608,59 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: background 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s ease, opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(45, 212, 191, 0.25);
   }
-  button.pro-btn i {
-    font-size: 15px;
+  button.pro-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    animation: btnShine 3.8s ease-in-out infinite;
+  }
+  @keyframes btnShine {
+    0%, 70% { left: -120%; }
+    100% { left: 160%; }
+  }
+
+  .pro-shield-icon {
+    font-size: 16px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .pro-arrow-icon {
+    display: inline-block;
+    transition: transform 0.25s ease;
+    font-weight: 800;
+  }
+  button.pro-btn:hover .pro-shield-icon {
+    transform: scale(1.22) rotate(-6deg);
+  }
+  button.pro-btn:hover .pro-arrow-icon {
+    transform: translateX(4px);
   }
   button.pro-btn:active {
     background: var(--accent-dim);
-    transform: scale(0.99);
+    transform: scale(0.985);
   }
   button.pro-btn:disabled {
     opacity: 0.6;
     pointer-events: none;
   }
 
-  /* 4 Bottom Features */
+  /* 4 Bottom Features row & Contextual Interactive Icons */
   .features-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 26px;
     padding: 0 4px;
+    gap: 6px;
   }
   .feature-col {
     display: flex;
@@ -556,17 +669,73 @@
     text-align: center;
     flex: 1;
     gap: 7px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 10px;
+    padding: 6px 2px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .feature-col:hover {
+    background: rgba(45, 212, 191, 0.06);
+    transform: translateY(-2px);
+  }
+  .feature-col:active {
+    transform: scale(0.95);
+  }
+  
+  .feature-icon-wrapper {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .feature-icon {
     color: var(--accent);
-    font-size: 19px;
+    font-size: 20px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease, color 0.2s ease;
   }
+
+  /* Contextual animations for the 4 bottom icons */
+  .feature-col:hover .icon-book {
+    transform: scale(1.2) rotate(-5deg);
+    filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.7));
+  }
+  .feature-col:hover .icon-grad {
+    transform: scale(1.22) translateY(-2px);
+    filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.7));
+  }
+  .feature-col:hover .icon-video {
+    transform: scale(1.2) rotate(4deg);
+    filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.7));
+  }
+  .feature-col:hover .icon-seedling {
+    transform: scale(1.22) translateY(-2px) rotate(6deg);
+    filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.7));
+  }
+
+  /* Ambient gentle alive movements for 4 icons */
+  .icon-book { animation: ambientFloat 4s ease-in-out infinite; }
+  .icon-grad { animation: ambientFloat 4.4s ease-in-out infinite 0.7s; }
+  .icon-video { animation: ambientFloat 4.2s ease-in-out infinite 1.4s; }
+  .icon-seedling { animation: ambientFloat 4.6s ease-in-out infinite 2.1s; }
+
+  @keyframes ambientFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2.5px); }
+  }
+
   .feature-text {
     color: var(--text-muted);
     font-size: 11px;
     font-weight: 500;
     line-height: 1.35;
     font-family: 'Inter', sans-serif;
+    transition: color 0.2s ease;
+  }
+  .feature-col:hover .feature-text {
+    color: var(--text);
   }
 
   .spinner {
@@ -582,7 +751,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* AI BREAKDOWN LOADING UI (atom orb + rotating border glow + dots) */
+  /* AI BREAKDOWN LOADING UI */
   .vocab-modal-glow {
     position: relative;
     width: 100%;
@@ -828,7 +997,10 @@
     margin-bottom: 8px;
     width: 100%;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
   }
+  .whatsapp-btn:hover { background: #02c39a; }
+  .whatsapp-btn:active { transform: scale(0.98); }
 
   .payment-note-text {
     font-size: 11px;
@@ -852,7 +1024,9 @@
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
+    transition: background-color 0.2s ease;
   }
+  .popup-btn-primary:hover { background: #2dd4bf; }
 
   .popup-btn-secondary {
     background: transparent;
@@ -864,7 +1038,9 @@
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;
+    transition: background-color 0.2s ease;
   }
+  .popup-btn-secondary:hover { background: rgba(45, 212, 191, 0.1); }
 
   /* Contact / Settings Overlay */
   .menu-card {
@@ -888,6 +1064,7 @@
     font-size: 20px;
     cursor: pointer;
   }
+  .close-btn:hover { color: var(--text); }
   .menu-help-line {
     text-align: center;
     font-size: 14px;
@@ -911,7 +1088,9 @@
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
+    transition: background 0.2s ease;
   }
+  .logout-btn:hover { background: rgba(244, 104, 92, 0.1); }
 
   /* Welcome popup */
   .welcome-popup {
@@ -986,7 +1165,7 @@
   }
 
   /* Pro screen */
-  .screen3 { display: none; max-width: 400px; position: relative; margin: auto; }
+  .screen3 { display: none; width: 100%; max-width: 440px; position: relative; margin: auto; }
   
   .main-header {
     display: flex;
@@ -1017,11 +1196,24 @@
   }
   .top-title {
     text-align: center;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     letter-spacing: 0.02em;
     color: var(--text);
     margin-bottom: 14px;
+    background: linear-gradient(
+      115deg,
+      #ffffff 0%,
+      #ffffff 30%,
+      rgba(255, 255, 255, 0.7) 48%,
+      rgba(255, 255, 255, 0) 58%,
+      #ffffff 75%,
+      #ffffff 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: continuousShimmer 3.2s linear infinite;
   }
 
   /* VOCABULARY DETAILS MODAL STYLES */
@@ -1267,6 +1459,8 @@
   @media (prefers-reduced-motion: reduce) {
     .btn-lesson-details { animation: none; }
     .welcome-popup { transition: none; }
+    .free-logo { animation: none; }
+    .icon-book, .icon-grad, .icon-video, .icon-seedling { animation: none; }
   }
 </style>
 </head>
@@ -1275,8 +1469,8 @@
 <!-- FREE PLAN PAGE -->
 <div class="screen free-screen" id="freeScreen">
   <div class="free-head">
-    <span class="free-logo">iiel</span>
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="#2dd4bf" aria-hidden="true">
+    <span class="free-logo">The English Directory</span>
+    <svg class="logo-sparkle" width="22" height="22" viewBox="0 0 24 24" fill="#2dd4bf" aria-hidden="true">
       <path d="M13 2l1.6 5.4L20 9l-5.4 1.6L13 16l-1.6-5.4L6 9l5.4-1.6z"/>
       <path d="M19 15l.8 2.7L22.5 18.5l-2.7.8L19 22l-.8-2.7-2.7-.8 2.7-.8z"/>
     </svg>
@@ -1310,7 +1504,7 @@
     </div>
   </div>
 
-  <!-- Free practice panel (Matches Screenshot_20260924-232900.png) -->
+  <!-- Free practice panel -->
   <section class="tool-panel">
     <div class="tool-panel-header">
       <span class="title-sparkles">
@@ -1392,22 +1586,22 @@
           </div>
 
           <div class="video-wrap" id="videoWrap">
-            <iframe id="videoFrame" src="" title="Practice clip" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe id="videoFrame" src="" title="Practice clip" allow="autoplay; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Access Token & Pro section (Matches Screenshot_20260924-232900.png) -->
+  <!-- Access Token & Pro section -->
   <section class="token-section">
     <div class="token-label-row">
-      <i class="fa-solid fa-lock"></i>
+      <i class="fa-solid fa-lock token-lock-icon" id="tokenLockIcon"></i>
       <span>Access Token</span>
     </div>
     <div class="token-field">
       <input id="tokenInput" type="text" placeholder="Enter your access token..." autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="64">
-      <button type="button" class="paste-btn" id="pasteBtn" onclick="pasteToken()" aria-label="Paste token">
+      <button type="button" class="paste-btn" id="pasteBtn" onclick="pasteToken()" aria-label="Paste token" title="Paste Token">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -1417,27 +1611,35 @@
     <div class="field-error" id="tokenError">Access token লিখুন</div>
 
     <button class="pro-btn" id="proBtn" onclick="goPro()">
-      <i class="fa-solid fa-shield-halved"></i>
-      <span>Go towards Pro — Unlock Full Library →</span>
+      <i class="fa-solid fa-shield-halved pro-shield-icon" id="proShieldIcon"></i>
+      <span>Unlock Full Directory — Go Pro <span class="pro-arrow-icon">→</span></span>
     </button>
 
-    <!-- 4 Bottom Features row -->
+    <!-- 4 Bottom Features row with interactive icons -->
     <div class="features-row">
       <div class="feature-col">
-        <i class="fa-solid fa-book-open feature-icon"></i>
-        <span class="feature-text">Full library</span>
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-book-open feature-icon icon-book"></i>
+        </div>
+        <span class="feature-text">Full Directory</span>
       </div>
       <div class="feature-col">
-        <i class="fa-solid fa-graduation-cap feature-icon"></i>
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-graduation-cap feature-icon icon-grad"></i>
+        </div>
         <span class="feature-text">Advanced<br>lessons</span>
       </div>
       <div class="feature-col">
-        <i class="fa-solid fa-video feature-icon"></i>
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-video feature-icon icon-video"></i>
+        </div>
         <span class="feature-text">60 videos</span>
       </div>
       <div class="feature-col">
-        <i class="fa-solid fa-seedling feature-icon"></i>
-        <span class="feature-text">Growing library</span>
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-seedling feature-icon icon-seedling"></i>
+        </div>
+        <span class="feature-text">Growing Directory</span>
       </div>
     </div>
   </section>
@@ -1448,11 +1650,11 @@
 <!-- PRO PAGE -->
 <div class="screen screen3" id="mainScreen">
   <div class="main-header">
-    <button class="three-dots-btn" onclick="toggleMenu()" title="Options">&#8381;</button>
+    <button class="three-dots-btn" onclick="toggleMenu()" title="Options">&#8942;</button>
   </div>
 
   <div class="top-note">Applicable for mastering American accent only.</div>
-  <div class="top-title">INFORMATION OF INTERNATIONAL ENGLISH LANGUAGE</div>
+  <div class="top-title">The English Directory</div>
 
   <div id="proToolSlot"></div>
 </div>
@@ -1464,7 +1666,7 @@
     <h3>Settings &amp; Support</h3>
     <div class="menu-help-line">
       Need help? Message WhatsApp:
-      <b>01938240811</b>
+      <b>01623563792</b>
     </div>
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
@@ -1498,9 +1700,9 @@
       </div>
     </div>
 
-    <a href="https://wa.me/8801938240811" target="_blank" class="whatsapp-btn">
+    <a href="https://wa.me/8801623563792" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
       <i class="fa-brands fa-whatsapp" style="font-size: 16px;"></i>
-      <span>Pro Token পেতে WhatsApp করুন: 01938240811</span>
+      <span>Pro Token পেতে WhatsApp করুন: 01623563792</span>
     </a>
     
     <div class="payment-note-text">bKash / Nagad এ পেমেন্ট করতে পারবেন</div>
@@ -1532,18 +1734,38 @@
   let currentPracticeId = null;
   let activeVocabData = null;
   let loadSeq = 0;
+  let clipSeq = 0;
+  let practiceDebounceTimer = null;
+  let proTransitionLock = false;
 
   const SESSION_END_REASONS = ['invalid', 'inactive', 'expired', 'device'];
 
   class SessionEnded extends Error {}
 
+  function esc(v) {
+    if (v === null || v === undefined) return '';
+    return String(v)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   function getDeviceId() {
-    let id = localStorage.getItem('iiel_device_id');
-    if (!id) {
-      id = 'dev-' + crypto.randomUUID();
-      localStorage.setItem('iiel_device_id', id);
+    try {
+      let id = localStorage.getItem('ed_device_id');
+      if (!id) {
+        id = 'dev-' + crypto.randomUUID();
+        localStorage.setItem('ed_device_id', id);
+      }
+      return id;
+    } catch (e) {
+      if (!window.__edFallbackDeviceId) {
+        window.__edFallbackDeviceId = 'dev-' + (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+      }
+      return window.__edFallbackDeviceId;
     }
-    return id;
   }
 
   async function callFn(name, payload) {
@@ -1571,12 +1793,16 @@
     document.getElementById(slotId).appendChild(document.getElementById('practiceTool'));
   }
 
+  function stopVideo() {
+    document.getElementById('videoWrap').classList.remove('show');
+    document.getElementById('videoFrame').src = '';
+  }
+
   function resetTool() {
     loadSeq++;
     document.getElementById('practiceInput').value = '';
     document.getElementById('clipSection').style.display = 'none';
-    document.getElementById('videoWrap').classList.remove('show');
-    document.getElementById('videoFrame').src = '';
+    stopVideo();
     document.getElementById('btnLessonDetails').classList.add('hidden');
     document.getElementById('lockedNote').classList.remove('show');
     document.getElementById('clipGrid').innerHTML = '';
@@ -1596,12 +1822,21 @@
       currentVal += key;
     }
 
+    // leading zero বাদ (যেমন "007" কে "7" ধরা) ও অতিরিক্ত দীর্ঘ ইনপুট আটকানো
+    currentVal = currentVal.replace(/^0+(?=\d)/, '').slice(0, 6);
+
     input.value = currentVal;
 
+    if (practiceDebounceTimer) {
+      clearTimeout(practiceDebounceTimer);
+      practiceDebounceTimer = null;
+    }
+
     if (currentVal !== '') {
-      loadPractice();
+      practiceDebounceTimer = setTimeout(loadPractice, 350);
     } else {
       loadSeq++;
+      stopVideo();
       document.getElementById('clipSection').style.display = 'none';
       document.getElementById('btnLessonDetails').classList.add('hidden');
       document.getElementById('lockedNote').classList.remove('show');
@@ -1616,36 +1851,36 @@
 
   function showFree() {
     document.getElementById('mainScreen').style.display = 'none';
-    document.getElementById('freeScreen').style.display = 'block';
+    document.getElementById('freeScreen').style.display = 'flex';
     mountTool('freeToolSlot');
     resetTool();
-    document.getElementById('practiceInput').placeholder = 'যেমন: 1, 2, 3...';
   }
 
   function showPro() {
     document.getElementById('freeScreen').style.display = 'none';
-    document.getElementById('mainScreen').style.display = 'block';
+    document.getElementById('mainScreen').style.display = 'flex';
     mountTool('proToolSlot');
     resetTool();
-    document.getElementById('practiceInput').placeholder = 'যেমন: 1, 2, 3...';
     window.scrollTo(0, 0);
   }
 
   function exitPro(reason) {
     proToken = null;
-    localStorage.removeItem('iiel_access_token');
+    try { localStorage.removeItem('ed_access_token'); } catch (e) {}
     document.getElementById('menuOverlay').classList.remove('show');
     document.getElementById('vocabModal').classList.remove('show');
     showFree();
     document.getElementById('tokenInput').value = '';
+    updateLockIconState();
     showDenied(reason);
   }
 
   function logout() {
     toggleMenu();
     proToken = null;
-    localStorage.removeItem('iiel_access_token');
+    try { localStorage.removeItem('ed_access_token'); } catch (e) {}
     document.getElementById('tokenInput').value = '';
+    updateLockIconState();
     showFree();
     window.scrollTo(0, 0);
   }
@@ -1655,6 +1890,7 @@
     const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
     el.focus({ preventScroll: true });
+    animateLockIcon();
   }
 
   async function pasteToken() {
@@ -1663,23 +1899,57 @@
       if (text) {
         document.getElementById('tokenInput').value = text.trim();
         document.getElementById('tokenError').style.display = 'none';
+        updateLockIconState();
+        animateLockIcon();
       }
     } catch (e) {
       focusToken();
     }
   }
 
+  function updateLockIconState() {
+    const input = document.getElementById('tokenInput');
+    const lockIcon = document.getElementById('tokenLockIcon');
+    if (!lockIcon) return;
+    if (proToken) {
+      lockIcon.className = 'fa-solid fa-lock-open token-lock-icon unlocked';
+    } else if (input && input.value.trim().length > 0) {
+      lockIcon.className = 'fa-solid fa-key token-lock-icon acting';
+    } else {
+      lockIcon.className = 'fa-solid fa-lock token-lock-icon';
+    }
+  }
+
+  function animateLockIcon() {
+    const lockIcon = document.getElementById('tokenLockIcon');
+    if (!lockIcon) return;
+    lockIcon.classList.add('acting');
+    setTimeout(() => {
+      if (!proToken && (!document.getElementById('tokenInput') || !document.getElementById('tokenInput').value.trim())) {
+        lockIcon.classList.remove('acting');
+      }
+    }, 600);
+  }
+
   async function goPro() {
+    if (proTransitionLock) return;
+
     const input = document.getElementById('tokenInput');
     const err = document.getElementById('tokenError');
     const btn = document.getElementById('proBtn');
+    const shieldIcon = document.getElementById('proShieldIcon');
     const token = input.value.trim().toUpperCase();
 
     err.style.display = 'none';
     if (!token) {
       err.style.display = 'block';
       input.focus();
+      animateLockIcon();
       return;
+    }
+
+    if (shieldIcon) {
+      shieldIcon.style.transform = 'scale(1.3) rotate(-15deg)';
     }
 
     const originalHtml = btn.innerHTML;
@@ -1696,19 +1966,24 @@
 
       if (data.status === 'success') {
         proToken = token;
-        localStorage.setItem('iiel_access_token', token);
+        try { localStorage.setItem('ed_access_token', token); } catch (e) {}
+        updateLockIconState();
+        proTransitionLock = true;
         showWelcomeAndProceed();
+        return; // বাটন ইচ্ছাকৃতভাবে disabled রাখা হলো, যাতে popup চলাকালীন দ্বিতীয়বার চাপা না যায়
       } else if (SESSION_END_REASONS.includes(data.reason)) {
+        updateLockIconState();
         showDenied(data.reason);
       } else {
         alert(data.message || 'সমস্যা হয়েছে, আবার চেষ্টা করুন।');
       }
     } catch (e) {
       alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = originalHtml;
     }
+
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+    updateLockIconState();
   }
 
   function showDenied(reason) {
@@ -1721,11 +1996,11 @@
       title.innerHTML = '<span class="highlight">Access</span> Denied!';
       sub.textContent = 'এই Token অন্য একটি ডিভাইসে চালু আছে।';
     } else if (reason === 'expired') {
-      title.innerHTML = 'মেয়াদ <span class="highlight">শেষ</span>';
-      sub.textContent = 'আপনার টোকেনের মেয়াদ শেষ হয়ে গেছে।';
+      title.innerHTML = 'মেয়াদ <span class="highlight">শেষ</span>';
+      sub.textContent = 'আপনার টোকেনের মেয়াদ শেষ হয়ে গেছে।';
     } else {
       title.innerHTML = '<span class="highlight">Access</span> Denied!';
-      sub.textContent = 'আপনার কোনো সক্রিয় প্ল্যান পাওয়া যায়নি।';
+      sub.textContent = 'আপনার কোনো সক্রিয় প্ল্যান পাওয়া যায়নি।';
     }
     document.getElementById('deniedOverlay').classList.add('show');
   }
@@ -1777,6 +2052,12 @@
     setTimeout(() => {
       popup.classList.remove('show');
       showPro();
+      const btn = document.getElementById('proBtn');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-shield-halved pro-shield-icon" id="proShieldIcon"></i><span>Unlock Full Directory — Go Pro <span class="pro-arrow-icon">→</span></span>';
+      }
+      proTransitionLock = false;
     }, 1800);
   }
 
@@ -1794,6 +2075,7 @@
       if (data.status === 'locked') {
         locked.classList.add('show');
         document.getElementById('clipSection').style.display = 'none';
+        stopVideo();
         document.getElementById('btnLessonDetails').classList.add('hidden');
         currentPracticeId = null;
         activeVocabData = null;
@@ -1803,22 +2085,26 @@
 
       if (data.status !== 'success' || !data.practices || data.practices.length === 0) {
         document.getElementById('clipSection').style.display = 'none';
+        stopVideo();
         document.getElementById('btnLessonDetails').classList.add('hidden');
         return;
       }
 
       currentPracticeId = data.practices[0].id;
       activeVocabData = null;
+      stopVideo();
 
       document.getElementById('btnLessonDetails').classList.remove('hidden');
 
       await loadAvailableClips(seq);
       if (seq !== loadSeq) return;
       document.getElementById('clipSection').style.display = 'block';
-      document.getElementById('videoWrap').classList.remove('show');
     } catch (e) {
       if (e instanceof SessionEnded) return;
       console.error('নেটওয়ার্ক সমস্যা হয়েছে', e);
+      if (seq !== loadSeq) return;
+      document.getElementById('clipSection').style.display = 'block';
+      renderClipError();
     }
   }
 
@@ -1826,11 +2112,21 @@
     try {
       const data = await callFn('list-clips', { practice_id: currentPracticeId });
       if (seq !== loadSeq) return;
-      renderClipGrid(data.status === 'success' ? data.available : []);
+      if (data.status === 'success') {
+        renderClipGrid(data.available);
+      } else {
+        renderClipError();
+      }
     } catch (e) {
       if (e instanceof SessionEnded) throw e;
-      renderClipGrid([]);
+      if (seq !== loadSeq) return;
+      renderClipError();
     }
+  }
+
+  function renderClipError() {
+    const grid = document.getElementById('clipGrid');
+    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#f4685c; padding:10px 0; font-size:13px;">ক্লিপ লোড করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।</p>';
   }
 
   function renderClipGrid(availableList) {
@@ -1855,18 +2151,23 @@
     document.querySelectorAll('.clip-btn').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
 
+    const seq = ++clipSeq;
+    const pid = currentPracticeId;
+
     try {
-      const data = await callFn('get-clip', { practice_id: currentPracticeId, clip_order: clipOrder });
+      const data = await callFn('get-clip', { practice_id: pid, clip_order: clipOrder });
+      if (seq !== clipSeq || pid !== currentPracticeId) return;
 
       if (data.status === 'success') {
         const iframe = document.getElementById('videoFrame');
-        iframe.src = 'https://www.youtube.com/embed/' + data.video_id + '?start=' + (data.start_seconds || 0) + '&autoplay=1';
+        iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(data.video_id) + '?start=' + encodeURIComponent(data.start_seconds || 0) + '&autoplay=1';
         document.getElementById('videoWrap').classList.add('show');
       } else {
         alert(data.message || 'ভিডিও লোড করা যায়নি।');
       }
     } catch (e) {
       if (e instanceof SessionEnded) return;
+      if (seq !== clipSeq || pid !== currentPracticeId) return;
       alert('নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন।');
     }
   }
@@ -1906,18 +2207,20 @@
 
     try {
       const data = await callFn('get-word-vocab', { practice_id: pid });
+      if (pid !== currentPracticeId || !modal.classList.contains('show')) return;
 
       if (data.status === 'success' && data.vocab_data) {
-        if (pid === currentPracticeId) activeVocabData = data.vocab_data;
+        activeVocabData = data.vocab_data;
         glow.classList.remove('ai-loading');
         renderVocabContent(data.vocab_data);
       } else {
         glow.classList.remove('ai-loading');
-        container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">${data.message || 'নোট লোড করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।'}</p>`;
+        container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">${esc(data.message) || 'নোট লোড করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।'}</p>`;
       }
     } catch (err) {
-      glow.classList.remove('ai-loading');
       if (err instanceof SessionEnded) return;
+      if (pid !== currentPracticeId || !modal.classList.contains('show')) return;
+      glow.classList.remove('ai-loading');
       container.innerHTML = `<p style="color:#f4685c; text-align:center; padding:20px;">সার্ভার কানেকশন ত্রুটি হয়েছে।</p>`;
     }
   }
@@ -1926,40 +2229,40 @@
     const container = document.getElementById('vocabModalContent');
     let html = '';
     const mainWord = data.word || 'N/A';
-    const ipaVal = data.ipa ? `<span class="ipa-badge">${data.ipa}</span>` : '';
+    const ipaVal = data.ipa ? `<span class="ipa-badge">${esc(data.ipa)}</span>` : '';
 
     html += `
       <div class="vocab-section">
         <h3><i class="fa-solid fa-font"></i> ১. CORE MEANING &amp; PRONUNCIATION</h3>
-        <p><strong class="glowing-word">${mainWord}</strong> ${ipaVal}</p>
-        <p style="margin-top:7px;"><strong>মূল বাংলা অর্থ:</strong> ${data.meaning || 'N/A'}</p>
+        <p><strong class="glowing-word">${esc(mainWord)}</strong> ${ipaVal}</p>
+        <p style="margin-top:7px;"><strong>মূল বাংলা অর্থ:</strong> ${esc(data.meaning) || 'N/A'}</p>
         
         <div class="badge-container">
-          ${data.part_of_speech ? `<span class="vocab-pill pill-pos"><i class="fa-solid fa-tag"></i> ${data.part_of_speech}</span>` : ''}
-          ${data.cefr_level ? `<span class="vocab-pill pill-cefr"><i class="fa-solid fa-layer-group"></i> ${data.cefr_level}</span>` : ''}
-          ${data.tone_register ? `<span class="vocab-pill pill-tone"><i class="fa-solid fa-bullhorn"></i> ${data.tone_register}</span>` : ''}
+          ${data.part_of_speech ? `<span class="vocab-pill pill-pos"><i class="fa-solid fa-tag"></i> ${esc(data.part_of_speech)}</span>` : ''}
+          ${data.cefr_level ? `<span class="vocab-pill pill-cefr"><i class="fa-solid fa-layer-group"></i> ${esc(data.cefr_level)}</span>` : ''}
+          ${data.tone_register ? `<span class="vocab-pill pill-tone"><i class="fa-solid fa-bullhorn"></i> ${esc(data.tone_register)}</span>` : ''}
         </div>
 
         <div class="grammar-attr-grid">
           ${data.singular_form ? `
             <div class="grammar-attr-card">
               <span class="attr-label">Singular Form</span>
-              <span class="attr-value">${data.singular_form}</span>
+              <span class="attr-value">${esc(data.singular_form)}</span>
             </div>` : ''}
           ${data.plural_form ? `
             <div class="grammar-attr-card">
               <span class="attr-label">Plural Form</span>
-              <span class="attr-value">${data.plural_form}</span>
+              <span class="attr-value">${esc(data.plural_form)}</span>
             </div>` : ''}
           ${data.countable_uncountable ? `
             <div class="grammar-attr-card">
               <span class="attr-label">Countable / Uncountable</span>
-              <span class="attr-value">${data.countable_uncountable}</span>
+              <span class="attr-value">${esc(data.countable_uncountable)}</span>
             </div>` : ''}
           ${data.transitive_intransitive ? `
             <div class="grammar-attr-card">
               <span class="attr-label">Transitive / Intransitive</span>
-              <span class="attr-value">${data.transitive_intransitive}</span>
+              <span class="attr-value">${esc(data.transitive_intransitive)}</span>
             </div>` : ''}
         </div>
       </div>
@@ -1970,17 +2273,17 @@
         <div class="vocab-section">
           <h3><i class="fa-solid fa-sitemap"></i> ২. COMPLETE WORD FAMILY</h3>
           <ul>
-            <li><strong>Noun:</strong> ${data.family.noun || 'প্রযোজ্য নয়'}</li>
-            <li><strong>Verb:</strong> ${data.family.verb || 'প্রযোজ্য নয়'}</li>
-            <li><strong>Adjective:</strong> ${data.family.adjective || 'প্রযোজ্য নয়'}</li>
-            <li><strong>Adverb:</strong> ${data.family.adverb || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Noun:</strong> ${esc(data.family.noun) || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Verb:</strong> ${esc(data.family.verb) || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Adjective:</strong> ${esc(data.family.adjective) || 'প্রযোজ্য নয়'}</li>
+            <li><strong>Adverb:</strong> ${esc(data.family.adverb) || 'প্রযোজ্য নয়'}</li>
           </ul>
         </div>
       `;
     }
 
     if (data.verb_forms && data.verb_forms.length > 0) {
-      let listItems = data.verb_forms.map(line => `<li>${line}</li>`).join('');
+      let listItems = data.verb_forms.map(line => `<li>${esc(line)}</li>`).join('');
       html += `
         <div class="vocab-section">
           <h3><i class="fa-solid fa-list-check"></i> ৩. VERB FORMS BREAKDOWN (V1 — V5)</h3>
@@ -1995,7 +2298,7 @@
           <h3><i class="fa-solid fa-diagram-project"></i> ৪. SENTENCE PATTERN / GRAMMAR FORMULA</h3>
       `;
       data.sentence_patterns.forEach(item => {
-        html += `<div class="formula-card"><i class="fa-solid fa-circle-chevron-right" style="color:#fbbf24; margin-right:4px;"></i> ${item}</div>`;
+        html += `<div class="formula-card"><i class="fa-solid fa-circle-chevron-right" style="color:#fbbf24; margin-right:4px;"></i> ${esc(item)}</div>`;
       });
       html += `</div>`;
     }
@@ -2007,7 +2310,7 @@
           <ul>
       `;
       data.collocations.forEach(c => {
-        html += `<li><i class="fa-regular fa-square-check" style="color:#2dd4bf; margin-right:4px;"></i> ${c}</li>`;
+        html += `<li><i class="fa-regular fa-square-check" style="color:#2dd4bf; margin-right:4px;"></i> ${esc(c)}</li>`;
       });
       html += `</ul></div>`;
     }
@@ -2019,7 +2322,7 @@
           <ul>
       `;
       data.appropriate_prepositions.forEach(p => {
-        html += `<li><i class="fa-solid fa-arrow-right" style="color:#38bdf8; margin-right:4px;"></i> ${p}</li>`;
+        html += `<li><i class="fa-solid fa-arrow-right" style="color:#38bdf8; margin-right:4px;"></i> ${esc(p)}</li>`;
       });
       html += `</ul></div>`;
     }
@@ -2034,15 +2337,15 @@
           <div class="mistake-box">
             <div class="mistake-row">
               <span class="tag-wrong">ভুল</span>
-              <span class="line-wrong">${m.wrong}</span>
+              <span class="line-wrong">${esc(m.wrong)}</span>
             </div>
             <div class="mistake-row">
               <span class="tag-right">শুদ্ধ</span>
-              <span class="line-right">${m.right}</span>
+              <span class="line-right">${esc(m.right)}</span>
             </div>
             <div class="mistake-explain">
               <i class="fa-solid fa-lightbulb" style="color:#fbbf24; margin-right:4px;"></i>
-              <strong>কারণ:</strong> ${m.explanation}
+              <strong>কারণ:</strong> ${esc(m.explanation)}
             </div>
           </div>
         `;
@@ -2057,7 +2360,7 @@
           <div>
       `;
       data.spoken_chunks_phrases.forEach(chunk => {
-        html += `<span class="chunk-tag"><i class="fa-solid fa-bolt" style="font-size:10px; margin-right:4px;"></i>${chunk}</span>`;
+        html += `<span class="chunk-tag"><i class="fa-solid fa-bolt" style="font-size:10px; margin-right:4px;"></i>${esc(chunk)}</span>`;
       });
       html += `</div></div>`;
     }
@@ -2069,7 +2372,7 @@
           <ul>
       `;
       data.spoken_idiom_phrasal_verb.forEach(item => {
-        html += `<li><i class="fa-solid fa-star" style="color:#fbbf24; font-size:10px; margin-right:4px;"></i> ${item}</li>`;
+        html += `<li><i class="fa-solid fa-star" style="color:#fbbf24; font-size:10px; margin-right:4px;"></i> ${esc(item)}</li>`;
       });
       html += `</ul></div>`;
     }
@@ -2081,7 +2384,7 @@
           <ul>
       `;
       data.confusable_words.forEach(item => {
-        html += `<li style="background:rgba(249,115,22,0.08); padding:5px 8px; border-radius:6px; margin-bottom:4px; border:1px solid rgba(249,115,22,0.2);"><i class="fa-solid fa-circle-question" style="color:#f97316; margin-right:4px;"></i> ${item}</li>`;
+        html += `<li style="background:rgba(249,115,22,0.08); padding:5px 8px; border-radius:6px; margin-bottom:4px; border:1px solid rgba(249,115,22,0.2);"><i class="fa-solid fa-circle-question" style="color:#f97316; margin-right:4px;"></i> ${esc(item)}</li>`;
       });
       html += `</ul></div>`;
     }
@@ -2094,13 +2397,13 @@
             <div class="syn-col">
               <h4><i class="fa-solid fa-plus-circle"></i> সমার্থক (Synonyms)</h4>
               <ul>
-                ${(data.synonyms || []).map(s => `<li>• ${s}</li>`).join('')}
+                ${(data.synonyms || []).map(s => `<li>• ${esc(s)}</li>`).join('')}
               </ul>
             </div>
             <div class="ant-col">
               <h4><i class="fa-solid fa-minus-circle"></i> বিপরীতার্থক (Antonyms)</h4>
               <ul>
-                ${(data.antonyms || []).map(a => `<li>• ${a}</li>`).join('')}
+                ${(data.antonyms || []).map(a => `<li>• ${esc(a)}</li>`).join('')}
               </ul>
             </div>
           </div>
@@ -2114,7 +2417,7 @@
           <h3><i class="fa-solid fa-book-open-reader"></i> ১২. SPOKEN ENGLISH USAGES</h3>
       `;
       data.usages.forEach(usage => {
-        html += `<p style="margin-bottom:8px; line-height:1.55; background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:6px;">${usage}</p>`;
+        html += `<p style="margin-bottom:8px; line-height:1.55; background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:6px;">${esc(usage)}</p>`;
       });
       html += `</div>`;
     }
@@ -2126,7 +2429,7 @@
           <ol>
       `;
       data.exercises.forEach(ex => {
-        html += `<li>${ex}</li>`;
+        html += `<li>${esc(ex)}</li>`;
       });
       html += `</ol></div>`;
     }
@@ -2138,15 +2441,112 @@
     document.getElementById('vocabModal').classList.remove('show');
   }
 
+  function handleFeatureClick(name) {
+    if (!proToken) {
+      focusToken();
+      const err = document.getElementById('tokenError');
+      err.textContent = name + ' ব্যবহার করতে আপনার Pro Token দিন।';
+      err.style.display = 'block';
+    }
+  }
+
+  /* Interactive Typewriter effect for Placeholders */
+  function startTypewriter(elementId, fullText, speed = 120, pauseTime = 1800) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    let charIdx = 0;
+    let isDeleting = false;
+
+    function step() {
+      if (document.activeElement === el || el.value.length > 0) {
+        setTimeout(step, 400);
+        return;
+      }
+
+      if (!isDeleting) {
+        charIdx++;
+        el.setAttribute('placeholder', fullText.substring(0, charIdx));
+        if (charIdx === fullText.length) {
+          isDeleting = true;
+          setTimeout(step, pauseTime);
+          return;
+        }
+      } else {
+        charIdx--;
+        el.setAttribute('placeholder', fullText.substring(0, charIdx) || ' ');
+        if (charIdx === 0) {
+          isDeleting = false;
+          setTimeout(step, 500);
+          return;
+        }
+      }
+      setTimeout(step, isDeleting ? speed / 2 : speed);
+    }
+
+    step();
+  }
+
+  // সংরক্ষিত Token থাকলে নীরবে যাচাই করে সরাসরি Pro স্ক্রিনে নিয়ে যাওয়া (auto-login)
+  async function tryAutoLogin(savedToken) {
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/verify-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token: savedToken, device_id: getDeviceId() })
+      });
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        proToken = savedToken;
+        updateLockIconState();
+        showPro();
+      } else if (SESSION_END_REASONS.includes(data.reason)) {
+        try { localStorage.removeItem('ed_access_token'); } catch (e) {}
+        proToken = null;
+        updateLockIconState();
+      }
+      // নেটওয়ার্ক/অন্য ত্রুটিতে কিছু করা হয় না — ইউজার নিজে Go Pro চাপতে পারবেন
+    } catch (e) {
+      // নীরব ব্যর্থতা: free screen-এই থেকে যাবে
+    }
+  }
+
   (function init() {
-    const saved = localStorage.getItem('iiel_access_token');
-    if (saved) document.getElementById('tokenInput').value = saved;
-    document.getElementById('tokenInput').addEventListener('keydown', (e) => {
+    let saved = null;
+    try { saved = localStorage.getItem('ed_access_token'); } catch (e) {}
+    const tokenInput = document.getElementById('tokenInput');
+
+    if (saved) {
+      tokenInput.value = saved;
+      updateLockIconState();
+    }
+
+    tokenInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') goPro();
     });
+
+    tokenInput.addEventListener('input', () => {
+      updateLockIconState();
+      document.getElementById('tokenError').style.display = 'none';
+    });
+
+    tokenInput.addEventListener('focus', () => {
+      animateLockIcon();
+    });
+
     mountTool('freeToolSlot');
+
+    // Start Dynamic Typewriter for both inputs
+    startTypewriter('practiceInput', 'যেমন: 1, 2, 3...', 120, 1600);
+    startTypewriter('tokenInput', 'Enter your access token...', 90, 2000);
+
+    if (saved) {
+      tryAutoLogin(saved);
+    }
   })();
 </script>
+
 
 </body>
 </html>

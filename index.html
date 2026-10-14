@@ -81,6 +81,46 @@
     padding: 10px 2px 14px;
   }
 
+  /* The English Directory — sticker-style SVG logo (white face, black line, teal band, white border, soft glow) */
+  .ed-logo {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    overflow: visible;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .ed-logo text {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-weight: 800;
+  }
+  .ed-logo .ed-l-glow  { fill: #2dd4bf; stroke: #2dd4bf; stroke-width: calc(var(--k, 1) * 26px); }
+  .ed-logo .ed-l-white { fill: #ffffff; stroke: #ffffff; stroke-width: calc(var(--k, 1) * 28px); }
+  .ed-logo .ed-l-teal  { fill: #2dd4bf; stroke: #2dd4bf; stroke-width: calc(var(--k, 1) * 20px); }
+  .ed-logo .ed-l-face  { stroke: #04070d; stroke-width: calc(var(--k, 1) * 6px); paint-order: stroke; }
+  .ed-logo .ed-t-face  { fill: url(#edShine); }
+  .ed-logo .ed-i-face  { fill: #2dd4bf; }
+
+  /* Pro (main) page logo — তার সাইজ বদলাতে শুধু --main-logo-w পাল্টান */
+  .main-logo {
+    --main-logo-w: 200px;
+    display: flex;
+    justify-content: center;
+    margin: 6px 0 14px;
+  }
+  .ed-logo.ed-logo-main {
+    flex: none;
+    width: var(--main-logo-w);
+    max-width: 100%;
+  }
+  .ed-logo.ed-logo-main .ed-t-face { fill: url(#edShineM); }
+
+
   /* The English Directory Shimmer Gradient Animation: rgba(255,255,255,0.7) to rgba(255,255,255,0) */
   .free-logo {
     position: relative;
@@ -1169,8 +1209,10 @@
   
   .main-header {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 4px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
   }
   .three-dots-btn {
     background: none;
@@ -1462,6 +1504,621 @@
     .free-logo { animation: none; }
     .icon-book, .icon-grad, .icon-video, .icon-seedling { animation: none; }
   }
+
+  /* =====================================================
+     HEADER ICON BUTTONS: Notice / Profile / Notes
+     ===================================================== */
+  [hidden] { display: none !important; }
+
+  .hdr-btn {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-width: 54px;
+    padding: 7px 9px 5px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-family: inherit;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hdr-btn i { font-size: 17px; }
+  .hdr-btn .cap { font-size: 9.5px; font-weight: 600; letter-spacing: 0.01em; }
+  .hdr-btn:hover { color: var(--text); border-color: var(--accent-dim); }
+  .hdr-btn:active { transform: scale(0.95); }
+  .hdr-btn.profile-btn i { color: var(--accent); }
+  .hdr-btn.notes-btn i { color: var(--sky); }
+
+  .hdr-group { display: flex; align-items: center; gap: 6px; }
+  .free-head-right { display: flex; align-items: flex-start; gap: 8px; flex-shrink: 0; }
+  .free-head-right .hdr-btn { margin-top: 2px; }
+
+  /* Notice bell: calm by default, eye-catching only when there is something new */
+  .notice-btn i { color: var(--text-muted); transform-origin: 50% 0; }
+  .notice-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--danger);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px var(--bg);
+  }
+  .notice-btn.has-unread {
+    color: var(--amber);
+    border-color: rgba(251, 191, 36, 0.6);
+    background: rgba(251, 191, 36, 0.09);
+    animation: noticeGlow 2.2s ease-in-out infinite;
+  }
+  .notice-btn.has-unread i { color: var(--amber); animation: bellRing 3.2s ease-in-out infinite; }
+  .notice-btn.has-unread .notice-badge { display: inline-flex; }
+  .notice-btn.has-unread.urgent {
+    color: #ff8176;
+    border-color: rgba(244, 104, 92, 0.7);
+    background: rgba(244, 104, 92, 0.1);
+    animation: noticeGlowUrgent 1.5s ease-in-out infinite;
+  }
+  .notice-btn.has-unread.urgent i { color: #ff8176; animation: bellRing 2s ease-in-out infinite; }
+
+  @keyframes bellRing {
+    0%, 60%, 100% { transform: rotate(0); }
+    64% { transform: rotate(16deg); }
+    68% { transform: rotate(-14deg); }
+    72% { transform: rotate(10deg); }
+    76% { transform: rotate(-8deg); }
+    80% { transform: rotate(4deg); }
+    84% { transform: rotate(0); }
+  }
+  @keyframes noticeGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+    50% { box-shadow: 0 0 14px 2px rgba(251, 191, 36, 0.42); }
+  }
+  @keyframes noticeGlowUrgent {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(244, 104, 92, 0); }
+    50% { box-shadow: 0 0 16px 3px rgba(244, 104, 92, 0.55); }
+  }
+
+  /* =====================================================
+     PANEL MODALS (Notice board / Profile / Notes)
+     ===================================================== */
+  .panel-card {
+    --pa: #38bdf8;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 480px;
+    max-height: 88vh;
+    max-height: 88dvh;
+    background: #0b1120;
+    border: 1.5px solid var(--pa);
+    border-radius: 18px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    text-align: left;
+  }
+  .panel-card.pc-notice { --pa: #fbbf24; }
+
+  .panel-head {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .panel-head h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--pa);
+  }
+  .panel-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    line-height: 1;
+    padding: 0 6px;
+    cursor: pointer;
+  }
+  .panel-close:hover { color: var(--text); }
+  .panel-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 14px 16px 16px;
+  }
+  .panel-body::-webkit-scrollbar { width: 5px; }
+  .panel-body::-webkit-scrollbar-thumb { background: var(--pa); border-radius: 4px; }
+
+  .panel-state {
+    text-align: center;
+    padding: 34px 10px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+  }
+  .panel-state i { display: block; font-size: 30px; margin-bottom: 10px; color: var(--text-dim); }
+  .panel-state .spinner { display: inline-block; margin: 0 8px 0 0; color: var(--pa); }
+  .panel-retry {
+    margin-top: 12px;
+    background: transparent;
+    color: var(--pa);
+    border: 1px solid var(--pa);
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .panel-warn {
+    background: rgba(251, 191, 36, 0.09);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fcd34d;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  /* ---------- Notice items ---------- */
+  .notice-item {
+    --nk: #38bdf8;
+    background: rgba(19, 26, 43, 0.85);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--nk);
+    border-radius: 12px;
+    padding: 11px 12px;
+    margin-bottom: 10px;
+  }
+  .notice-item.nk-info { --nk: #38bdf8; }
+  .notice-item.nk-important { --nk: #f4685c; }
+  .notice-item.nk-warning { --nk: #fbbf24; }
+  .notice-item.nk-offer { --nk: #34d399; }
+  .notice-item.is-new {
+    box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.35), 0 0 14px rgba(251, 191, 36, 0.12);
+  }
+  .notice-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 6px;
+    font-size: 10.5px;
+  }
+  .notice-kind { display: inline-flex; align-items: center; gap: 4px; color: var(--nk); font-weight: 700; }
+  .notice-new-tag {
+    background: var(--amber);
+    color: #2a1d00;
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 6px;
+  }
+  .notice-pin { color: var(--text-muted); display: inline-flex; align-items: center; gap: 3px; }
+  .notice-date { margin-left: auto; color: var(--text-dim); }
+  .notice-title { font-size: 14.5px; font-weight: 700; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+  .notice-text { font-size: 13px; color: #cbd5e1; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+  .notice-text a { color: var(--sky); text-decoration: underline; }
+
+  /* ---------- Profile ---------- */
+  .pf-card {
+    background: rgba(19, 26, 43, 0.85);
+    border: 1px solid rgba(45, 212, 191, 0.14);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 11px;
+  }
+  .pf-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 9px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .pf-title .pf-right { margin-left: auto; text-transform: none; letter-spacing: 0; }
+  .pf-token-row { display: flex; align-items: center; gap: 7px; }
+  .pf-token {
+    flex: 1;
+    min-width: 0;
+    font-family: 'Inter', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    word-break: break-all;
+  }
+  .pf-icon-btn {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .pf-icon-btn:hover { color: var(--text); border-color: var(--accent-dim); }
+  .pf-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid transparent;
+  }
+  .pf-pill.ok { background: rgba(52, 211, 153, 0.14); color: var(--emerald); border-color: rgba(52, 211, 153, 0.35); }
+  .pf-pill.warn { background: rgba(251, 191, 36, 0.14); color: var(--amber); border-color: rgba(251, 191, 36, 0.35); }
+  .pf-pill.bad { background: rgba(244, 104, 92, 0.14); color: var(--danger); border-color: rgba(244, 104, 92, 0.35); }
+
+  .cd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .cd-box {
+    background: #080e1a;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 9px 2px 6px;
+    text-align: center;
+  }
+  .cd-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .cd-lbl { margin-top: 2px; font-size: 10px; color: var(--text-muted); }
+  .cd-grid.low .cd-num { color: var(--amber); }
+  .cd-grid.critical .cd-num { color: var(--danger); }
+  .cd-expired {
+    text-align: center;
+    padding: 12px 6px;
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .pf-bar {
+    height: 8px;
+    margin-top: 11px;
+    background: #080e1a;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .pf-bar > i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition: width 0.6s ease;
+  }
+  .pf-bar.warn > i { background: linear-gradient(90deg, #b45309, #fbbf24); }
+  .pf-bar.bad > i { background: linear-gradient(90deg, #b91c1c, #f4685c); }
+  .pf-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .pf-row b { color: var(--text); font-weight: 600; }
+  .pf-sub { margin-top: 8px; font-size: 11.5px; color: var(--text-dim); }
+  .pf-today {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .pf-today b { font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; color: var(--text); line-height: 1; }
+  .pf-today span { font-size: 13px; color: var(--text-muted); }
+  .pf-meter { margin-top: 12px; }
+  .pf-meter-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
+  .pf-meter-top b { color: var(--text); font-family: 'Inter', sans-serif; }
+  .pf-meter .pf-bar { margin-top: 0; }
+
+  .pf-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .pf-stat {
+    background: #080e1a;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 4px;
+    text-align: center;
+  }
+  .pf-stat b { display: block; font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); }
+  .pf-stat span { font-size: 10.5px; color: var(--text-muted); }
+
+  .wk-chart { display: flex; align-items: stretch; gap: 6px; height: 104px; }
+  .wk-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; }
+  .wk-val { font-family: 'Inter', sans-serif; font-size: 10px; color: var(--text-muted); height: 12px; }
+  .wk-barwrap { flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
+  .wk-bar {
+    width: 100%;
+    max-width: 26px;
+    min-height: 3px;
+    border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dim));
+  }
+  .wk-bar.zero { background: var(--border-light); }
+  .wk-lbl { font-size: 9.5px; color: var(--text-dim); }
+  .wk-col.today .wk-lbl { color: var(--accent); font-weight: 700; }
+
+  .pf-sec { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; line-height: 1.55; }
+  .pf-sec > i { font-size: 20px; margin-top: 2px; }
+  .pf-sec b { display: block; font-size: 13px; }
+  .pf-sec span { color: var(--text-muted); }
+  .pf-sec.ok > i, .pf-sec.ok b { color: var(--emerald); }
+  .pf-sec.warn > i, .pf-sec.warn b { color: var(--amber); }
+  .pf-note { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-light); font-size: 11.5px; color: var(--text-muted); }
+
+  .pf-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 11px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #02c39a;
+    color: #06251f;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .pf-cta:hover { background: #2dd4bf; }
+  .pf-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .pf-foot button {
+    background: none;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    color: var(--text-muted);
+    padding: 5px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .pf-foot button:hover { color: var(--text); border-color: var(--accent-dim); }
+
+  /* ---------- Notes ---------- */
+  .nt-composer { margin-bottom: 14px; }
+  .nt-composer textarea {
+    width: 100%;
+    min-height: 96px;
+    resize: vertical;
+    background: var(--surface-input);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .nt-composer textarea:focus { outline: none; border-color: var(--sky); }
+  .nt-compose-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 7px 0 9px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .nt-attach { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .nt-attach input { accent-color: var(--sky); width: 15px; height: 15px; }
+  .nt-counter { margin-left: auto; font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); }
+  .nt-actions { display: flex; gap: 8px; }
+  .nt-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .nt-btn:hover { color: var(--text); border-color: var(--sky); }
+  .nt-btn.primary { flex: 1; background: var(--sky); color: #04202e; border-color: var(--sky); font-weight: 700; }
+  .nt-btn.primary:hover { background: #7dd3fc; color: #04202e; }
+  .nt-btn.small { padding: 7px 10px; font-size: 11.5px; }
+  .nt-msg { min-height: 16px; margin-top: 7px; font-size: 12px; }
+  .nt-msg.ok { color: var(--emerald); }
+  .nt-msg.warn { color: var(--amber); }
+  .nt-msg.bad { color: var(--danger); }
+
+  .nt-toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .nt-search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 0 10px;
+    background: var(--surface-input);
+    border: 1px solid var(--border-light);
+    border-radius: 9px;
+    color: var(--text-dim);
+  }
+  .nt-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 0;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+  }
+  .nt-count { margin-bottom: 8px; font-size: 11.5px; color: var(--text-dim); }
+  .nt-day {
+    margin: 12px 0 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--sky);
+  }
+  .nt-item {
+    background: rgba(19, 26, 43, 0.85);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .nt-item.editing { border-color: var(--sky); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35); }
+  .nt-item-top { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; font-size: 11px; color: var(--text-dim); }
+  .nt-chip {
+    background: rgba(45, 212, 191, 0.12);
+    border: 1px solid rgba(45, 212, 191, 0.35);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 1px 9px;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .nt-item-actions { margin-left: auto; display: flex; gap: 4px; }
+  .nt-item-actions button {
+    min-width: 30px;
+    height: 28px;
+    padding: 0 8px;
+    background: none;
+    border: 1px solid var(--border-light);
+    border-radius: 7px;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .nt-item-actions button:hover { color: var(--text); border-color: var(--sky); }
+  .nt-item-actions button.armed { color: #fff; background: var(--danger); border-color: var(--danger); font-weight: 700; }
+  .nt-text { font-size: 13.5px; color: #dbe4f0; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+  .nt-foot {
+    margin-top: 14px;
+    padding: 9px 11px;
+    background: rgba(56, 189, 248, 0.07);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 10px;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .notice-btn.has-unread,
+    .notice-btn.has-unread.urgent,
+    .notice-btn.has-unread i { animation: none; }
+    .pf-bar > i { transition: none; }
+  }
+
+  /* =====================================================
+     FULL PAGES (Profile / Notes) — আলাদা পেজ, pop-up নয়
+     ===================================================== */
+  .app-page {
+    --pa: #38bdf8;
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    background: var(--bg);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .app-page.pg-profile { --pa: #2dd4bf; }
+  .app-page.pg-notes { --pa: #38bdf8; }
+  .app-page.show { display: block; animation: pageIn 0.22s ease-out; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateX(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  html.page-open, html.page-open body { overflow: hidden; }
+
+  .page-bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: calc(env(safe-area-inset-top, 0px) + 10px) 14px 10px;
+    background: rgba(7, 11, 20, 0.94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .page-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .page-back:hover { color: var(--pa); border-color: var(--pa); }
+  .page-back:active { transform: scale(0.96); }
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--pa);
+  }
+  .page-inner {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 14px 16px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .app-page.show { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -1469,11 +2126,72 @@
 <!-- FREE PLAN PAGE -->
 <div class="screen free-screen" id="freeScreen">
   <div class="free-head">
-    <span class="free-logo">The English Directory</span>
-    <svg class="logo-sparkle" width="22" height="22" viewBox="0 0 24 24" fill="#2dd4bf" aria-hidden="true">
-      <path d="M13 2l1.6 5.4L20 9l-5.4 1.6L13 16l-1.6-5.4L6 9l5.4-1.6z"/>
-      <path d="M19 15l.8 2.7L22.5 18.5l-2.7.8L19 22l-.8-2.7-2.7-.8 2.7-.8z"/>
-    </svg>
+    <svg class="ed-logo" id="edLogo" viewBox="0 0 400 222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The English Directory">
+    <defs>
+      <filter id="edBlur" x="-15%" y="-20%" width="130%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+      <linearGradient id="edShine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="400" y2="0">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset="0.38" stop-color="#ffffff"/>
+        <stop offset="0.5" stop-color="#7ef2e3"/>
+        <stop offset="0.62" stop-color="#ffffff"/>
+        <stop offset="1" stop-color="#ffffff"/>
+        <animateTransform class="ed-sweep" attributeName="gradientTransform" type="translate" from="-400 0" to="400 0" dur="3.2s" repeatCount="indefinite"/>
+      </linearGradient>
+      <g id="edBook">
+        <path d="M0 8 Q11 1 21 8 V30 Q11 23 0 30 Z"/>
+        <path d="M19 8 Q29 1 40 8 V30 Q29 23 19 30 Z"/>
+      </g>
+      <g id="edCap">
+        <path d="M-34 -6 L0 -22 L34 -6 L0 10 Z"/>
+        <path d="M-17 2 L-17 14 Q0 24 17 14 L17 2 L0 10 Z"/>
+        <path d="M27 -3 L31 -3 L32 14 L29 18 L26 14 Z"/>
+      </g>
+    </defs>
+    <g aria-hidden="true">
+    <g filter="url(#edBlur)" opacity="0.55">
+      <use href="#edBook" class="ed-l-glow" style="--k:0.5" transform="translate(18 14)"/>
+      <text class="ed-l-glow" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+      <text class="ed-l-glow" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+      <text class="ed-l-glow" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+      <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCap" class="ed-l-glow" style="--k:0.8"/></g>
+    </g>
+    <g>
+      <use href="#edBook" class="ed-l-white" style="--k:0.5" transform="translate(18 14)"/>
+      <text class="ed-l-white" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+      <text class="ed-l-white" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+      <text class="ed-l-white" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+      <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCap" class="ed-l-white" style="--k:0.8"/></g>
+    </g>
+    <g>
+      <use href="#edBook" class="ed-l-teal" style="--k:0.5" transform="translate(18 14)"/>
+      <text class="ed-l-teal" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+      <text class="ed-l-teal" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+      <text class="ed-l-teal" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+      <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCap" class="ed-l-teal" style="--k:0.8"/></g>
+    </g>
+    <g>
+      <use href="#edBook" class="ed-l-face ed-i-face" style="--k:0.5" transform="translate(18 14)"/>
+      <text id="edTh" class="ed-l-face ed-t-face" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+      <text id="edEn" class="ed-l-face ed-t-face" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+      <text id="edDi" class="ed-l-face ed-t-face" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+      <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCap" class="ed-l-face ed-i-face" style="--k:0.8"/></g>
+      <g class="ed-nd-pos" transform="translate(275 179) rotate(45)">
+        <path d="M0 -8.5 L3.2 0 L-3.2 0 Z" fill="#ffffff" stroke="#04070d" stroke-width="1.6"/>
+        <path d="M0 8.5 L3.2 0 L-3.2 0 Z" fill="#04070d" stroke="#04070d" stroke-width="1.6"/>
+        <circle r="1.3" fill="#2dd4bf"/>
+      </g>
+    </g>
+    </g>
+  </svg>
+    <div class="free-head-right">
+      <svg class="logo-sparkle" width="22" height="22" viewBox="0 0 24 24" fill="#2dd4bf" aria-hidden="true">
+        <path d="M13 2l1.6 5.4L20 9l-5.4 1.6L13 16l-1.6-5.4L6 9l5.4-1.6z"/>
+        <path d="M19 15l.8 2.7L22.5 18.5l-2.7.8L19 22l-.8-2.7-2.7-.8 2.7-.8z"/>
+      </svg>
+      <button class="hdr-btn notice-btn" onclick="openNotices()" aria-label="নোটিশ" title="নোটিশ বোর্ড">
+        <i class="fa-solid fa-bell"></i><span class="cap">নোটিশ</span><span class="notice-badge" aria-hidden="true">0</span>
+      </button>
+    </div>
   </div>
 
   <section class="hero">
@@ -1650,11 +2368,80 @@
 <!-- PRO PAGE -->
 <div class="screen screen3" id="mainScreen">
   <div class="main-header">
-    <button class="three-dots-btn" onclick="toggleMenu()" title="Options">&#8942;</button>
+    <button class="hdr-btn profile-btn" onclick="openProfile()" aria-label="প্রোফাইল" title="আমার প্রোফাইল">
+      <i class="fa-solid fa-circle-user"></i><span class="cap">প্রোফাইল</span>
+    </button>
+    <div class="hdr-group">
+      <button class="hdr-btn notice-btn" onclick="openNotices()" aria-label="নোটিশ" title="নোটিশ বোর্ড">
+        <i class="fa-solid fa-bell"></i><span class="cap">নোটিশ</span><span class="notice-badge" aria-hidden="true">0</span>
+      </button>
+      <button class="hdr-btn notes-btn" onclick="openNotes()" aria-label="আমার নোট" title="আমার শেখার নোট">
+        <i class="fa-solid fa-book-bookmark"></i><span class="cap">নোট</span>
+      </button>
+      <button class="three-dots-btn" onclick="toggleMenu()" title="Options">&#8942;</button>
+    </div>
   </div>
 
   <div class="top-note">Applicable for mastering American accent only.</div>
-  <div class="top-title">The English Directory</div>
+  <div class="main-logo">
+  <svg class="ed-logo ed-logo-main" id="edLogoM" viewBox="0 0 400 222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The English Directory">
+      <defs>
+        <filter id="edBlurM" x="-15%" y="-20%" width="130%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+        <linearGradient id="edShineM" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="400" y2="0">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="0.38" stop-color="#ffffff"/>
+          <stop offset="0.5" stop-color="#7ef2e3"/>
+          <stop offset="0.62" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#ffffff"/>
+          <animateTransform class="ed-sweep" attributeName="gradientTransform" type="translate" from="-400 0" to="400 0" dur="3.2s" repeatCount="indefinite"/>
+        </linearGradient>
+        <g id="edBookM">
+          <path d="M0 8 Q11 1 21 8 V30 Q11 23 0 30 Z"/>
+          <path d="M19 8 Q29 1 40 8 V30 Q29 23 19 30 Z"/>
+        </g>
+        <g id="edCapM">
+          <path d="M-34 -6 L0 -22 L34 -6 L0 10 Z"/>
+          <path d="M-17 2 L-17 14 Q0 24 17 14 L17 2 L0 10 Z"/>
+          <path d="M27 -3 L31 -3 L32 14 L29 18 L26 14 Z"/>
+        </g>
+      </defs>
+      <g aria-hidden="true">
+      <g filter="url(#edBlurM)" opacity="0.55">
+        <use href="#edBookM" class="ed-l-glow" style="--k:0.5" transform="translate(18 14)"/>
+        <text class="ed-l-glow" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+        <text class="ed-l-glow" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+        <text class="ed-l-glow" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+        <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCapM" class="ed-l-glow" style="--k:0.8"/></g>
+      </g>
+      <g>
+        <use href="#edBookM" class="ed-l-white" style="--k:0.5" transform="translate(18 14)"/>
+        <text class="ed-l-white" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+        <text class="ed-l-white" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+        <text class="ed-l-white" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+        <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCapM" class="ed-l-white" style="--k:0.8"/></g>
+      </g>
+      <g>
+        <use href="#edBookM" class="ed-l-teal" style="--k:0.5" transform="translate(18 14)"/>
+        <text class="ed-l-teal" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+        <text class="ed-l-teal" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+        <text class="ed-l-teal" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+        <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCapM" class="ed-l-teal" style="--k:0.8"/></g>
+      </g>
+      <g>
+        <use href="#edBookM" class="ed-l-face ed-i-face" style="--k:0.5" transform="translate(18 14)"/>
+        <text id="edThM" class="ed-l-face ed-t-face" style="--k:0.42" x="70" y="44" font-size="34" textLength="66" lengthAdjust="spacing">The</text>
+        <text id="edEnM" class="ed-l-face ed-t-face" style="--k:1" x="22" y="126" font-size="84" textLength="360" lengthAdjust="spacing">Englısh</text>
+        <text id="edDiM" class="ed-l-face ed-t-face" style="--k:0.74" x="24" y="196" font-size="62" textLength="350" lengthAdjust="spacing">Directory</text>
+        <g class="ed-cap-pos" transform="translate(249 65)"><use href="#edCapM" class="ed-l-face ed-i-face" style="--k:0.8"/></g>
+        <g class="ed-nd-pos" transform="translate(275 179) rotate(45)">
+          <path d="M0 -8.5 L3.2 0 L-3.2 0 Z" fill="#ffffff" stroke="#04070d" stroke-width="1.6"/>
+          <path d="M0 8.5 L3.2 0 L-3.2 0 Z" fill="#04070d" stroke="#04070d" stroke-width="1.6"/>
+          <circle r="1.3" fill="#2dd4bf"/>
+        </g>
+      </g>
+      </g>
+    </svg>
+  </div>
 
   <div id="proToolSlot"></div>
 </div>
@@ -1726,6 +2513,66 @@
     </div>
   </div>
 </div>
+
+<!-- NOTICE BOARD MODAL -->
+<div class="overlay" id="noticeModal" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+  <div class="panel-card pc-notice">
+    <div class="panel-head">
+      <h2 id="noticeTitle"><i class="fa-solid fa-bullhorn"></i> নোটিশ বোর্ড</h2>
+      <button class="panel-close" onclick="closePanel('noticeModal')" aria-label="Close">&times;</button>
+    </div>
+    <div class="panel-body" id="noticeBody"></div>
+  </div>
+</div>
+
+<!-- PROFILE PAGE (Pro) -->
+<section class="app-page pg-profile" id="profilePage" aria-labelledby="profileTitle">
+  <header class="page-bar">
+    <button class="page-back" onclick="closePage()" aria-label="ফিরে যান"><i class="fa-solid fa-arrow-left"></i><span>ফিরে যান</span></button>
+    <h1 class="page-title" id="profileTitle"><i class="fa-solid fa-circle-user"></i> আমার প্রোফাইল</h1>
+  </header>
+  <div class="page-inner" id="profileBody"></div>
+</section>
+
+<!-- MY NOTES PAGE (Pro) -->
+<section class="app-page pg-notes" id="notesPage" aria-labelledby="notesTitle">
+  <header class="page-bar">
+    <button class="page-back" onclick="closePage()" aria-label="ফিরে যান"><i class="fa-solid fa-arrow-left"></i><span>ফিরে যান</span></button>
+    <h1 class="page-title" id="notesTitle"><i class="fa-solid fa-book-bookmark"></i> আমার শেখার নোট</h1>
+  </header>
+  <div class="page-inner">
+  <div class="nt-composer">
+    <textarea id="noteInput" maxlength="3000" rows="4" placeholder="আজ কী শিখলেন? শব্দ, অর্থ, বাক্য, নিয়ম — যা খুশি লিখে রাখুন..." oninput="onNoteInput()"></textarea>
+    <div class="nt-compose-row">
+      <label class="nt-attach" id="noteAttachWrap" hidden>
+        <input type="checkbox" id="noteAttach" checked>
+        <span id="noteAttachText"></span>
+      </label>
+      <span class="nt-counter" id="noteCounter">0/3000</span>
+    </div>
+    <div class="nt-actions">
+      <button class="nt-btn primary" id="noteSaveBtn" onclick="saveNote()"><i class="fa-solid fa-floppy-disk"></i> <span id="noteSaveLabel">নোট সংরক্ষণ করুন</span></button>
+      <button class="nt-btn" id="noteCancelBtn" onclick="cancelNoteEdit()" hidden>বাতিল</button>
+    </div>
+    <div class="nt-msg" id="noteMsg" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="nt-toolbar">
+    <label class="nt-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="search" id="noteSearch" placeholder="নোট খুঁজুন..." oninput="onNoteSearch(this.value)" autocomplete="off">
+    </label>
+    <button class="nt-btn small" onclick="exportNotes()"><i class="fa-solid fa-download"></i> ব্যাকআপ</button>
+  </div>
+  <div class="nt-count" id="noteCount"></div>
+  <div id="noteList"></div>
+
+  <p class="nt-foot">
+    <i class="fa-solid fa-lock"></i>
+    নোটগুলো শুধু এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে — আমাদের সার্ভারে যায় না। ব্রাউজারের ডেটা মুছলে বা অন্য ফোনে গেলে নোট পাওয়া যাবে না, তাই মাঝে মাঝে <b>ব্যাকআপ</b> নিয়ে রাখুন।
+  </p>
+  </div>
+</section>
 
 <script>
   const SUPABASE_URL = "https://irolnazvjsgetevyurae.supabase.co";
@@ -1854,6 +2701,9 @@
     document.getElementById('freeScreen').style.display = 'flex';
     mountTool('freeToolSlot');
     resetTool();
+    hidePageUI();
+    clearPageHash();
+    loadNotices(true);
   }
 
   function showPro() {
@@ -1862,6 +2712,8 @@
     mountTool('proToolSlot');
     resetTool();
     window.scrollTo(0, 0);
+    loadNotices(true);
+    syncPageFromHash();
   }
 
   function exitPro(reason) {
@@ -1869,6 +2721,7 @@
     try { localStorage.removeItem('ed_access_token'); } catch (e) {}
     document.getElementById('menuOverlay').classList.remove('show');
     document.getElementById('vocabModal').classList.remove('show');
+    closeAllPanels();
     showFree();
     document.getElementById('tokenInput').value = '';
     updateLockIconState();
@@ -1877,6 +2730,7 @@
 
   function logout() {
     toggleMenu();
+    closeAllPanels();
     proToken = null;
     try { localStorage.removeItem('ed_access_token'); } catch (e) {}
     document.getElementById('tokenInput').value = '';
@@ -2505,11 +3359,859 @@
         try { localStorage.removeItem('ed_access_token'); } catch (e) {}
         proToken = null;
         updateLockIconState();
+        clearPageHash();
       }
       // নেটওয়ার্ক/অন্য ত্রুটিতে কিছু করা হয় না — ইউজার নিজে Go Pro চাপতে পারবেন
     } catch (e) {
       // নীরব ব্যর্থতা: free screen-এই থেকে যাবে
     }
+  }
+
+  /* =====================================================
+     SHARED HELPERS (dates, links, panels)
+     ===================================================== */
+  const BN_LOCALE = 'bn-BD-u-nu-latn';
+  const WHATSAPP_NUMBER = '8801623563792';
+
+  function withLocale(fn) {
+    try { return fn(BN_LOCALE); } catch (e) { return fn('en-GB'); }
+  }
+  function fmtDate(d) {
+    return withLocale(l => d.toLocaleDateString(l, { day: 'numeric', month: 'short', year: 'numeric' }));
+  }
+  function fmtTime(d) {
+    return withLocale(l => d.toLocaleTimeString(l, { hour: 'numeric', minute: '2-digit', hour12: true }));
+  }
+  function fmtDateTime(d) {
+    return fmtDate(d) + ', ' + fmtTime(d);
+  }
+  function sameDay(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+  function dayLabel(ms) {
+    const d = new Date(ms);
+    const now = new Date();
+    if (sameDay(d, now)) return 'আজ';
+    const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    if (sameDay(d, y)) return 'গতকাল';
+    return fmtDate(d);
+  }
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  // esc() করা টেক্সটে নিরাপদে http/https লিংক বসানো
+  function linkify(escaped) {
+    return escaped.replace(/https?:\/\/(?:(?!&quot;|&#39;|&lt;|&gt;)[^\s<])+/g, (m) => {
+      const trail = m.match(/[).,!?;:]+$/);
+      const url = trail ? m.slice(0, -trail[0].length) : m;
+      const tail = trail ? trail[0] : '';
+      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>' + tail;
+    });
+  }
+
+  function loadingHtml(text) {
+    return '<div class="panel-state"><span class="spinner"></span>' + esc(text) + '</div>';
+  }
+  function errorHtml(text, retryFn) {
+    return '<div class="panel-state"><i class="fa-solid fa-cloud-bolt"></i>' + esc(text) +
+      '<br><button class="panel-retry" onclick="' + retryFn + '()">আবার চেষ্টা করুন</button></div>';
+  }
+
+  const PANEL_IDS = ['noticeModal'];
+
+  /* =====================================================
+     PAGES (Profile / Notes): URL hash + browser Back সহ
+     ===================================================== */
+  const PAGE_NAMES = ['profile', 'notes'];
+  const BASE_TITLE = document.title;
+  let currentPage = null;
+
+  function pageEl(name) { return document.getElementById(name + 'Page'); }
+  function pageFromHash() {
+    const h = (location.hash || '').replace('#', '');
+    return PAGE_NAMES.includes(h) ? h : null;
+  }
+  function clearPageHash() {
+    if (!pageFromHash()) return;
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
+  function showPageUI(name) {
+    currentPage = name;
+    PAGE_NAMES.forEach(n => pageEl(n).classList.toggle('show', n === name));
+    document.documentElement.classList.add('page-open');
+    pageEl(name).scrollTop = 0;
+    document.title = (name === 'profile' ? 'আমার প্রোফাইল' : 'আমার শেখার নোট') + ' — ' + BASE_TITLE;
+  }
+
+  function hidePageUI() {
+    if (!currentPage) return;
+    const prev = currentPage;
+    currentPage = null;
+    PAGE_NAMES.forEach(n => pageEl(n).classList.remove('show'));
+    document.documentElement.classList.remove('page-open');
+    document.title = BASE_TITLE;
+    if (prev === 'profile') { profileSeq++; stopProfileTimer(); }
+    if (prev === 'notes') { disarmNoteDelete(); }
+  }
+
+  function enterPage(name) {
+    if (name === 'profile') enterProfile();
+    else if (name === 'notes') enterNotes();
+  }
+
+  function openPage(name) {
+    if (!proToken || !PAGE_NAMES.includes(name)) return;
+    if (currentPage === name) { enterPage(name); return; }
+    try {
+      if (currentPage) history.replaceState({ edPage: name }, '', '#' + name);
+      else history.pushState({ edPage: name }, '', '#' + name);
+    } catch (e) {}
+    showPageUI(name);
+    enterPage(name);
+  }
+
+  // "ফিরে যান" বাটন / Esc: আগের পেজে ফেরা
+  function closePage() {
+    if (!currentPage) return;
+    hidePageUI();
+    if (history.state && history.state.edPage) {
+      try { history.back(); return; } catch (e) {}
+    }
+    clearPageHash();
+  }
+
+  // ব্রাউজারের Back/Forward বা URL বদলালে পেজ মিলিয়ে নেওয়া
+  function syncPageFromHash() {
+    const name = pageFromHash();
+    if (proToken && name) {
+      if (currentPage !== name) { showPageUI(name); enterPage(name); }
+    } else {
+      hidePageUI();
+      if (!proToken) clearPageHash();
+    }
+  }
+
+  function openPanel(id) {
+    const el = document.getElementById(id);
+    el.classList.add('show');
+    const closeBtn = el.querySelector('.panel-close');
+    if (closeBtn) closeBtn.focus({ preventScroll: true });
+  }
+  function closePanel(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+  function closeAllPanels() {
+    PANEL_IDS.forEach(closePanel);
+    hidePageUI();
+  }
+
+  /* =====================================================
+     NOTICE BOARD (সব ক্লায়েন্টের জন্য — Supabase থেকে)
+     ===================================================== */
+  const NOTICE_SEEN_KEY = 'ed_notice_seen';
+  const NOTICE_MIN_REFRESH_MS = 60000;
+  const NOTICE_KINDS = {
+    info:      { cls: 'nk-info',      icon: 'fa-circle-info',          label: 'তথ্য' },
+    important: { cls: 'nk-important', icon: 'fa-circle-exclamation',   label: 'গুরুত্বপূর্ণ' },
+    warning:   { cls: 'nk-warning',   icon: 'fa-triangle-exclamation', label: 'সতর্কতা' },
+    offer:     { cls: 'nk-offer',     icon: 'fa-gift',                 label: 'অফার' }
+  };
+
+  let noticeItems = [];
+  let noticeLoadedAt = 0;
+  let noticeLoadFailed = false;
+  let noticeSeq = 0;
+  let noticeNewSet = new Set();
+
+  function noticeToken(n) { return n.id + ':' + n.updated_at; }
+
+  function readSeen() {
+    try {
+      const a = JSON.parse(localStorage.getItem(NOTICE_SEEN_KEY) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch (e) { return []; }
+  }
+  function writeSeen(arr) {
+    try { localStorage.setItem(NOTICE_SEEN_KEY, JSON.stringify(arr.slice(-300))); } catch (e) {}
+  }
+  function noticeUnread() {
+    const seen = new Set(readSeen());
+    return noticeItems.filter(n => !seen.has(noticeToken(n)));
+  }
+  function markNoticesSeen() {
+    const seen = readSeen();
+    const set = new Set(seen);
+    noticeItems.forEach(n => {
+      const t = noticeToken(n);
+      if (!set.has(t)) { seen.push(t); set.add(t); }
+    });
+    writeSeen(seen);
+    renderNoticeBell();
+  }
+
+  function renderNoticeBell() {
+    const unread = noticeUnread();
+    const urgent = unread.some(n => n.kind === 'important' || n.kind === 'warning');
+    document.querySelectorAll('.notice-btn').forEach(btn => {
+      btn.classList.toggle('has-unread', unread.length > 0);
+      btn.classList.toggle('urgent', urgent);
+      const badge = btn.querySelector('.notice-badge');
+      if (badge) badge.textContent = unread.length > 9 ? '9+' : String(unread.length);
+      btn.setAttribute('aria-label', unread.length ? 'নোটিশ — ' + unread.length + 'টি নতুন' : 'নোটিশ');
+    });
+  }
+
+  async function loadNotices(force) {
+    if (!force && Date.now() - noticeLoadedAt < NOTICE_MIN_REFRESH_MS) return;
+    const seq = ++noticeSeq;
+    try {
+      const data = await callFn('get-notices', {});
+      if (seq !== noticeSeq) return;
+      if (data && data.status === 'success' && Array.isArray(data.notices)) {
+        noticeItems = data.notices;
+        noticeLoadedAt = Date.now();
+        noticeLoadFailed = false;
+      } else {
+        noticeLoadFailed = true;
+      }
+    } catch (e) {
+      if (seq !== noticeSeq) return;
+      noticeLoadFailed = true;
+    }
+    renderNoticeBell();
+  }
+
+  function renderNoticeList() {
+    const body = document.getElementById('noticeBody');
+    if (!noticeItems.length) {
+      body.innerHTML = noticeLoadFailed
+        ? errorHtml('নোটিশ লোড করা যায়নি। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।', 'retryNotices')
+        : '<div class="panel-state"><i class="fa-regular fa-bell-slash"></i>এখন কোনো নোটিশ নেই।</div>';
+      return;
+    }
+
+    let html = noticeLoadFailed
+      ? '<div class="panel-warn"><i class="fa-solid fa-wifi"></i> সর্বশেষ আপডেট আনা যায়নি — আগে লোড করা নোটিশ দেখানো হচ্ছে।</div>'
+      : '';
+
+    noticeItems.forEach(n => {
+      const kind = NOTICE_KINDS[n.kind] || NOTICE_KINDS.info;
+      const isNew = noticeNewSet.has(noticeToken(n));
+      const created = Date.parse(n.created_at);
+      html += '<article class="notice-item ' + kind.cls + (isNew ? ' is-new' : '') + '">' +
+        '<div class="notice-meta">' +
+          '<span class="notice-kind"><i class="fa-solid ' + kind.icon + '"></i>' + kind.label + '</span>' +
+          (isNew ? '<span class="notice-new-tag">নতুন</span>' : '') +
+          (n.pinned ? '<span class="notice-pin"><i class="fa-solid fa-thumbtack"></i>পিন করা</span>' : '') +
+          (Number.isFinite(created) ? '<span class="notice-date">' + esc(dayLabel(created)) + '</span>' : '') +
+        '</div>' +
+        '<div class="notice-title">' + esc(n.title) + '</div>' +
+        '<div class="notice-text">' + linkify(esc(n.body)) + '</div>' +
+      '</article>';
+    });
+    body.innerHTML = html;
+  }
+
+  async function openNotices() {
+    openPanel('noticeModal');
+    const body = document.getElementById('noticeBody');
+
+    if (noticeLoadedAt) {
+      noticeNewSet = new Set(noticeUnread().map(noticeToken));
+      renderNoticeList();
+    } else {
+      body.innerHTML = loadingHtml('নোটিশ লোড হচ্ছে...');
+    }
+
+    await loadNotices(true);
+
+    const modal = document.getElementById('noticeModal');
+    if (!modal.classList.contains('show')) return;
+    noticeNewSet = new Set(noticeUnread().map(noticeToken));
+    renderNoticeList();
+    if (!noticeLoadFailed) markNoticesSeen();
+  }
+
+  function retryNotices() {
+    document.getElementById('noticeBody').innerHTML = loadingHtml('নোটিশ লোড হচ্ছে...');
+    openNoticesRefresh();
+  }
+  async function openNoticesRefresh() {
+    await loadNotices(true);
+    if (!document.getElementById('noticeModal').classList.contains('show')) return;
+    noticeNewSet = new Set(noticeUnread().map(noticeToken));
+    renderNoticeList();
+    if (!noticeLoadFailed) markNoticesSeen();
+  }
+
+  /* =====================================================
+     PROFILE (Pro — Token-এর সব তথ্য Supabase থেকে)
+     ===================================================== */
+  let profileState = null;
+  let profileTimer = null;
+  let profileSeq = 0;
+  let tokenRevealed = false;
+
+  function maskToken(t) {
+    const parts = String(t || '').split('-');
+    if (parts.length < 3) return String(t || '').slice(0, 4) + '••••';
+    return parts.map((seg, i) => (i === 0 || i === parts.length - 1) ? seg : '••••').join('-');
+  }
+
+  function stopProfileTimer() {
+    if (profileTimer) { clearInterval(profileTimer); profileTimer = null; }
+  }
+
+  function usageLevel(used, limit) {
+    if (!limit) return '';
+    const p = used / limit;
+    return p >= 0.9 ? 'bad' : (p >= 0.7 ? 'warn' : '');
+  }
+
+  function openProfile() {
+    openPage('profile');
+  }
+
+  function enterProfile() {
+    tokenRevealed = false;
+    stopProfileTimer();
+    profileState = null;
+    document.getElementById('profileBody').innerHTML = loadingHtml('প্রোফাইল লোড হচ্ছে...');
+    fetchProfile();
+  }
+
+  async function fetchProfile() {
+    const seq = ++profileSeq;
+    try {
+      const data = await callFn('get-profile', {});
+      if (seq !== profileSeq || currentPage !== 'profile') return;
+      if (data && data.status === 'success') {
+        renderProfile(data);
+      } else {
+        stopProfileTimer();
+        document.getElementById('profileBody').innerHTML =
+          errorHtml((data && data.message) || 'প্রোফাইল লোড করা যায়নি।', 'openProfile');
+      }
+    } catch (e) {
+      if (e instanceof SessionEnded) return;
+      if (seq !== profileSeq || currentPage !== 'profile') return;
+      stopProfileTimer();
+      document.getElementById('profileBody').innerHTML =
+        errorHtml('সার্ভারের সাথে যোগাযোগ করা যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।', 'openProfile');
+    }
+  }
+
+  function renewLink(label) {
+    const text = 'আমার Token (' + maskToken(proToken) + ') ' + label;
+    return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text);
+  }
+
+  function renderProfile(d) {
+    const tk = d.token || {};
+    const q = d.quota || {};
+    const a = d.activity || {};
+    const sec = d.security || {};
+    const num = v => Number(v) || 0;
+
+    const serverMs = Date.parse(d.server_time) || Date.now();
+    profileState = {
+      offsetMs: serverMs - Date.now(),
+      createdMs: tk.created_at ? Date.parse(tk.created_at) : null,
+      expiresMs: tk.expires_at ? Date.parse(tk.expires_at) : null,
+      resetsMs: q.resets_at ? Date.parse(q.resets_at) : null,
+      refetching: false
+    };
+
+    const callsUsed = num(q.calls_today), callsLimit = num(q.calls_limit);
+    const prUsed = num(q.practices_today), prLimit = num(q.practices_limit);
+    const callsPct = callsLimit ? Math.min(100, Math.round(callsUsed / callsLimit * 100)) : 0;
+    const prPct = prLimit ? Math.min(100, Math.round(prUsed / prLimit * 100)) : 0;
+
+    // শেষ ৭ দিনের চার্ট
+    const last7 = Array.isArray(a.last7) ? a.last7 : [];
+    const maxC = Math.max(1, ...last7.map(x => num(x.c)));
+    let chart = '';
+    last7.forEach((x, i) => {
+      const c = num(x.c);
+      const day = withLocale(l => new Date(String(x.d) + 'T00:00:00Z').toLocaleDateString(l, { weekday: 'short', timeZone: 'UTC' }));
+      chart += '<div class="wk-col' + (i === last7.length - 1 ? ' today' : '') + '">' +
+        '<div class="wk-val">' + (c || '') + '</div>' +
+        '<div class="wk-barwrap"><div class="wk-bar' + (c ? '' : ' zero') + '" style="height:' + (c ? Math.max(8, Math.round(c / maxC * 100)) : 4) + '%"></div></div>' +
+        '<div class="wk-lbl">' + esc(day) + '</div></div>';
+    });
+
+    const createdTxt = profileState.createdMs ? fmtDateTime(new Date(profileState.createdMs)) : '—';
+    const expiresTxt = profileState.expiresMs ? fmtDateTime(new Date(profileState.expiresMs)) : 'মেয়াদের সীমা নেই';
+
+    let html = '';
+
+    // ১. Token ও অবস্থা
+    html += '<section class="pf-card">' +
+      '<div class="pf-title"><i class="fa-solid fa-key"></i> আপনার Token' +
+        '<span class="pf-right"><span class="pf-pill ok" id="pfStatus">সক্রিয়</span></span></div>' +
+      '<div class="pf-token-row">' +
+        '<div class="pf-token" id="pfTokenText">' + esc(maskToken(proToken)) + '</div>' +
+        '<button class="pf-icon-btn" onclick="toggleTokenReveal()" id="pfRevealBtn" aria-label="Token দেখুন/লুকান"><i class="fa-solid fa-eye"></i></button>' +
+        '<button class="pf-icon-btn" onclick="copyToken()" id="pfCopyBtn" aria-label="Token কপি করুন"><i class="fa-regular fa-copy"></i></button>' +
+      '</div>' +
+      '<div class="pf-row"><span>সংগ্রহের সময়</span><b>' + esc(createdTxt) + '</b></div>' +
+      '<div class="pf-row"><span>মেয়াদ শেষ</span><b>' + esc(expiresTxt) + '</b></div>' +
+      '<div class="pf-row"><span>ডিভাইস</span><b><i class="fa-solid fa-mobile-screen"></i> শুধু এই ডিভাইসে সংযুক্ত</b></div>' +
+    '</section>';
+
+    // ২. Stopwatch
+    if (profileState.expiresMs) {
+      html += '<section class="pf-card">' +
+        '<div class="pf-title"><i class="fa-solid fa-hourglass-half"></i> মেয়াদ শেষ হতে বাকি</div>' +
+        '<div id="cdArea"></div>' +
+        '<div class="pf-bar" id="cdBar"><i></i></div>' +
+        '<div class="pf-row"><span id="cdPct"></span><span id="cdHint"></span></div>' +
+        '<div id="cdCta"></div>' +
+      '</section>';
+    } else {
+      html += '<section class="pf-card"><div class="pf-title"><i class="fa-solid fa-infinity"></i> মেয়াদ</div>' +
+        '<div class="pf-sub" style="margin-top:0">এই Token-এর কোনো মেয়াদের সীমা নেই।</div></section>';
+    }
+
+    // ৩. আজকের অনুশীলন ও কোটা
+    html += '<section class="pf-card">' +
+      '<div class="pf-title"><i class="fa-solid fa-bolt"></i> আজকের অনুশীলন</div>' +
+      '<div class="pf-today"><b>' + prUsed + '</b><span>টি আলাদা Practice</span></div>' +
+      '<div class="pf-meter"><div class="pf-meter-top"><span>নতুন Practice-এর সীমা</span><b>' + prUsed + ' / ' + prLimit + '</b></div>' +
+        '<div class="pf-bar ' + usageLevel(prUsed, prLimit) + '"><i style="width:' + prPct + '%"></i></div></div>' +
+      '<div class="pf-meter"><div class="pf-meter-top"><span>মোট অনুরোধের সীমা</span><b>' + callsUsed + ' / ' + callsLimit + '</b></div>' +
+        '<div class="pf-bar ' + usageLevel(callsUsed, callsLimit) + '"><i style="width:' + callsPct + '%"></i></div></div>' +
+      '<div class="pf-sub"><i class="fa-solid fa-rotate"></i> সীমা রিসেট হবে <b id="rsTime"></b> পর' +
+        (profileState.resetsMs ? ' (' + esc(fmtTime(new Date(profileState.resetsMs))) + ')' : '') + '</div>' +
+    '</section>';
+
+    // ৪. মোট পরিসংখ্যান
+    html += '<section class="pf-card">' +
+      '<div class="pf-title"><i class="fa-solid fa-chart-simple"></i> আপনার অগ্রগতি</div>' +
+      '<div class="pf-stat-grid">' +
+        '<div class="pf-stat"><b>' + num(a.total_practices) + '</b><span>মোট Practice</span></div>' +
+        '<div class="pf-stat"><b>' + num(a.active_days) + '</b><span>সক্রিয় দিন</span></div>' +
+        '<div class="pf-stat"><b>' + (num(a.streak) ? '<i class="fa-solid fa-fire" style="color:#fb923c;font-size:16px"></i> ' : '') + num(a.streak) + '</b><span>টানা দিন</span></div>' +
+      '</div>' +
+      (last7.length ? '<div class="pf-sub" style="margin:14px 0 6px">শেষ ৭ দিন</div><div class="wk-chart">' + chart + '</div>' : '') +
+    '</section>';
+
+    // ৫. নিরাপত্তা
+    if (sec.flagged) {
+      html += '<section class="pf-card"><div class="pf-sec warn"><i class="fa-solid fa-triangle-exclamation"></i><div>' +
+        '<b>অস্বাভাবিক ব্যবহার শনাক্ত হয়েছে</b>' +
+        '<span>একাধিক আলাদা নেটওয়ার্ক বা স্থান থেকে এই Token ব্যবহার হতে দেখা গেছে। Token শুধু একজনের জন্য — অন্যকে দিলে এটি বন্ধ হয়ে যেতে পারে।</span></div></div>' +
+        '<div class="pf-note">আপনি নিজেই ব্যবহার করে থাকলে (যেমন মোবাইল ডেটা ও ওয়াইফাই বদলে) চিন্তার কিছু নেই — আমাদের জানিয়ে রাখুন।' +
+        ' <a href="' + esc(renewLink('এ অস্বাভাবিক ব্যবহারের সতর্কতা দেখাচ্ছে, আমি নিজেই ব্যবহার করছি।')) + '" target="_blank" rel="noopener noreferrer" style="color:var(--sky)">WhatsApp-এ জানান</a></div></section>';
+    } else {
+      html += '<section class="pf-card"><div class="pf-sec ok"><i class="fa-solid fa-shield-halved"></i><div>' +
+        '<b>সবকিছু স্বাভাবিক</b><span>আপনার Token-এ কোনো অস্বাভাবিক ব্যবহার শনাক্ত হয়নি।</span></div></div></section>';
+    }
+
+    // ফুটার
+    html += '<div class="pf-foot"><span>সর্বশেষ আপডেট: ' + esc(fmtTime(new Date(Date.now() + profileState.offsetMs))) + '</span>' +
+      '<button onclick="openProfile()"><i class="fa-solid fa-rotate"></i> রিফ্রেশ</button></div>';
+
+    document.getElementById('profileBody').innerHTML = html;
+    tickProfile();
+    stopProfileTimer();
+    profileTimer = setInterval(tickProfile, 1000);
+  }
+
+  function tickProfile() {
+    const s = profileState;
+    if (!s || currentPage !== 'profile') { stopProfileTimer(); return; }
+    const now = Date.now() + s.offsetMs;
+
+    if (s.expiresMs) {
+      const area = document.getElementById('cdArea');
+      if (area) {
+        const rem = s.expiresMs - now;
+        const DAY = 86400000;
+        const status = document.getElementById('pfStatus');
+        const bar = document.getElementById('cdBar');
+        const pct = document.getElementById('cdPct');
+        const hint = document.getElementById('cdHint');
+        const cta = document.getElementById('cdCta');
+
+        if (rem <= 0) {
+          area.innerHTML = '<div class="cd-expired"><i class="fa-solid fa-circle-xmark"></i> মেয়াদ শেষ হয়েছে</div>';
+          status.className = 'pf-pill bad'; status.textContent = 'মেয়াদ শেষ';
+          bar.className = 'pf-bar bad'; bar.firstElementChild.style.width = '0%';
+          pct.textContent = '০% সময় বাকি'.replace('০', '0');
+          hint.textContent = '';
+          if (!cta.firstChild) {
+            cta.innerHTML = '<a class="pf-cta" href="' + esc(renewLink('এর মেয়াদ শেষ হয়ে গেছে, নবায়ন করতে চাই।')) + '" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp-এ নবায়ন করুন</a>';
+          }
+        } else {
+          const d = Math.floor(rem / DAY);
+          const h = Math.floor((rem % DAY) / 3600000);
+          const m = Math.floor((rem % 3600000) / 60000);
+          const sec = Math.floor((rem % 60000) / 1000);
+          const level = rem < DAY ? 'critical' : (rem < 5 * DAY ? 'low' : '');
+
+          if (!area.firstElementChild || !area.querySelector('#cdD')) {
+            area.innerHTML = '<div class="cd-grid" id="cdGrid">' +
+              '<div class="cd-box"><div class="cd-num" id="cdD"></div><div class="cd-lbl">দিন</div></div>' +
+              '<div class="cd-box"><div class="cd-num" id="cdH"></div><div class="cd-lbl">ঘণ্টা</div></div>' +
+              '<div class="cd-box"><div class="cd-num" id="cdM"></div><div class="cd-lbl">মিনিট</div></div>' +
+              '<div class="cd-box"><div class="cd-num" id="cdS"></div><div class="cd-lbl">সেকেন্ড</div></div></div>';
+          }
+          document.getElementById('cdD').textContent = d;
+          document.getElementById('cdH').textContent = pad2(h);
+          document.getElementById('cdM').textContent = pad2(m);
+          document.getElementById('cdS').textContent = pad2(sec);
+          document.getElementById('cdGrid').className = 'cd-grid ' + level;
+
+          const total = Math.max(1, s.expiresMs - (s.createdMs || (s.expiresMs - 30 * DAY)));
+          const left = Math.max(0, Math.min(100, Math.round(rem / total * 100)));
+          bar.className = 'pf-bar ' + (level === 'critical' ? 'bad' : (level === 'low' ? 'warn' : ''));
+          bar.firstElementChild.style.width = left + '%';
+          pct.textContent = left + '% সময় বাকি';
+
+          if (level) {
+            status.className = 'pf-pill ' + (level === 'critical' ? 'bad' : 'warn');
+            status.textContent = 'শীঘ্রই মেয়াদ শেষ';
+            hint.textContent = '';
+            if (!cta.firstChild) {
+              cta.innerHTML = '<a class="pf-cta" href="' + esc(renewLink('এর মেয়াদ নবায়ন করতে চাই।')) + '" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> মেয়াদ শেষ হওয়ার আগেই নবায়ন করুন</a>';
+            }
+          } else {
+            status.className = 'pf-pill ok'; status.textContent = 'সক্রিয়';
+            hint.textContent = '';
+            cta.innerHTML = '';
+          }
+        }
+      }
+    }
+
+    // কোটা রিসেটের কাউন্টডাউন
+    const rs = document.getElementById('rsTime');
+    if (rs && s.resetsMs) {
+      const left = s.resetsMs - now;
+      if (left <= 0) {
+        rs.textContent = '০ মিনিট'.replace('০', '0');
+        if (!s.refetching) { s.refetching = true; fetchProfile(); }
+      } else {
+        const hh = Math.floor(left / 3600000);
+        const mm = Math.floor((left % 3600000) / 60000);
+        rs.textContent = hh + ' ঘণ্টা ' + mm + ' মিনিট';
+      }
+    }
+  }
+
+  function toggleTokenReveal() {
+    tokenRevealed = !tokenRevealed;
+    const t = document.getElementById('pfTokenText');
+    const b = document.getElementById('pfRevealBtn');
+    if (t) t.textContent = tokenRevealed ? proToken : maskToken(proToken);
+    if (b) b.innerHTML = tokenRevealed ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+  }
+
+  async function copyToken() {
+    const b = document.getElementById('pfCopyBtn');
+    let ok = false;
+    try { await navigator.clipboard.writeText(proToken); ok = true; } catch (e) {}
+    if (b) {
+      b.innerHTML = ok ? '<i class="fa-solid fa-check" style="color:var(--emerald)"></i>' : '<i class="fa-solid fa-xmark" style="color:var(--danger)"></i>';
+      setTimeout(() => { b.innerHTML = '<i class="fa-regular fa-copy"></i>'; }, 1500);
+    }
+  }
+
+  /* =====================================================
+     MY NOTES (Pro — শুধু ব্রাউজারের localStorage-এ)
+     ===================================================== */
+  const NOTES_KEY = 'ed_notes_v1';
+  const NOTES_MAX = 1000;
+  const NOTE_MAX_LEN = 3000;
+
+  let notesEditingId = null;
+  let notesQuery = '';
+  let noteDeleteArm = null;
+  let noteMsgTimer = null;
+
+  function genNoteId() {
+    return 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  function readNotes() {
+    let raw = null;
+    try {
+      raw = localStorage.getItem(NOTES_KEY);
+      if (!raw) return [];
+      const o = JSON.parse(raw);
+      const arr = Array.isArray(o) ? o : (o && Array.isArray(o.notes) ? o.notes : []);
+      return arr
+        .filter(n => n && typeof n.text === 'string' && n.text.trim())
+        .map(n => ({
+          id: /^[A-Za-z0-9_-]{1,40}$/.test(String(n.id)) ? String(n.id) : genNoteId(),
+          text: n.text.slice(0, NOTE_MAX_LEN),
+          practice: /^\d{1,6}$/.test(String(n.practice || '')) ? String(n.practice) : null,
+          created: Number(n.created) || Date.now(),
+          updated: Number(n.updated) || Number(n.created) || Date.now()
+        }));
+    } catch (e) {
+      // নষ্ট ডেটা হলে মুছে না ফেলে আলাদা key-তে সরিয়ে রাখা
+      try { if (raw) localStorage.setItem(NOTES_KEY + '_corrupt', raw); } catch (e2) {}
+      return [];
+    }
+  }
+  function writeNotes(arr) {
+    try { localStorage.setItem(NOTES_KEY, JSON.stringify({ v: 1, notes: arr })); return true; }
+    catch (e) { return false; }
+  }
+
+  function currentPracticeNumber() {
+    const v = document.getElementById('practiceInput').value.trim();
+    return (currentPracticeId && /^\d{1,6}$/.test(v)) ? v : null;
+  }
+
+  function setNoteMsg(text, kind) {
+    const el = document.getElementById('noteMsg');
+    el.className = 'nt-msg ' + (kind || '');
+    el.textContent = text || '';
+    if (noteMsgTimer) clearTimeout(noteMsgTimer);
+    if (text) noteMsgTimer = setTimeout(() => { el.textContent = ''; }, 3500);
+  }
+
+  function openNotes() {
+    openPage('notes');
+  }
+
+  function enterNotes() {
+    notesEditingId = null;
+    notesQuery = '';
+    document.getElementById('noteSearch').value = '';
+    resetComposer();
+    renderNoteList();
+  }
+
+  function resetComposer() {
+    const ta = document.getElementById('noteInput');
+    ta.value = '';
+    onNoteInput();
+    document.getElementById('noteSaveLabel').textContent = 'নোট সংরক্ষণ করুন';
+    document.getElementById('noteCancelBtn').hidden = true;
+
+    const num = notesEditingId ? null : currentPracticeNumber();
+    const wrap = document.getElementById('noteAttachWrap');
+    if (num) {
+      wrap.hidden = false;
+      document.getElementById('noteAttach').checked = true;
+      document.getElementById('noteAttachText').textContent = 'Practice ' + num + ' যুক্ত করুন';
+    } else {
+      wrap.hidden = true;
+    }
+  }
+
+  function onNoteInput() {
+    const ta = document.getElementById('noteInput');
+    document.getElementById('noteCounter').textContent = ta.value.length + '/' + NOTE_MAX_LEN;
+  }
+
+  function saveNote() {
+    const ta = document.getElementById('noteInput');
+    const text = ta.value.trim();
+    if (!text) { setNoteMsg('আগে কিছু লিখুন।', 'warn'); ta.focus(); return; }
+
+    const list = readNotes();
+    const now = Date.now();
+
+    if (notesEditingId) {
+      const i = list.findIndex(n => n.id === notesEditingId);
+      if (i >= 0) list[i] = { ...list[i], text: text.slice(0, NOTE_MAX_LEN), updated: now };
+      else list.push({ id: genNoteId(), text: text.slice(0, NOTE_MAX_LEN), practice: null, created: now, updated: now });
+    } else {
+      if (list.length >= NOTES_MAX) {
+        setNoteMsg('সর্বোচ্চ ' + NOTES_MAX + 'টি নোট রাখা যায়। পুরোনো কিছু মুছে ফেলুন।', 'warn');
+        return;
+      }
+      const wrap = document.getElementById('noteAttachWrap');
+      const attach = !wrap.hidden && document.getElementById('noteAttach').checked;
+      list.push({ id: genNoteId(), text: text.slice(0, NOTE_MAX_LEN), practice: attach ? currentPracticeNumber() : null, created: now, updated: now });
+    }
+
+    if (!writeNotes(list)) {
+      setNoteMsg('সংরক্ষণ করা যায়নি — ব্রাউজারের জায়গা শেষ বা Private mode চালু থাকতে পারে।', 'bad');
+      return;
+    }
+    const wasEditing = !!notesEditingId;
+    notesEditingId = null;
+    resetComposer();
+    setNoteMsg(wasEditing ? 'নোট আপডেট হয়েছে ✓' : 'নোট সংরক্ষিত হয়েছে ✓', 'ok');
+    renderNoteList();
+  }
+
+  function startEditNote(id) {
+    const n = readNotes().find(x => x.id === id);
+    if (!n) return;
+    notesEditingId = id;
+    const ta = document.getElementById('noteInput');
+    ta.value = n.text;
+    onNoteInput();
+    document.getElementById('noteAttachWrap').hidden = true;
+    document.getElementById('noteSaveLabel').textContent = 'আপডেট করুন';
+    document.getElementById('noteCancelBtn').hidden = false;
+    setNoteMsg('', '');
+    renderNoteList();
+    ta.focus();
+    ta.scrollIntoView({ block: 'center' });
+  }
+
+  function cancelNoteEdit() {
+    notesEditingId = null;
+    resetComposer();
+    setNoteMsg('', '');
+    renderNoteList();
+  }
+
+  function disarmNoteDelete() {
+    if (noteDeleteArm) { clearTimeout(noteDeleteArm.t); noteDeleteArm = null; }
+  }
+
+  function deleteNote(id, btn) {
+    if (noteDeleteArm && noteDeleteArm.id === id) {
+      disarmNoteDelete();
+      const list = readNotes().filter(n => n.id !== id);
+      if (!writeNotes(list)) { setNoteMsg('মুছে ফেলা যায়নি।', 'bad'); return; }
+      if (notesEditingId === id) { notesEditingId = null; resetComposer(); }
+      setNoteMsg('নোট মুছে ফেলা হয়েছে।', 'ok');
+      renderNoteList();
+      return;
+    }
+    disarmNoteDelete();
+    btn.classList.add('armed');
+    btn.textContent = 'নিশ্চিত?';
+    noteDeleteArm = {
+      id,
+      t: setTimeout(() => {
+        noteDeleteArm = null;
+        if (btn.isConnected) { btn.classList.remove('armed'); btn.innerHTML = '<i class="fa-solid fa-trash"></i>'; }
+      }, 3000)
+    };
+  }
+
+  function onNoteSearch(v) {
+    notesQuery = String(v || '').trim().toLowerCase();
+    renderNoteList();
+  }
+
+  function renderNoteList() {
+    disarmNoteDelete();
+    const all = readNotes().sort((a, b) => b.created - a.created);
+    const q = notesQuery;
+    const list = q
+      ? all.filter(n => n.text.toLowerCase().includes(q) || (n.practice && ('practice ' + n.practice).includes(q)))
+      : all;
+
+    document.getElementById('noteCount').textContent = all.length
+      ? (q ? list.length + ' / ' + all.length + 'টি নোট পাওয়া গেছে' : 'মোট ' + all.length + 'টি নোট')
+      : '';
+
+    const box = document.getElementById('noteList');
+    if (!all.length) {
+      box.innerHTML = '<div class="panel-state"><i class="fa-regular fa-note-sticky"></i>এখনো কোনো নোট নেই।<br>উপরের ঘরে যা শিখলেন লিখে রাখুন।</div>';
+      return;
+    }
+    if (!list.length) {
+      box.innerHTML = '<div class="panel-state"><i class="fa-solid fa-magnifying-glass"></i>কিছু পাওয়া যায়নি।</div>';
+      return;
+    }
+
+    let html = '';
+    let lastDay = '';
+    list.forEach(n => {
+      const dl = dayLabel(n.created);
+      if (dl !== lastDay) { html += '<div class="nt-day">' + esc(dl) + '</div>'; lastDay = dl; }
+      html += '<article class="nt-item' + (n.id === notesEditingId ? ' editing' : '') + '">' +
+        '<div class="nt-item-top">' +
+          '<span><i class="fa-regular fa-clock"></i> ' + esc(fmtTime(new Date(n.created))) + '</span>' +
+          (n.practice ? '<button class="nt-chip" data-act="jump" data-num="' + n.practice + '">Practice ' + n.practice + '</button>' : '') +
+          (n.updated - n.created > 1000 ? '<span>(সম্পাদিত)</span>' : '') +
+          '<span class="nt-item-actions">' +
+            '<button data-act="edit" data-id="' + n.id + '" aria-label="সম্পাদনা"><i class="fa-solid fa-pen"></i></button>' +
+            '<button data-act="del" data-id="' + n.id + '" aria-label="মুছুন"><i class="fa-solid fa-trash"></i></button>' +
+          '</span>' +
+        '</div>' +
+        '<div class="nt-text">' + esc(n.text) + '</div>' +
+      '</article>';
+    });
+    box.innerHTML = html;
+  }
+
+  function jumpToPractice(num) {
+    closePage();
+    const input = document.getElementById('practiceInput');
+    input.value = num;
+    loadPractice();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function exportNotes() {
+    const list = readNotes().sort((a, b) => a.created - b.created);
+    if (!list.length) { setNoteMsg('ব্যাকআপ নেওয়ার মতো কোনো নোট নেই।', 'warn'); return; }
+    const lines = [
+      'The English Directory — আমার শেখার নোট',
+      'ব্যাকআপের সময়: ' + fmtDateTime(new Date()),
+      '='.repeat(40),
+      ''
+    ];
+    list.forEach(n => {
+      lines.push('[' + fmtDateTime(new Date(n.created)) + ']' + (n.practice ? '  Practice ' + n.practice : ''));
+      lines.push(n.text);
+      lines.push('');
+      lines.push('-'.repeat(40));
+      lines.push('');
+    });
+    const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ED-notes-' + new Date().toISOString().slice(0, 10) + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    setNoteMsg('ব্যাকআপ ফাইল ডাউনলোড হচ্ছে ✓', 'ok');
+  }
+
+  function initPanels() {
+    // নোট তালিকার বাটনগুলো (event delegation)
+    document.getElementById('noteList').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const act = btn.getAttribute('data-act');
+      if (act === 'edit') startEditNote(btn.getAttribute('data-id'));
+      else if (act === 'del') deleteNote(btn.getAttribute('data-id'), btn);
+      else if (act === 'jump') jumpToPractice(btn.getAttribute('data-num'));
+    });
+
+    // ব্যাকড্রপে ক্লিক করলে বন্ধ
+    PANEL_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('click', (e) => { if (e.target === el) closePanel(id); });
+    });
+
+    // Esc চাপলে সবচেয়ে ওপরের panel/পেজ বন্ধ
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      for (const id of PANEL_IDS) {
+        if (document.getElementById(id).classList.contains('show')) { closePanel(id); return; }
+      }
+      if (currentPage) closePage();
+    });
+
+    // ব্রাউজারের Back/Forward ও URL (#profile / #notes) অনুযায়ী পেজ দেখানো
+    window.addEventListener('popstate', syncPageFromHash);
+    window.addEventListener('hashchange', syncPageFromHash);
+
+    // নোটিশ নিয়মিত রিফ্রেশ
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') loadNotices(false);
+    });
+    setInterval(() => {
+      if (document.visibilityState === 'visible') loadNotices(false);
+    }, 300000);
   }
 
   (function init() {
@@ -2536,6 +4238,9 @@
     });
 
     mountTool('freeToolSlot');
+    initPanels();
+    loadNotices(true);
+    if (!saved) clearPageHash();
 
     // Start Dynamic Typewriter for both inputs
     startTypewriter('practiceInput', 'যেমন: 1, 2, 3...', 120, 1600);
@@ -2547,6 +4252,50 @@
   })();
 </script>
 
+
+<script>
+  (function () {
+    var logos = document.querySelectorAll('svg.ed-logo');
+    if (!logos.length) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function setup(svg) {
+      var en = svg.querySelector('[id^="edEn"]');
+      var di = svg.querySelector('[id^="edDi"]');
+      var caps = svg.querySelectorAll('.ed-cap-pos');
+      var needles = svg.querySelectorAll('.ed-nd-pos');
+      if (!en || !di) return;
+
+      if (reduce) {
+        var sweep = svg.querySelector('.ed-sweep');
+        if (sweep && sweep.parentNode) sweep.parentNode.removeChild(sweep);
+      }
+
+      function place() {
+        try {
+          var a = en.getExtentOfChar(4);
+          var b = di.getExtentOfChar(6);
+          if (!a || !b || !a.width || !b.width) return;
+          var capX = a.x + a.width / 2;
+          var ndX = b.x + b.width / 2;
+          for (var i = 0; i < caps.length; i++) {
+            caps[i].setAttribute('transform', 'translate(' + capX.toFixed(2) + ' 65)');
+          }
+          for (var j = 0; j < needles.length; j++) {
+            needles[j].setAttribute('transform', 'translate(' + ndX.toFixed(2) + ' 179) rotate(45)');
+          }
+        } catch (e) { /* keep fallback positions */ }
+      }
+
+      place();
+      window.addEventListener('load', place);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+      if (window.ResizeObserver) new ResizeObserver(place).observe(svg);
+    }
+
+    for (var k = 0; k < logos.length; k++) setup(logos[k]);
+  })();
+</script>
 
 </body>
 </html>
